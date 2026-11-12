@@ -316,3 +316,16 @@ html[data-theme=dark] .wtabs button[aria-selected=true]{background:#EACBC8;color
 .cs-shots img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block}
 .cs-cap{font-size:.82rem;color:var(--muted);margin:8px 0 12px}
 @media (prefers-reduced-motion:reduce){.avail i{animation:none}}
+/* ===== add-ons & rate comparison ===== */
+.addons,.ratecomp{margin-top:var(--s5,24px);padding:var(--s5,24px)}
+.addon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:12px}
+.addon-grid b{display:block;font-family:var(--serif);font-size:1.15rem;color:var(--ink)}
+.addon-grid .ap{display:inline-block;margin:4px 0 6px;font-weight:600;color:#b87870}
+.addon-grid p{margin:0;font-size:.9rem;color:var(--muted)}
+.rt{width:100%;border-collapse:collapse;font-size:.92rem}
+.rt th,.rt td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.rt th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.rt td b{color:var(--ink)}
+.src{font-size:.8rem;color:var(--muted);margin:12px 0 0;line-height:1.6}
+.src a{color:inherit}
+@media (max-width:640px){.rt{font-size:.82rem}.rt th,.rt td{padding:8px 6px}}
