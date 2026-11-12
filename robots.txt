@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://naekitakadoportfolio.github.io/sitemap.xml

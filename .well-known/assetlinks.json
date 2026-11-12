@@ -1,0 +1,27 @@
+[
+ {
+  "relation": [
+   "delegate_permission/common.handle_all_urls"
+  ],
+  "target": {
+   "namespace": "android_app",
+   "package_name": "io.github.naekitakadoportfolio.meadowmoney",
+   "sha256_cert_fingerprints": [
+    "4E:69:FB:31:98:1C:6B:60:78:DD:9E:74:36:A1:AA:82:E0:38:C5:02:C1:AF:22:EF:94:34:DC:84:54:58:1B:8B"
+   ]
+  }
+ },
+ {
+  "relation": [
+   "delegate_permission/common.handle_all_urls"
+  ],
+  "target": {
+   "namespace": "android_app",
+   "package_name": "io.github.naekitakadoportfolio.taiwan",
+   "sha256_cert_fingerprints": [
+    "D6:DD:FC:6E:75:C6:C7:63:3A:D6:E3:00:0B:75:86:C1:51:27:7A:D3:DE:D4:93:55:B8:9C:B1:01:79:0B:57:7C",
+    "E3:48:72:B5:9C:30:2D:BD:E8:45:74:01:BF:92:E2:E2:91:83:2B:62:6C:9B:4F:7D:83:0A:9D:52:C4:92:FC:5D"
+   ]
+  }
+ }
+]

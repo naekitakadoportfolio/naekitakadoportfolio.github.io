@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Akari Atlas has moved</title><meta name="theme-color" content="#2c5468">
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,sans-serif;background:linear-gradient(180deg,#2c5468,#f3d9a8);color:#2f3a2c;padding:20px;box-sizing:border-box}
+.c{max-width:380px;background:#fffaf0;border-radius:24px;padding:26px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.12)}h1{margin:.2em 0;font-size:26px}
+a.b,button{display:block;width:100%;border:0;border-radius:16px;padding:14px;font:inherit;font-weight:600;font-size:17px;background:#2c5468;color:#fff;text-decoration:none;margin-top:14px;cursor:pointer}
+small{display:block;color:#6b7363;margin-top:12px;line-height:1.4}</style></head><body><div class="c">
+<div style="font-size:46px">🎒</div><h1>Akari Atlas has a new home</h1><p id="msg">Taking you to <b>akariatlas.github.io</b>…</p>
+<button id="mv" hidden>Move my data &amp; open Akari Atlas</button><a class="b" id="go" href="https://akariatlas.github.io/" hidden>Open Akari Atlas</a>
+<small id="note"></small></div>
+<script>
+const NEW='https://akariatlas.github.io/',NEWO=new URL(NEW).origin,PFX=[],IDBS=[{db:'akari-wallet',ver:1,store:'docs',keyPath:'id'}];
+function lsData(){const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(!PFX.length||PFX.some(p=>k.startsWith(p)))o[k]=localStorage.getItem(k);}return o;}
+function idbDump(d){return new Promise(res=>{const r=indexedDB.open(d.db);r.onerror=()=>res(null);r.onsuccess=()=>{const db=r.result;if(!db.objectStoreNames.contains(d.store)){db.close();return res(null);}
+  const q=db.transaction(d.store).objectStore(d.store).getAll();q.onsuccess=()=>{db.close();res(Object.assign({},d,{records:q.result}))};q.onerror=()=>res(null);};});}
+(async()=>{let ls={};try{ls=lsData()}catch(e){}
+  const idb=[];for(const d of IDBS){try{const x=await idbDump(d);if(x&&x.records.length)idb.push(x)}catch(e){}}
+  const has=Object.keys(ls).length||idb.length;
+  if(!has){location.replace(NEW+location.hash);return;}
+  document.getElementById('msg').innerHTML='Your records are saved on this device. Tap below to bring them along to <b>akariatlas.github.io</b>.';
+  const b=document.getElementById('mv');b.hidden=false;
+  b.onclick=()=>{const w=window.open(NEW+'#receive','_blank');if(!w){location.href=NEW;return;}b.textContent='Moving…';b.disabled=true;
+    const send=()=>{try{w.postMessage({mmMove:1,ls,idb},NEWO)}catch(e){}};
+    const t=setInterval(send,700);
+    addEventListener('message',e=>{if(e.origin!==NEWO||!e.data||!e.data.mmMoved)return;clearInterval(t);
+      b.hidden=true;document.getElementById('go').hidden=false;document.getElementById('msg').innerHTML='✅ All moved! You can close this tab and use <b>akariatlas.github.io</b> from now on.';
+      document.getElementById('note').textContent='If you installed the app on your home screen, remove the old icon and install it again from the new address.';});};
+})();
+</script></body></html>

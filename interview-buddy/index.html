@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interview Buddy — Nae</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+const DEMO=/[#?&]demo\b/.test(location.hash+location.search);
+if(DEMO){const S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key;const m=x=>typeof x==='string'&&x.startsWith('ib_')?'ibdemo_'+x.slice(3):x;
+ S.getItem=function(x){return g.call(this,m(x))};S.setItem=function(x,v){return s.call(this,m(x),v)};S.removeItem=function(x){return r.call(this,m(x))};
+ S.key=function(i){const kk=k.call(this,i);return kk&&kk.startsWith('ibdemo_')?'ib_'+kk.slice(7):(kk&&kk.startsWith('ib_')?'__real_'+kk:kk)};
+ if(!localStorage.getItem('ib_seeded')){const P='pdemo';
+  localStorage.setItem('ib_profs',JSON.stringify({[P]:{name:'Acme Robotics – Ops & AI Automation Consultant',company:'Acme Robotics',role:'Ops & AI Automation Consultant (part-time)',jd:'Part-time consultant to automate operations: connect CRM, Slack and Google Sheets, build AI-assisted workflows, document SOPs, report weekly KPIs.',extra:'Rate goal: upper end of range. Prefer async.',meetLink:'https://meet.google.com/demo-demo-demo',meetTime:new Date(Date.now()+45*60000).toISOString(),
+   track:{stage:'Client / hiring manager',last:new Date(Date.now()-5*864e5).toISOString().slice(0,10),next:new Date(Date.now()-864e5).toISOString().slice(0,10),who:'Jordan (Head of Ops)'},salary:{slCur:'USD',slHrs:'20',slLo:'1600',slHi:'2400',slTg:'2400',slFl:'1800'}}}));
+  localStorage.setItem('ib_pcur',P);localStorage.setItem('ib_jd','Part-time consultant to automate operations: connect CRM, Slack and Google Sheets, build AI-assisted workflows, document SOPs, report weekly KPIs.');localStorage.setItem('ib_extra','Rate goal: upper end of range. Prefer async.');localStorage.setItem('ib_company','Acme Robotics');localStorage.setItem('ib_role','Ops & AI Automation Consultant (part-time)');
+  localStorage.setItem('ib_cv','Alex Rivera — AI Automation Consultant (sample profile)\n8 years remote operations. Automated 60+ workflows across Zapier, Apps Script and Slack, saving ~30 hrs/week. Built an AI meeting-notes tool and a KPI dashboard used by leadership. Tools: Google Workspace, HubSpot, Notion, ClickUp, JavaScript, Python.\nalex.rivera@example.com');
+  localStorage.setItem('ib_stories',JSON.stringify([{t:'Cut weekly reporting from 6 hrs to 20 min',c:'Sample Co, Ops lead',s:'Leadership waited each Monday for a manual KPI report.',a:'Built an Apps Script pipeline pulling CRM + Sheets data with a Slack summary.',r:'Report now ships automatically at 8am; 6 hrs/week saved.'}]));
+  localStorage.setItem('ib_hist',JSON.stringify([{type:'Mock',title:'Acme Robotics — mock interview · 8.2/10',text:'Q1: Tell me about yourself\nScore: 8/10\nStronger: I help small teams remove repetitive ops work…',at:new Date().toLocaleString()}]));
+  localStorage.setItem('ib_prov','gemini');localStorage.setItem('ib_seeded','1')}}
+function hasRealKey(){try{return !!(localStorage.getItem('ib_gkey')||localStorage.getItem('ib_ckey')||localStorage.getItem('ib_prov')==='ollama')}catch(e){return false}}
+async function demoLLM(u){await new Promise(z=>setTimeout(z,900));
+ if(/JSON array of strings/.test(u))return'["Thanks for joining! Walk me through your background in a minute or two.","Tell me about a time you automated a process that saved real time.","How would you approach our first 30 days of automation?","What would you do if an automation broke on a Monday morning?","What rate are you looking for?"]';
+ if(/"short":""/.test(u))return'{"short":"I automate repetitive ops work so teams get hours back every week.","strong":"My approach is to fix the workflow before automating it. At Sample Co, I turned a 6-hour manual KPI report into an Apps Script pipeline with a Slack summary. It now ships at 8am every Monday and saves the team 6 hours a week.","full":"My approach is to fix the workflow before automating it. At Sample Co, leadership waited each Monday for a manual KPI report. I mapped the steps, then built an Apps Script pipeline pulling CRM and Sheets data with a Slack summary. It now ships automatically at 8am and saves 6 hours a week, and I documented it so anyone can maintain it."}';
+ if(/Coach the candidate/.test(u))return'{"score":8,"good":"Clear structure with a real result.","fix":["Lead with the result","Cut filler words"],"better":"I cut a 6-hour weekly report to 20 minutes by building an Apps Script pipeline with a Slack summary.","followup":null}';
+ if(/### STRONG/.test(u)||/THREE versions/.test(u))return'### STRONG\nMy approach is to fix the workflow first, then automate it. At Sample Co, I turned a 6-hour weekly report into an automated Apps Script pipeline. It saves the team 6 hours every week.\n### SHORT\nI automate repetitive ops work so teams get hours back.\n### DETAILED\nMy approach is to fix the workflow first, then automate it. At Sample Co I mapped a 6-hour manual report, built an Apps Script pipeline with a Slack summary, and documented it. It now ships at 8am every Monday.';
+ if(/Return ONLY JSON: \{"name"/.test(u))return JSON.stringify({name:'Alex Rivera',headline:'AI Automation Consultant | Ops Workflows & Reporting',contact:{location:'Remote',email:'alex.rivera@example.com',linkedin:'linkedin.com/in/alex-sample'},summary:'Automation consultant with 8 years of remote operations experience. I remove repetitive work across Zapier, Apps Script and Slack so teams get hours back every week.',skills:[{group:'Automation',items:'Zapier, Google Apps Script, Slack, webhooks'},{group:'Tools',items:'Google Workspace, HubSpot, Notion, ClickUp'}],experience:[{title:'Operations Lead',company:'Sample Co',dates:'2021 – Present',bullets:['Automated 60+ workflows, saving ~30 hours a week','Cut the weekly KPI report from 6 hours to 20 minutes']}],projects:[{name:'Meeting Notes AI',desc:'AI meeting notes with action items'}],education:'BS Information Technology',certifications:[]});
+ if(/cover letter/.test(u))return 'Hi Jordan,\n\nI would love to help Acme Robotics automate its operations.\n\nAt Sample Co I automated 60+ workflows and cut a 6-hour weekly report to 20 minutes.\n\nI can start with 20 hours a week. Could we talk this week?\n\nBest,\nAlex';
+ if(/Language:/.test(u))return'## Restated\nFind the minimum meeting rooms needed.\n\n💡 Think about sorting start and end times separately — what happens each time a meeting starts before another ends?\n\n```js\n// (demo) full solutions appear here\n```';
+ return'## Demo response\nThis is sample output so you can see how the feature works. Add a free Gemini key in **Settings** to get real answers for your own interviews.\n- Point one\n- Point two'}
+</script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root{--cocoa:#5B3A3A;--ink:#2f2328;--mauve:#8A6470;--pink:#F2A7C3;--soft:#fbf7f9;--blush:#FBE3EC;--line:#efe4e9;--ok:#2f8f5b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--soft);color:var(--ink);display:flex;min-height:100vh}
+#rail{width:76px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;position:sticky;top:0;height:100vh}
+.logo{font-size:26px;margin-bottom:10px}.nb{background:none;border:0;border-radius:12px;width:60px;padding:8px 0;color:#7b6a71;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-size:10.5px;font-weight:600}
+.nb:hover{background:var(--soft)}.nb.on{background:var(--blush);color:var(--cocoa)}
+.avatar{width:36px;height:36px;border-radius:10px;background:var(--blush);color:var(--cocoa);display:grid;place-items:center;font-weight:700;font-size:13px;margin-top:8px}
+#shell{flex:1;min-width:0}#top{height:60px;border-bottom:1px solid var(--line);background:#fff;display:flex;align-items:center;gap:14px;padding:0 24px;position:sticky;top:0;z-index:10}
+#crumb{font-size:17px;font-weight:600;margin-right:auto}#stat{font-size:13px;font-weight:600;color:var(--mauve)}.ok{color:var(--ok)}
+.view{display:none;padding:22px;max-width:1100px;margin:0 auto}.view.on{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.card.accent{background:var(--blush);border-left:5px solid var(--cocoa)}
+h2{font-size:15px;margin:0 0 12px;font-weight:600}h4{font-size:14px;margin:16px 0 8px}
+button{border:0;border-radius:10px;padding:9px 16px;font-weight:600;cursor:pointer;background:#fff;color:var(--cocoa);border:1px solid var(--line);font-size:14px}
+button.primary{background:var(--cocoa);color:#fff;border-color:var(--cocoa)}button.sm{padding:6px 12px;font-size:13px;margin-top:10px}button:disabled{opacity:.5}
+label{display:block;font-weight:600;font-size:13.5px;margin:12px 0 6px}
+textarea,input[type=text],input[type=password],select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:800px){.row,.grid2,.split{grid-template-columns:1fr!important}}
+.hint{font-size:12.5px;color:var(--mauve);font-weight:400}.muted{color:var(--mauve)}.sm{font-size:13px}.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.pill{float:right;font-size:12.5px;background:var(--blush);padding:3px 10px;border-radius:99px;color:var(--cocoa)}
+.hero{text-align:center;padding:48px 20px}.heroIcon{width:64px;height:64px;border-radius:18px;background:var(--blush);color:var(--cocoa);display:grid;place-items:center;margin:0 auto 14px}.heroIcon svg{width:30px;height:30px}
+.hero h3{margin:0 0 6px;font-size:20px}.hero .primary{padding:12px 26px;font-size:15px;margin:14px 0}
+.liveBar{display:flex;justify-content:flex-end;gap:10px;margin-bottom:10px}
+#answerBox{position:sticky;top:72px;z-index:5;background:var(--blush);border-left:6px solid var(--cocoa);border-radius:16px;padding:20px 24px;min-height:130px;box-shadow:0 8px 24px #5b3a3a1f}
+#q{font-size:14px;color:var(--mauve);margin-bottom:8px;font-style:italic}#answer{font-size:21px;line-height:1.5;white-space:pre-wrap}#answer b{color:var(--cocoa)}.big #answer{font-size:28px}
+.kbd{font-size:12px;color:var(--mauve);text-align:center}kbd{background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:11px}
+#tx{max-height:240px;overflow:auto;font-size:14px;line-height:1.55}#tx .int{color:#bbb}
+.hist{border-top:1px solid var(--line);padding:10px 0;font-size:14px;line-height:1.5}.hist i{color:var(--mauve)}
+#mQ{font-size:22px;font-weight:600;color:var(--cocoa);margin:6px 0 14px}#mA{font-size:16px;min-height:50px;line-height:1.5}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}.pane{padding:0;overflow:hidden;display:flex;flex-direction:column;height:calc(100vh - 110px)}
+.paneHead{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);font-weight:600;font-size:14.5px}.paneHead .sm{margin:0}
+#drop{flex:1;overflow:auto;background:#3a3a3a;cursor:pointer}#pdfView canvas{display:block;width:calc(100% - 24px);margin:12px auto;box-shadow:0 2px 8px #0005}
+.empty{color:#eee;text-align:center;padding:80px 20px}.empty .hint{color:#ccc}
+.scroll{flex:1;overflow:auto;padding:4px 18px 18px}
+#contact div{display:grid;grid-template-columns:110px 1fr;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}#contact span:first-child{color:var(--mauve)}
+#parsed h4{margin-top:18px}#parsed p,#parsed li{font-size:14px;line-height:1.55}#parsed ul{padding-left:18px;margin:4px 0}.job b{color:var(--cocoa)}
+.vtabs{display:flex;gap:6px;margin:4px 0 10px}.vtabs button{padding:5px 12px;font-size:12.5px;border-radius:99px;background:#fff8;border:1px solid #e7cdd8}.vtabs button.on{background:var(--cocoa);color:#fff;border-color:var(--cocoa)}
+.mdb h4{margin:16px 0 6px;color:var(--cocoa)}.mdb li,.mdb p{font-size:14.5px;line-height:1.55}.mdb ul{padding-left:20px;margin:4px 0}
+.stat3{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.stat3 span{background:var(--soft);border-radius:10px;padding:6px 12px;font-size:13px}.warn{color:#b0413e;font-weight:600}
+.sItem{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:14px;line-height:1.5}
+.cdThumb{position:relative}.cdThumb img{height:90px;border-radius:8px;border:1px solid var(--line)}.cdThumb button{position:absolute;top:2px;right:2px;padding:0 6px;font-size:12px}
+.mdb pre{background:#2b2226;color:#fbeef3;padding:12px;border-radius:10px;overflow:auto;font-size:12.5px;line-height:1.5}.mdb code{font-family:ui-monospace,Menlo,monospace}
+.trRow{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}.trRow .row{grid-template-columns:repeat(3,1fr)}.due{background:#fde2e1;color:#a03b37;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:700}
+#demoBar{display:none;background:var(--cocoa);color:#fff;text-align:center;font-size:13px;padding:6px}#demoBar a{color:#fff;font-weight:700}
+@media(max-width:760px){body{flex-direction:column}#rail{position:fixed;bottom:0;top:auto;left:0;right:0;width:100%;height:62px;flex-direction:row;padding:0 4px;gap:0;overflow-x:auto;border-right:0;border-top:1px solid var(--line);z-index:40}
+ #rail .logo,#rail .avatar,#rail>div[style]{display:none}.nb{width:auto;min-width:56px;padding:6px 4px}#shell{padding-bottom:70px}#top{height:auto;flex-wrap:wrap;padding:8px 12px;gap:8px}#crumb{width:100%;font-size:15px}
+ .view{padding:12px}.card{padding:14px}.split,.row,.grid2,.trRow .row{grid-template-columns:1fr!important}.pane{height:auto;min-height:60vh}#answer{font-size:18px}#answerBox{top:8px;padding:14px}.hero{padding:28px 14px}#topActions select{max-width:52vw}}
+#rmWrap{overflow:auto;padding:4px 0 30px}.paper{background:#fff;width:8.5in;min-height:11in;margin:0 auto;box-shadow:0 6px 24px #5b3a3a22;border-radius:6px;color:#2a1f23;font-size:10.2pt;line-height:1.42;outline:none}
+.paper [contenteditable]:focus{outline:2px dashed #F2A7C3;outline-offset:2px}
+.rz{padding:.5in .55in}.rz h1{margin:0;font-size:24pt;line-height:1.1}.rz .hl{font-weight:600;margin-top:3px}.rz .ct{font-size:9pt;margin-top:6px}.rz h2{font-size:10pt;letter-spacing:.14em;text-transform:uppercase;margin:16px 0 6px;padding-bottom:4px}
+.rz ul{margin:3px 0 6px;padding-left:16px}.rz li{margin:2px 0}.rz .job{margin-bottom:8px}.rz .jt{display:flex;justify-content:space-between;gap:10px;font-weight:600}.rz .jd{font-weight:400;color:#6b5a60;white-space:nowrap}
+.t-modern .hdr{display:flex;gap:18px;align-items:center;background:linear-gradient(120deg,#FBE3EC,#F4B4CD);border-radius:16px;padding:16px 20px}.t-modern .hdr img{width:92px;height:92px;border-radius:50%;object-fit:cover;border:3px solid #fff}.t-modern h1,.t-modern h2{color:#5B3A3A}.t-modern h2{border-bottom:2px solid #F2A7C3}
+.t-classic{font-family:Georgia,'Times New Roman',serif}.t-classic .hdr{text-align:center;border-bottom:1.5px solid #222;padding-bottom:10px}.t-classic .hdr img{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:6px}.t-classic h2{border-bottom:1px solid #999;letter-spacing:.2em}
+.t-ats{font-family:Arial,Helvetica,sans-serif}.t-ats h2{border-bottom:1px solid #000}.t-ats .hdr img{display:none}
+@media print{body{display:block;background:#fff}#rail,#top,#pbar,#demoBar,.view>.card,#v-maker>.card{display:none!important}.view{display:none!important;padding:0;max-width:none}#v-maker{display:block!important}#rmWrap{padding:0;overflow:visible}.paper{box-shadow:none;width:auto;min-height:0;border-radius:0;margin:0}@page{size:Letter;margin:0}}
+.pill:empty{display:none}#pbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;display:none;overflow:hidden;background:var(--blush)}#pbar div{height:100%;width:40%;background:var(--cocoa);animation:pb 1.1s ease-in-out infinite}@keyframes pb{0%{margin-left:-40%}100%{margin-left:100%}}
+#busy{display:none;align-items:center;gap:8px;font-size:13px;color:var(--cocoa);font-weight:600}#busy i{width:14px;height:14px;border:2px solid var(--blush);border-top-color:var(--cocoa);border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+kbd{color:var(--cocoa)}
+#mHint{cursor:pointer;margin:12px 0 4px;background:#fff;border-radius:12px;padding:12px 14px;font-size:15.5px;line-height:1.5}#mHint.blur span{filter:blur(5px);user-select:none}
+.steps li{margin-bottom:10px;line-height:1.5}
+.hItem{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}.hItem summary{cursor:pointer;font-weight:600}.hItem pre{white-space:pre-wrap;font:inherit;font-size:13.5px;line-height:1.5}
+</style></head><body>
+<aside id="rail"><div class="logo">🌸</div><button class="nb" data-v="live" title="Live interview"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span>Live</span></button><button class="nb" data-v="mock" title="Mock interview"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M9 10h6"/></svg><span>Mock</span></button><button class="nb" data-v="resume" title="Resumes"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="9" r="2.5"/><path d="M8.5 16c.6-1.8 2-2.7 3.5-2.7s2.9.9 3.5 2.7"/></svg><span>Resumes</span></button><button class="nb" data-v="maker" title="Resume Maker"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span>Maker</span></button><button class="nb" data-v="headshot" title="Headshot studio"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Headshot</span></button><button class="nb" data-v="job" title="Job posts"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg><span>Job</span></button><button class="nb" data-v="prep" title="Prep pack"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 2h3v16H5V5h3z"/><path d="M9 12l2 2 4-4"/></svg><span>Prep</span></button><button class="nb" data-v="stories" title="Story bank"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 8h6M9 12h4"/></svg><span>Stories</span></button><button class="nb" data-v="code" title="Coding practice"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Code</span></button><button class="nb" data-v="tracker" title="Application tracker"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h3M8 17h6"/></svg><span>Tracker</span></button><button class="nb" data-v="history" title="History"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg><span>History</span></button><div style="flex:1"></div><button class="nb" data-v="admin" id="navAdmin" title="Admin · sign-in users" style="display:none"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.7-3.4 3.2-5 6-5s5.3 1.6 6 5"/><path d="M19 8v6M16 11h6"/></svg><span>Admin</span></button><button class="nb" data-v="settings" title="Settings"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Settings</span></button><button class="nb" data-v="help" title="How it works"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg><span>How</span></button><div class="avatar">NK</div></aside>
+<div id="shell">
+<div id="demoBar">👀 Demo mode — sample data, nothing is saved to your real account. <a href="./">Exit demo</a></div><div id="pbar"><div></div></div><div id="top"><div id="crumb">Live interview</div><span id="busy"><i></i><span id="busyT"></span></span><span id="stat">Not started</span>
+<button class="ghost sm" id="meetChip" style="margin:0" title="Next interview">📅 Add meeting</button><div id="topActions"><select id="profSel" title="Interview profile" style="width:auto;padding:6px 10px"></select> <button class="ghost sm" id="profNew" style="margin:0" title="New profile">＋</button></div></div>
+<div id="setup" hidden></div><button id="mockBtn" hidden></button><button id="setupBtn" hidden></button>
+
+<section class="view" id="v-live">
+ <div id="liveReady" class="card hero">
+  <div class="heroIcon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+  <h3>Ready when you are</h3>
+  <p class="muted" id="readyInfo"></p><p class="sm" id="spd"></p><div id="meetCard"></div>
+  <button id="startBtn" class="primary">▶ Start interview</button>
+  <p class="hint">Pick your Meet / Zoom tab and turn on <b>Share tab audio</b>. Only you can see this window.</p><p class="hint" id="demoLine"></p>
+ </div>
+ <div id="debrief" class="card mdb" style="display:none"></div>
+ <div id="live" style="display:none">
+  <div class="liveBar"><button id="floatBtn" class="ghost">🪟 Float over Meet</button><button id="bigBtn" class="ghost">Aa Bigger text</button><button id="stopBtn" class="ghost">⏹ End interview</button></div>
+  <div id="answerBox"><div id="q">Waiting for the first question…</div><div class="vtabs" id="vtL"><button data-k="short">1 · Short</button><button data-k="strong">2 · Stronger</button><button data-k="full">3 · Detailed</button></div><div id="answer"></div></div>
+  <p class="kbd"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> switch version · <kbd>Space</kbd> answer now · <kbd>R</kbd> regenerate · <kbd>Esc</kbd> clear</p>
+  <div class="grid2">
+   <div class="card"><h2>Interviewer transcript</h2><div id="tx"></div><button class="ghost sm" id="saveBtn">💾 Save transcript</button></div>
+   <div class="card"><h2>Earlier answers</h2><div id="hist0"></div></div>
+  </div>
+ </div>
+</section>
+
+<section class="view" id="v-mock"><div id="mock">
+ <div class="card"><h2>Practice with an AI interviewer <span id="mProg" class="pill"></span></h2>
+  <div class="row"><div><label>Questions</label><select id="mCount"><option>5</option><option selected>8</option><option>12</option></select></div>
+  <div><label>Interviewer type</label><select id="mType"><option value="recruiter">Recruiter screen</option><option value="client">Client / hiring manager</option><option value="tough">Tough (follow-ups & trick questions)</option></select></div></div>
+  <label style="font-weight:500"><input type="checkbox" id="mFollow" checked> Ask follow-up questions based on my answers</label>
+  <div class="btns"><button id="mGo" class="primary">▶ Start mock</button><button class="ghost" id="mExit" hidden>Back</button></div>
+ </div>
+ <div id="answerBox2" class="card accent" style="display:none">
+  <div class="muted sm">🎙 Interviewer asks</div><div id="mQ"></div>
+  <div class="muted sm" style="display:flex;justify-content:space-between;align-items:center">💡 Suggested answer <label style="margin:0;font-weight:500;font-size:12.5px"><input type="checkbox" id="mBlur"> Hide until I try</label></div><div class="vtabs" id="vtM"><button data-k="short">1 · Short</button><button data-k="strong">2 · Stronger</button><button data-k="full">3 · Detailed</button></div><div id="mHint"><span></span></div>
+  <div class="muted sm" style="margin-top:10px;display:flex;justify-content:space-between">Your answer (live) <span id="mTimer" class="pill" style="float:none"></span></div><div id="mA"></div>
+  <div class="btns"><button id="mDone" class="primary">✅ Done answering <kbd>Enter</kbd></button><button class="ghost" id="mRepeat">🔁 Repeat</button><button class="ghost" id="mSkip">⏭ Skip</button></div>
+ </div>
+ <div id="mFb" class="card" style="display:none"></div>
+ <div id="mSum" class="card" style="display:none"></div>
+</div></section>
+
+<section class="view" id="v-resume">
+ <div class="split">
+  <div class="card pane"><div class="paneHead"><span>📄 <span id="cvName">No file yet</span></span><button class="ghost sm" id="upBtn">⬆ Upload</button></div>
+   <div id="drop"><div id="pdfView"><div class="empty"><b>Drop your CV here or click Upload</b><br><span class="hint">PDF, DOCX or TXT · stays on your computer</span></div></div></div>
+   <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden></div>
+  <div class="card pane"><div class="paneHead"><span>✨ What the AI reads during your calls</span></div>
+   <div class="scroll"><div style="display:flex;justify-content:space-between;align-items:center"><h4>👤 Contact</h4><button class="ghost sm" id="aiRead" style="margin:0">✨ Read with AI</button></div><div id="contact"></div><div id="parsed"></div>
+   <h4>📝 Full text <span class="hint" id="cvInfo"></span></h4><textarea id="cv" rows="16" placeholder="Your CV text appears here. You can edit it."></textarea></div></div>
+ </div>
+</section>
+
+<section class="view" id="v-job"><div class="card">
+ <h2>The role you're interviewing for</h2>
+ <div class="row"><div><label>Company</label><input type="text" id="company"></div><div><label>Role</label><input type="text" id="role"></div></div>
+ <label>Job post</label><textarea id="jd" rows="9" placeholder="Paste the full job description"></textarea>
+ <label>More details</label><textarea id="extra" rows="5" placeholder="Interviewer name, rate you want, how to position yourself, things NOT to claim…"></textarea>
+ <p class="hint">Saved automatically.</p></div>
+ <div class="card"><h2>💰 Salary helper</h2>
+  <div class="row"><div><label>Currency</label><select id="slCur"><option>PHP</option><option>USD</option><option>AUD</option><option>EUR</option><option>GBP</option></select></div><div><label>Hours per week</label><input type="text" id="slHrs" value="20"></div></div>
+  <div class="row"><div><label>Their range (monthly) — low</label><input type="text" id="slLo" placeholder="40000"></div><div><label>Their range — high</label><input type="text" id="slHi" placeholder="50000"></div></div>
+  <div class="row"><div><label>My target (monthly)</label><input type="text" id="slTg" placeholder="50000"></div><div><label>My walk-away floor (monthly)</label><input type="text" id="slFl" placeholder="40000"></div></div>
+  <div id="slCalc" class="stat3" style="margin-top:12px"></div>
+  <div class="btns"><button class="primary" id="slGo">✨ Write my negotiation script</button></div><div id="slOut" class="mdb" style="margin-top:12px"></div></div></section>
+
+<section class="view" id="v-maker">
+ <div class="card"><h2>Resume Maker <span class="hint">· tailored to the job in your current profile</span></h2>
+  <div class="row"><div><label>Template</label><select id="rmTpl"><option value="modern">Modern · pink & cocoa with photo</option><option value="classic">Classic · serif, elegant</option><option value="ats">ATS plain · single column, no photo</option></select></div>
+  <div><label>Length</label><select id="rmLen"><option value="1">1 page</option><option value="2" selected>Up to 2 pages</option></select></div></div>
+  <div class="btns"><button class="primary" id="rmTailor">✨ Tailor my resume to this job</button><button class="ghost" id="rmAsIs">Use my resume as is</button><button class="ghost" id="rmCL">✉️ Cover letter</button><button class="ghost" id="rmPdf">⬇ Download PDF</button></div>
+  <div id="rmAts" class="stat3" style="margin-top:10px"></div>
+  <p class="hint">Pick your template first, then click any text on the page to edit it (switching templates later resets manual edits). Changes save automatically. For the PDF, choose <b>Save as PDF</b> in the print window — unlimited.</p></div>
+ <div id="rmWrap"><div id="rmPaper" class="paper"><p class="muted" style="padding:40px;text-align:center">Click <b>✨ Tailor my resume</b> to build it from your CV, stories and this job post.</p></div></div>
+</section>
+<section class="view" id="v-headshot">
+ <div class="split">
+  <div class="card"><h2>Your photo</h2>
+   <div class="btns" style="margin-top:0"><button class="ghost" id="hsUp">🖼 Upload photo</button><button class="ghost" id="hsCam">📷 Take photo</button><input type="file" id="hsFile" accept="image/*" hidden></div>
+   <video id="hsVid" autoplay playsinline muted style="display:none;width:100%;border-radius:12px;margin-top:10px"></video><button class="primary" id="hsShot" style="display:none;margin-top:8px">📸 Capture</button>
+   <label>Background</label><div class="btns" style="margin-top:0" id="hsBgs"></div>
+   <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="hsCut"> Replace background (AI, runs on your computer)</label>
+   <div class="row"><div><label>Brightness</label><input type="range" id="hsB" min="70" max="140" value="104"></div><div><label>Contrast</label><input type="range" id="hsC" min="70" max="140" value="106"></div></div>
+   <div class="row"><div><label>Warmth</label><input type="range" id="hsW" min="-30" max="30" value="4"></div><div><label>Zoom</label><input type="range" id="hsZ" min="100" max="250" value="130"></div></div>
+   <div class="row"><div><label>Move left / right</label><input type="range" id="hsX" min="-50" max="50" value="0"></div><div><label>Move up / down</label><input type="range" id="hsY" min="-50" max="50" value="-8"></div></div>
+   <label>Shape</label><select id="hsShape"><option value="circle">Circle</option><option value="square">Square</option><option value="rounded">Rounded square</option></select>
+  </div>
+  <div class="card" style="text-align:center"><h2>Headshot</h2><canvas id="hsOut" width="800" height="800" style="width:100%;max-width:380px;border-radius:18px;background:#f4eef1"></canvas>
+   <p class="hint" id="hsMsg">Upload or take a photo to start. Face the light, plain wall, shoulders in frame.</p>
+   <div class="btns" style="justify-content:center"><button class="primary" id="hsUse">✅ Use on my resume</button><button class="ghost" id="hsDl">⬇ Download PNG</button></div>
+   <div class="card accent" style="margin-top:14px;text-align:left"><b>✨ AI studio headshot</b><p class="sm">Gemini restyles your photo into a studio portrait (suit-ready lighting, clean background). It keeps your face, but always check it still looks like you.</p>
+    <select id="hsStyle"><option>Professional studio portrait, soft key light, neutral grey backdrop, business attire</option><option>Warm natural-light portrait, blurred modern office background, smart casual</option><option>Corporate headshot, white background, navy blazer</option><option>Friendly creative portrait, soft blush pink backdrop</option></select>
+    <div class="btns"><button class="primary" id="hsAI">✨ Generate AI headshot</button></div><div id="hsAIOut" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"></div></div>
+  </div>
+ </div>
+</section>
+<section class="view" id="v-prep"><div class="card"><h2>Prep pack <span class="hint">· built from your CV, stories and this job post</span></h2>
+ <div class="btns" style="margin-top:0"><button class="primary" id="prepGo">✨ Build my prep pack</button></div><div id="prepOut" class="mdb" style="margin-top:14px"></div></div>
+ <div class="card"><h2>🔎 Company research brief</h2><div class="row"><div><label>Company website (optional)</label><input type="text" id="coSite" placeholder="https://veroa.ai"></div><div style="align-self:end"><button class="primary" id="coGo">✨ Research this company</button></div></div>
+  <div id="coOut" class="mdb" style="margin-top:12px"></div></div></section>
+<section class="view" id="v-stories"><div class="card"><h2>Story bank <span class="hint">· real stories the AI will use, so answers stay true</span></h2>
+ <div class="row"><div><label>Title</label><input type="text" id="sT" placeholder="e.g. Delayed flight, client waiting"></div><div><label>Company / role</label><input type="text" id="sC" placeholder="e.g. Easy Sell FL, EA"></div></div>
+ <label>What happened (situation & task)</label><textarea id="sS" rows="2"></textarea>
+ <label>What I did</label><textarea id="sA" rows="2"></textarea>
+ <label>Result</label><textarea id="sR" rows="2"></textarea>
+ <div class="btns"><button class="primary" id="sSave">Save story</button><button class="ghost" id="sClear">Clear</button></div></div>
+ <div class="card"><h2>My stories</h2><div id="sList"></div></div></section>
+<section class="view" id="v-code">
+ <div class="card accent" style="border-left-width:5px"><b>🧠 Practice mode.</b> <span class="sm">Learn and rehearse coding problems here. Don't use it during graded or proctored tests — most forbid AI help and can disqualify you.</span></div>
+ <div class="card"><h2>1 · The problem</h2>
+  <div class="btns" style="margin-top:0"><button class="ghost" id="cdSnap">📸 Snap from screen</button><button class="ghost" id="cdUp">🖼 Upload image</button><input type="file" id="cdFile" accept="image/*" hidden><span class="hint" style="align-self:center">or paste a screenshot (Cmd+V)</span></div>
+  <div id="cdImgs" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"></div>
+  <label>Or type / paste the problem</label><textarea id="cdProb" rows="5" placeholder="e.g. Given an array of meeting times, find the minimum number of rooms…"></textarea>
+  <div class="row"><div><label>Language</label><select id="cdLang"><option>JavaScript</option><option>Python</option><option>Google Apps Script</option><option>SQL</option><option>TypeScript</option><option>Java</option><option>C#</option><option>Go</option></select></div>
+  <div><label>Drill me — topic</label><div style="display:flex;gap:8px"><select id="cdTopic"><option>Arrays & strings</option><option>Hash maps</option><option>Sorting & intervals</option><option>Recursion</option><option>SQL queries</option><option>APIs & JSON</option><option>Apps Script automation</option><option>Data cleaning</option><option>System design (small)</option></select><button class="ghost" id="cdDrill" style="white-space:nowrap">🎲 New problem</button></div></div></div>
+ </div>
+ <div class="card"><h2>2 · Get help in steps</h2>
+  <div class="btns" style="margin-top:0"><button class="ghost" data-tier="hint">💡 Hint</button><button class="ghost" data-tier="approach">🧭 Approach</button><button class="ghost" data-tier="pseudo">📝 Pseudocode</button><button class="primary" data-tier="solution">✅ Full solution</button></div>
+  <div id="cdOut" class="mdb" style="margin-top:12px"></div></div>
+ <div class="card"><h2>3 · Check my code</h2><textarea id="cdCode" rows="8" style="font-family:ui-monospace,Menlo,monospace;font-size:13px" placeholder="Paste your solution"></textarea>
+  <div class="btns"><button class="primary" id="cdCheck">🔍 Review my code</button></div><div id="cdRev" class="mdb" style="margin-top:12px"></div></div>
+ <div class="card"><h2>4 · Explain it out loud</h2><p class="hint">Talk through your solution like a live technical interview. You get feedback on clarity, structure and complexity.</p>
+  <div class="btns" style="margin-top:0"><button class="primary" id="cdTalk">🎙 Start talking</button><button class="ghost" id="cdTalkDone" disabled>✅ Done — review</button></div>
+  <div id="cdSaid" style="margin-top:10px;font-size:15px;line-height:1.5"></div><div id="cdTalkFb" class="mdb"></div></div>
+</section>
+<section class="view" id="v-tracker">
+ <div class="card"><h2>Applications & follow-ups <span class="hint">· one row per profile</span></h2><div id="trList"></div>
+  <p class="hint">Tip: add a new job with ＋ next to the profile menu at the top.</p></div>
+</section>
+<section class="view" id="v-history"><div class="card"><h2>Past interviews & mocks</h2><div id="hList"></div></div></section>
+
+<section class="view" id="v-settings"><div class="card">
+ <h2>Connections · saved in this browser only</h2>
+ <label>AI engine</label><select id="prov"><option value="gemini">Google Gemini — free tier (recommended free option)</option><option value="ollama">Ollama on my computer — 100% free, offline</option><option value="claude">Claude — paid API credits</option></select>
+ <div class="row" id="gemBox"><div><label>Gemini API key</label><input type="password" id="gkey" placeholder="AIza…"><div class="hint">aistudio.google.com → Get API key (free)</div></div>
+  <div><label>Gemini model <button class="ghost sm" id="gLoad" style="margin:0 0 0 6px;padding:3px 10px">🔄 Load my models</button></label><select id="gmodel"><option value="auto">⚡ Auto — fastest available</option></select><div class="hint" id="gHint">If a model is busy, the app tries the next one automatically.</div></div></div>
+ <div class="row" id="olBox"><div><label>Ollama model</label><input type="text" id="omodel" value="llama3.1"><div class="hint">Must be installed: ollama pull llama3.1</div></div>
+  <div><label>Ollama address</label><input type="text" id="ourl" value="http://localhost:11434"><div class="hint">Start Ollama with OLLAMA_ORIGINS=* so the browser can reach it</div></div></div>
+ <div class="row"><div><label>Claude API key <span class="hint">— writes the answers</span></label><input type="password" id="ckey" placeholder="sk-ant-…"><div class="hint">console.anthropic.com → API Keys → Create Key</div></div>
+ <div><label>Workspace ID <span class="hint">— only if your key asks for it</span></label><input type="text" id="wsid" placeholder="wrkspc_…"><div class="hint">Console → Settings → Workspaces → copy the workspace ID</div></div></div>
+ <div class="row"><div><label>Deepgram API key <span class="hint">— hears the interviewer</span></label><input type="password" id="dkey"><div class="hint">console.deepgram.com → API Keys. Without it the app uses your mic.</div></div></div>
+ <div class="row"><div><label>Answer style</label><select id="style"><option value="strong">Stronger answer (approach + real example + result)</option><option value="short">Short & precise (2–3 sentences)</option><option value="bullets">Key points (3 bullets)</option><option value="full">Fuller (4–5 sentences)</option></select></div>
+ <div><label>Model</label><select id="model"><option value="claude-haiku-5-5">Fastest (Haiku)</option><option value="claude-sonnet-5-5">Smarter (Sonnet)</option></select></div></div>
+</div><div class="card"><h2>📅 Google Calendar</h2><p class="hint">Sign in once and your upcoming meetings (Meet, Zoom, Teams) appear in the 📅 button. Read-only — the app can't change or delete anything.</p>
+ <div class="btns"><button class="primary" id="gcIn">Sign in with Google</button><button class="ghost" id="gcOut" style="display:none">Disconnect</button></div><p class="sm" id="gcStat"></p>
+ <details style="margin-top:8px;display:none"><summary class="hint" style="cursor:pointer">Owner setup (Google Client ID)</summary><label>Google OAuth Client ID</label><input type="text" id="gcid" placeholder="xxxx.apps.googleusercontent.com"></details></div>
+<div class="card"><h2>Back up & restore</h2><p class="hint">One file with your keys, resume, stories, profiles and history. Keep it private — it contains your API keys.</p>
+ <div class="btns"><button id="bkDown">⬇ Download backup</button><button class="ghost" id="bkUp">⬆ Restore from file</button><input type="file" id="bkFile" accept=".json" hidden></div></div></section>
+
+<section class="view" id="v-backup"></section>
+<section class="view" id="v-admin"><div class="card" id="adminCard"><h2>👑 Admin · who can sign in with Google <span class="hint">· only visible to you</span></h2>
+ <p class="hint">Google only lets the owner approve users inside Google Cloud. Add an email here, click <b>Approve in Google</b>, paste it (already copied) and Save. Up to 100 users while the app is in testing.</p>
+ <div class="row"><div><label>User's Gmail</label><input type="text" id="adEmail" placeholder="friend@gmail.com"></div><div><label>Note (optional)</label><input type="text" id="adNote" placeholder="e.g. Batchmate, VA friend"></div></div>
+ <div class="btns"><button class="primary" id="adAdd">＋ Add user</button></div><div id="adList" style="margin-top:12px"></div></div>
+</section>
+<section class="view" id="v-help"><div class="card"><h2>How it works</h2><ol class="steps">
+ <li><b>Resumes:</b> upload your CV. Check what the AI reads.</li><li><b>Job posts:</b> paste the job post and your notes.</li>
+ <li><b>Settings:</b> add your Claude key (and Deepgram for live interviews).</li><li><b>Mock interview:</b> practice out loud and get a score.</li>
+ <li><b>Live interview:</b> open your meeting tab, click Start, pick the tab and turn on Share tab audio. Answers appear on their own.</li>
+ <li><b>Stories:</b> save 4–6 real stories so answers use true examples.</li><li><b>Prep:</b> one click builds likely questions, weak spots, questions to ask and your rate script.</li><li><b>🪟 Float over Meet:</b> during a live interview, pop the answer into a small always-on-top window under your webcam.</li><li><b>Maker:</b> tailor your resume to each job, edit it, check the ATS keyword match, write a cover letter, download unlimited PDFs.</li><li><b>Headshot:</b> upload or take a photo, replace the background, adjust light, or generate an AI studio headshot — then put it on your resume.</li><li><b>Code:</b> practice coding problems — snap a screenshot, get hints in steps, review your code, explain it out loud.</li><li><b>Tracker:</b> stages, follow-up dates and ready-to-send emails for every job.</li><li><b>Demo:</b> add <code>#demo</code> to the link to show the app with sample data.</li><li><b>History:</b> every live interview, debrief, mock and prep pack is saved here.</li><li><b>Profiles</b> (top right): keep each job separate. <b>Settings → Back up</b> moves everything to another computer.</li></ol></div></section>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+try{if(!localStorage.getItem('ib_style2')){localStorage.setItem('ib_style','strong');localStorage.setItem('ib_style2','1')}}catch(e){}
+const F=['gcid','prov','gkey','omodel','ourl','wsid','cv','company','role','jd','extra','ckey','dkey','style','model'];
+const DEF={company:"Veroa",role:"Part-time Executive Assistant (AI-native)",
+jd:"Part-time Executive Assistant, 20 hrs/week, remote with US Pacific overlap. Works alongside AI agents (Instinct, Pally). Duties: complex calendar and scheduling management, inbox management and communication on the executive's behalf, end-to-end travel booking, itineraries and event logistics, ad-hoc research and operations support, special projects. AI-native: comfortable using modern AI tools and agents; vibe coding and AI integration a plus. Async, autonomous. Interest in startups/VC a bonus.",
+extra:"",
+cv:"Nae Kitakado — AI-Native Executive Assistant / AI Automation Consultant, Philippines (remote).\n12+ years remote, async support for founders, executives and lean teams: calendars, inbox, scheduling, travel, research, follow-through.\nOps & Automation Lead, Tried and True Media: owns automation stack across ClickUp, Zapier, Google Apps Script, Slack, Sheets; migrated 90+ Zapier workflows (1M+ tasks) to Apps Script with shadow testing, monitoring and Slack alerts, cutting software costs; built PTO/leave system syncing Google Calendar, Gmail, Slack and HR records; SOPs; co-administers company 1Password.\nReporting Team, Avenue 7 Media: Amazon vendor performance reporting in Google Sheets via custom Apps Script upload pipeline; built HR timekeeping/PTO portal.\nTransaction Coordinator / EA, Easy Sell FL: managed deals, deadlines, calendar, inbox, client follow-ups and executive travel in Monday.com, HubSpot, QuickBooks, Microsoft 365.\nBuilt 15+ apps with Claude/Claude Code: MeetingScribe (AI meeting notes + action items), Meadow Money (receipt-scanning tracker), Akari Atlas (travel planner).\nTools: Google Workspace, Microsoft 365, Slack, Notion, ClickUp, Monday.com, Jira, HubSpot, QuickBooks, Zapier, n8n, Apps Script, JavaScript, Python.\nBS Information Technology, Web Development, Informatics Computer Institute. GitHub: naekitakadoportfolio"};
+F.forEach(k=>{let v=null;try{v=localStorage.getItem('ib_'+k)}catch(e){}if(v===null&&DEF[k])v=DEF[k];if(v!==null)$(k).value=v;$(k).addEventListener('change',()=>{try{localStorage.setItem('ib_'+k,$(k).value)}catch(e){}})});
+cvInfoUpd();function cvInfoUpd(){try{renderContact()}catch(e){}cvInfo.textContent=$('cv').value?'('+$('cv').value.split(/\s+/).length+' words)':''}
+$('cv').addEventListener('input',cvInfoUpd);
+
+// ---------- CV upload ----------
+drop.onclick=()=>file.click();upBtn.onclick=e=>{e.stopPropagation();file.click()};
+drop.ondragover=e=>{e.preventDefault()};drop.ondrop=e=>{e.preventDefault();if(e.dataTransfer.files[0])readFile(e.dataTransfer.files[0])};
+file.onchange=()=>file.files[0]&&readFile(file.files[0]);
+async function readFile(f){cvInfo.textContent='reading…';let t='';
+ try{if(/\.pdf$/i.test(f.name)){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+   const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;for(let i=1;i<=pdf.numPages;i++){const c=await(await pdf.getPage(i)).getTextContent();t+=joinItems(c.items)+'\n\n'}}
+  else if(/\.docx$/i.test(f.name)){t=(await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value}
+  else t=await f.text();
+  $('cv').value=t.replace(/[ \t]+/g,' ').replace(/\n{3,}/g,'\n\n').trim();$('cv').dispatchEvent(new Event('change'));cvInfoUpd();cvName.textContent=f.name;CVJ=null;try{localStorage.removeItem('ib_cvj')}catch(e){};try{localStorage.setItem('ib_cvname',f.name)}catch(e){}
+ if(hasKey())setTimeout(()=>aiRead.onclick(),50);
+ if(/\.pdf$/i.test(f.name)){const buf=await f.arrayBuffer();renderPdf(new Uint8Array(buf));try{localStorage.setItem('ib_pdf',b64(new Uint8Array(buf)))}catch(e){}}else pdfView.innerHTML='<pre style="color:#eee;white-space:pre-wrap;padding:18px;font:13px Inter">'+esc($('cv').value)+'</pre>'}
+ catch(e){cvInfo.textContent='Could not read file: '+e.message}}
+
+// ---------- state ----------
+let lines=[],buffer='',interim='',lastQ='',ctrl=null,ws=null,rec=null,disp=null,sr=null,running=false,keep=null;
+function setStatus(t,ok){$("stat").innerHTML=ok?'<span class="ok">'+t+'</span>':t}
+function renderTx(){tx.innerHTML=lines.map(l=>'<div>'+esc(l)+'</div>').join('')+(interim?'<div class="int">'+esc(interim)+'</div>':'');tx.scrollTop=1e9}
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function md(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}
+
+// ---------- start ----------
+startBtn.onclick=async()=>{
+ if(!hasKey()){alertBox('Add your AI key in Settings first.');go('settings');return}
+ setup.style.display='none';live.style.display='block';liveReady.style.display='none';running=true;
+ if($('dkey').value.trim())await startTab();else startMic();
+};
+function alertBox(m){setStatus('⚠ '+m)}
+stopBtn.onclick=stopAll;
+setupBtn.onclick=()=>{const s=setup.style.display!=='none';setup.style.display=s?'none':'block';live.style.display=s?'block':'none'};
+bigBtn.onclick=()=>document.body.classList.toggle('big');
+
+async function startTab(){
+ try{disp=await navigator.mediaDevices.getDisplayMedia({video:true,audio:{echoCancellation:false,noiseSuppression:false},preferCurrentTab:false,selfBrowserSurface:'exclude',systemAudio:'include'})}
+ catch(e){setStatus('⚠ Tab not shared. Click ▶ Start again and pick the meeting tab.');resetBtns();return}
+ const at=disp.getAudioTracks();
+ if(!at.length){setStatus('⚠ No audio. Click Start again, pick the meeting TAB and turn ON “Share tab audio”.');disp.getTracks().forEach(t=>t.stop());resetBtns();return}
+ disp.getVideoTracks()[0]?.addEventListener('ended',stopAll);
+ const as=new MediaStream(at);
+ const url='wss://api.deepgram.com/v1/listen?model=nova-3&language=en&smart_format=true&punctuate=true&interim_results=true&endpointing=400&utterance_end_ms=1300&vad_events=true';
+ ws=new WebSocket(url,['token',$('dkey').value.trim()]);
+ ws.onopen=()=>{setStatus('🟢 Listening to the meeting tab',1);
+  rec=new MediaRecorder(as,{mimeType:'audio/webm;codecs=opus'});rec.ondataavailable=e=>{if(e.data.size&&ws.readyState===1)ws.send(e.data)};rec.start(250);
+  keep=setInterval(()=>ws.readyState===1&&ws.send(JSON.stringify({type:'KeepAlive'})),8000)};
+ ws.onmessage=m=>{const d=JSON.parse(m.data);
+  if(d.type==='Results'){const t=d.channel?.alternatives?.[0]?.transcript||'';
+   if(d.is_final){if(t){buffer+=' '+t;lines.push(t);}interim='';if(d.speech_final)flush()}else interim=t;renderTx()}
+  else if(d.type==='UtteranceEnd')flush()};
+ ws.onerror=()=>setStatus('⚠ Deepgram connection failed — check the key');
+ ws.onclose=e=>{if(running&&e.code!==1000)setStatus('⚠ Listening stopped ('+(e.reason||e.code)+'). Check the Deepgram key.')};
+}
+function startMic(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){setStatus('⚠ Open this file in Google Chrome');return}
+ sr=new SR();sr.continuous=true;sr.interimResults=true;sr.lang='en-US';
+ sr.onresult=e=>{interim='';for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal){lines.push(t);buffer+=' '+t;flushSoon()}else interim+=t}renderTx()};
+ sr.onerror=e=>setStatus('⚠ Mic: '+e.error+(e.error==='not-allowed'?' — allow the microphone in the address bar':''));
+ sr.onend=()=>{if(running)try{sr.start()}catch(e){}};sr.start();setStatus('🟡 Mic mode (no Deepgram key) — hears you and the speakers',1)}
+let ft=null;function flushSoon(){clearTimeout(ft);ft=setTimeout(flush,1400)}
+function resetBtns(){running=false}
+function stopAll(){if(lines.length)runDebrief();if(lines.length)saveSession('Live',$('company').value+' — live interview','INTERVIEWER TRANSCRIPT\n'+lines.join('\n')+'\n\nANSWERS\n'+$('hist0').innerText);liveReady.style.display='';live.style.display='none';running=false;try{rec&&rec.state!=='inactive'&&rec.stop()}catch(e){}try{ws&&ws.close(1000)}catch(e){}try{disp&&disp.getTracks().forEach(t=>t.stop())}catch(e){}try{sr&&sr.stop()}catch(e){}clearInterval(keep);setStatus('Ended — save your transcript below');resetBtns()}
+
+
+const P=()=>$('prov').value;
+
+const hasKey=()=>DEMO||P()==='ollama'||(P()==='gemini'?$('gkey').value.trim():$('ckey').value.trim());
+let busyN=0,busyT0=0,busyIv=null;function busyOn(label){busyN++;busyT0=busyT0||Date.now();pbar.style.display='block';busy.style.display='flex';$('busyT').dataset.l=label||'Thinking';clearInterval(busyIv);const up=()=>$('busyT').textContent=$('busyT').dataset.l+'… '+Math.round((Date.now()-busyT0)/1000)+'s';up();busyIv=setInterval(up,500)}
+function busyOff(){busyN=Math.max(0,busyN-1);if(!busyN){clearInterval(busyIv);busyT0=0;pbar.style.display='none';busy.style.display='none'}}
+async function llm(system,user,max,label,opt){busyOn(label);try{if(DEMO&&!hasRealKey())return await demoLLM(user);return await llm_(system,user,max,opt||{})}finally{busyOff()}}
+async function llm_(system,user,max,opt){opt=opt||{};const p=P();
+ if(p==='gemini')return geminiRace(system,user,opt);
+ if(p==='ollama'){let r;try{r=await fetch($('ourl').value.trim().replace(/\/$/,'')+'/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+   body:JSON.stringify({model:$('omodel').value.trim(),stream:false,messages:[...(system?[{role:'system',content:system}]:[]),{role:'user',content:user,...(opt.imgs?.length?{images:opt.imgs.map(x=>x.data)}:{})}]})})}catch(e){throw new Error('Cannot reach Ollama — is it running with OLLAMA_ORIGINS=* ?')}
+  const j=await r.json();if(!r.ok)throw new Error('Ollama: '+(j.error||r.status));return j.message?.content||''}
+ const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':$('ckey').value.trim(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true',...($('wsid').value.trim()?{'anthropic-workspace-id':$('wsid').value.trim()}:{})},
+  body:JSON.stringify({model:$('model').value,max_tokens:max||1200,...(system?{system}:{}),messages:[{role:'user',content:opt.imgs?.length?[...opt.imgs.map(x=>({type:'image',source:{type:'base64',media_type:x.mime,data:x.data}})),{type:'text',text:user}]:user}]})});const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);return j.content.filter(c=>c.type==='text').map(c=>c.text).join('')}
+let GM=[];
+function setGM(m){if(![...$('gmodel').options].some(o=>o.value===m))$('gmodel').add(new Option(m,m));$('gmodel').value=m;try{localStorage.setItem('ib_gmodel',m)}catch(e){}}
+async function loadGM(quiet){const k=$('gkey').value.trim();if(!k){if(!quiet)gHint.textContent='Paste your Gemini key first';return}
+ try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key='+encodeURIComponent(k));const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+  const ms=(j.models||[]).filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent')&&/gemini/i.test(m.name)&&!/embed|image|tts|audio|live|vision|aqa/i.test(m.name)).map(m=>m.name.replace('models/',''));
+  const score=n=>(/flash-lite/.test(n)?1:/flash/.test(n)?0:2)+(/preview|exp/.test(n)?3:0);
+  GM=ms.sort((a,b)=>score(a)-score(b)||b.localeCompare(a,undefined,{numeric:true}));
+  const keep=$('gmodel').value;$('gmodel').innerHTML='';$('gmodel').add(new Option('⚡ Auto — fastest available','auto'));GM.forEach(m=>$('gmodel').add(new Option(m,m)));
+  $('gmodel').value=GM.includes(keep)?keep:'auto';
+  gHint.textContent='✓ '+GM.length+' models available. Flash = fastest. If one is busy, the app tries the next.'}
+ catch(e){if(!quiet)gHint.textContent='⚠ '+e.message}}
+function provUI(){gemBox.style.display=P()==='gemini'?'':'none';olBox.style.display=P()==='ollama'?'':'none';[...document.querySelectorAll('#ckey,#wsid,#model')].forEach(e=>e.closest('div').style.display=P()==='claude'?'':'none')}
+$('prov').addEventListener('change',provUI);gLoad.onclick=e=>{e.preventDefault();loadGM()};$('gkey').addEventListener('change',()=>loadGM(true));$('gmodel').addEventListener('change',()=>setGM($('gmodel').value));
+try{const sm=localStorage.getItem('ib_gmodel');if(sm&&sm!=='auto'&&!/gemini-2\./.test(sm)&&localStorage.getItem('ib_gm_v2'))setGM(sm);else{localStorage.setItem('ib_gmodel','auto');localStorage.setItem('ib_gm_v2','1')}}catch(e){}if($('gkey').value.trim())loadGM(true);
+
+// ===== FAST + RELIABLE GEMINI: race the fastest models, remember speeds =====
+let LAT={},COOL={};try{LAT=JSON.parse(localStorage.getItem('ib_lat')||'{}')}catch(e){}
+function saveLat(){try{localStorage.setItem('ib_lat',JSON.stringify(LAT))}catch(e){}}
+async function gemOne(m,system,user,signal,opt){opt=opt||{};const t0=Date.now();
+ const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent($('gkey').value.trim())}`,{method:'POST',signal,headers:{'content-type':'application/json'},
+  body:JSON.stringify({...(system?{systemInstruction:{parts:[{text:system}]}}:{}),contents:[{role:'user',parts:[...(opt.imgs||[]).map(x=>({inlineData:{mimeType:x.mime,data:x.data}})),{text:user}]}],...(opt.search?{tools:[{google_search:{}}]}:{}),generationConfig:{maxOutputTokens:8192}})});
+ const j=await r.json().catch(()=>({}));
+ if(!r.ok){const err=new Error(j.error?.message||String(r.status));err.status=r.status;throw err}
+ const txt=(j.candidates?.[0]?.content?.parts||[]).filter(x=>!x.thought).map(x=>x.text||'').join('');
+ if(!txt.trim()){const err=new Error('empty reply');err.status=503;throw err}
+ const ms=Date.now()-t0;LAT[m]=LAT[m]?Math.round(LAT[m]*.6+ms*.4):ms;saveLat();return{txt,m,ms}}
+function rankModels(){const pick=$('gmodel').value,now=Date.now();
+ const list=(GM.length?GM:[pick]).filter(m=>m!=='auto');
+ const sc=m=>(COOL[m]>now?1e6:0)+(LAT[m]||(/lite/.test(m)?3000:/flash/.test(m)?4000:9000))+(/preview|exp/.test(m)?1500:0);
+ let r=[...new Set(list)].sort((a,b)=>sc(a)-sc(b));if(pick&&pick!=='auto'){r=[pick,...r.filter(x=>x!==pick)]}return r}
+async function geminiRace(system,user,opt){if(!GM.length)await loadGM(true);
+ let lastErr='';
+ for(let round=0;round<3;round++){
+  const order=rankModels().slice(0,4);if(!order.length)throw new Error('Gemini: no models — check your key in Settings');
+  const ctrls=[],T0={};let settled=false;
+  const result=await new Promise(resolve=>{let pending=0,started=0;
+   const fail=(m,e)=>{lastErr=m+': '+e.message;if(e.status===503||e.status===429||e.status===408||/demand|overload|unavailable|quota|exhaust|timed out/i.test(e.message))COOL[m]=Date.now()+120000;if(e.status===404||/not found|no longer available|not supported/i.test(e.message)){COOL[m]=Date.now()+864e5}
+    pending--;if(started<order.length)launch();else if(pending===0&&!settled)resolve(null)};
+   const launch=()=>{const m=order[started++];if(!m)return;pending++;T0[m]=Date.now();const ac=new AbortController();ctrls.push(ac);const tm=setTimeout(()=>ac.abort(),20000);
+    setStatus(started>1?'⚡ also trying '+m:'⚡ '+m,1);
+    gemOne(m,system,user,ac.signal,opt).then(r=>{clearTimeout(tm);if(!settled){settled=true;resolve(r)}}).catch(e=>{clearTimeout(tm);if(e.name==='AbortError'&&settled)return;fail(m,e.name==='AbortError'?Object.assign(new Error('timed out'),{status:408}):e)})};
+   launch();
+   setTimeout(()=>{if(!settled&&started<order.length)launch()},3500);   // hedge: start a 2nd model if the 1st is slow
+   setTimeout(()=>{if(!settled&&started<order.length)launch()},7000);   // and a 3rd
+  });
+  ctrls.forEach(c=>{try{c.abort()}catch(e){}});
+  Object.keys(T0).forEach(m=>{if(!result||m!==result.m)LAT[m]=Math.max(LAT[m]||0,Date.now()-T0[m]+800)});saveLat();
+  if(result){setStatus('✓ '+result.m+' · '+(result.ms/1000).toFixed(1)+'s',1);return result.txt}
+  await new Promise(z=>setTimeout(z,1200*(round+1)));
+ }
+ throw new Error('Gemini is busy right now ('+lastErr+'). Try again in a minute, or switch to Ollama in Settings.')}
+let spdAt=0;async function speedTest(){if(Date.now()-spdAt<300000&&spd.innerHTML)return;spdAt=Date.now();if(P()!=='gemini'||!$('gkey').value.trim())return;if(!GM.length)await loadGM(true);
+ const ms=GM.filter(m=>/flash/.test(m)).slice(0,5);spd.innerHTML='⚡ Checking AI speed…';
+ const res=await Promise.all(ms.map(m=>gemOne(m,null,'Reply with: OK',AbortSignal.timeout?AbortSignal.timeout(12000):undefined).then(r=>[m,r.ms]).catch(e=>{COOL[m]=Date.now()+120000;return[m,null]})));
+ const ok=res.filter(r=>r[1]).sort((a,b)=>a[1]-b[1]);
+ spd.innerHTML=ok.length?`⚡ Fastest AI right now: <b>${ok[0][0]}</b> (${(ok[0][1]/1000).toFixed(1)}s)${ok[1]?` · backup ${ok[1][0]} (${(ok[1][1]/1000).toFixed(1)}s)`:''} <span class="ok">✓ ready</span>`:'<span class="warn">⚠ All Gemini models are busy right now — wait a minute or switch to Ollama</span>'}
+// ---------- answering ----------
+function flush(){const t=buffer.trim();buffer='';if(t.split(/\s+/).length<4)return;answer_(t)}
+function sys(){const st=`Write THREE versions of what she should say, each under its own header line exactly like this:
+### STRONG
+3-4 confident spoken sentences: open with her approach or principle in one line, then ONE concrete example from the CV naming the real company, tools and what she did, then the result.
+### SHORT
+2 short, precise spoken sentences.
+### DETAILED
+4-5 spoken sentences in the same approach-example-result shape, with one extra relevant detail from the CV or notes.`;
+return `You are a live interview coach whispering answers to the candidate during a job interview.
+CANDIDATE CV:\n${$('cv').value}\n\nREAL STORIES (prefer these for examples; they are true):\n${storiesText()}\n\nJOB: ${$('role').value} at ${$('company').value}\nJOB POST:\n${$('jd').value}\n\nCANDIDATE NOTES:\n${$('extra').value}
+
+Rules:
+- Write exactly what the candidate should say, in first person, natural spoken English. ${st}
+- Start with the direct answer. Be precise and specific: use real numbers, tools and examples from the CV. No filler, no "great question".
+- For behavioral questions ("tell me about a time…"), use STAR compressed into 3-4 sentences.
+- Never invent experience, employers, numbers, tools or specific events that are not in the CV or notes; describe how she works using only real facts. If the CV lacks it, say so honestly and bridge to the closest real skill.
+- Tie answers to the job post where it fits naturally.
+- Output only the three sections, nothing before or after.
+- If the interviewer's latest words are NOT a question or request (small talk, the interviewer describing the company, a thank-you), reply with exactly: …`}
+async function answer_(q){
+ if(ctrl)ctrl.abort();ctrl=new AbortController();const my=ctrl;
+ const prevQ=$('q').textContent,prevA=answer.innerHTML;
+ lastQ=q;$('q').textContent='“'+q+'”';answer.innerHTML='<span style="color:#b98">✍️ …</span>';let out='';
+ if(P()!=='claude'){try{out=await llm(sys(),'Conversation so far (interviewer only):\n'+lines.slice(-25).join('\n')+'\n\nInterviewer just said: "'+q+'"',1500);if(my!==ctrl)return;
+  if(out.trim().startsWith('…')||!out.trim()){$('q').textContent=prevQ;answer.innerHTML=prevA;return}LV=parseVer(out);showLive();out=LV.strong||out;$("hist0").insertAdjacentHTML('afterbegin','<div class="hist"><i>“'+esc(q)+'”</i><br>'+md(out)+'</div>')}catch(e){answer.textContent='⚠ '+e.message}return}
+ try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',signal:my.signal,headers:{'content-type':'application/json','x-api-key':$('ckey').value.trim(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true',...($('wsid').value.trim()?{'anthropic-workspace-id':$('wsid').value.trim()}:{})},
+  body:JSON.stringify({model:$('model').value,max_tokens:900,stream:true,system:sys(),messages:[{role:'user',content:'Conversation so far (interviewer only):\n'+lines.slice(-25).join('\n')+'\n\nInterviewer just said: "'+q+'"'}]})});
+  if(!r.ok){const j=await r.json().catch(()=>({}));answer.textContent='⚠ Claude error: '+(j.error?.message||r.status);return}
+  const rd=r.body.getReader(),dec=new TextDecoder();let b='';
+  while(true){const{done,value}=await rd.read();if(done)break;b+=dec.decode(value,{stream:true});const ps=b.split('\n');b=ps.pop();
+   for(const p of ps){if(!p.startsWith('data:'))continue;try{const d=JSON.parse(p.slice(5));if(d.type==='content_block_delta'&&d.delta.text){out+=d.delta.text;if(out.trim()!=='…'&&!out.trim().startsWith('…')){LV=parseVer(out);showLive()}}}catch(e){}}}
+  if(out.trim().startsWith('…')||!out.trim()){$('q').textContent=prevQ;answer.innerHTML=prevA;return}
+  LV=parseVer(out);showLive();$("hist0").insertAdjacentHTML('afterbegin','<div class="hist"><i>“'+esc(q)+'”</i><br>'+md(LV.strong||out)+'</div>');
+ }catch(e){if(e.name!=='AbortError')answer.textContent='⚠ '+e.message}}
+
+// ---------- keys & save ----------
+document.addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||cur!=='live'||!running)return;
+ if(e.code==='Space'){e.preventDefault();const t=(buffer+' '+interim).trim()||lines.slice(-2).join(' ');buffer='';if(t)answer_(t)}
+ if(e.key==='r'||e.key==='R'){if(lastQ)answer_(lastQ)}
+ if(e.key==='Escape'){answer.innerHTML='';$('q').textContent='Waiting for the next question…'}});
+saveBtn.onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['INTERVIEWER TRANSCRIPT\n\n'+lines.join('\n')+'\n\n---\nANSWERS\n\n'+$("hist0").innerText],{type:'text/plain'}));a.download='interview_transcript.txt';a.click()};
+
+// ---------- MOCK INTERVIEW ----------
+let MA=[],MQ=[],mi=0,mRes=[],mSR=null,mText='',mListening=false;
+mockBtn.onclick=()=>{
+ setup.style.display='none';live.style.display='none';mock.style.display='block';answerBox2.style.display='none';mFb.style.display='none';mSum.style.display='none';setStatus('Mock interview')};
+mExit.onclick=()=>{stopMockMic();speechSynthesis.cancel();mock.style.display='none';setup.style.display='block'};
+async function claude(prompt,max,label){return llm(null,prompt,max,label)}
+const ctx=()=>`CANDIDATE CV:\n${$('cv').value}\n\nREAL STORIES (use these for examples; they are true):\n${storiesText()}\n\nJOB: ${$('role').value} at ${$('company').value}\nJOB POST:\n${$('jd').value}\n\nCANDIDATE NOTES:\n${$('extra').value}`;
+const pj=t=>{const a=t.search(/[\[{]/),b=Math.max(t.lastIndexOf(']'),t.lastIndexOf('}'));return JSON.parse(t.slice(a,b+1))};
+let MAP={};
+mGo.onclick=async()=>{if(!hasKey()){setStatus('⚠ Add your AI key in Settings first');go('settings');return}mGo.disabled=true;mGo.textContent='Preparing questions…';mRes=[];mi=0;mIsFU={};MAP={};MA=[];mSum.style.display='none';mFb.style.display='none';
+ try{const t=await claude(ctx()+`\n\nYou are a ${mType.options[mType.selectedIndex].text} interviewer for this role. Write ${mCount.value} realistic interview questions in the order a real interview would go: intro, role-specific skills from the job post, at least two behavioral "tell me about a time" questions, one probing a gap between the CV and the job post, availability or rate, and a closing. Speak naturally like a real interviewer, one or two sentences each. Return ONLY a JSON array of strings.`,2000,'Preparing questions');
+  const raw=pj(t);MQ=raw.map(x=>typeof x==='string'?x:x.q).slice(0,+mCount.value);answerBox2.style.display='block';ask();getVer(1)}
+ catch(e){setStatus('⚠ '+e.message);mFb.style.display='block';mFb.innerHTML='⚠ Could not prepare questions: '+esc(e.message)+'<br><span class="hint">Try again in a moment.</span>'}mGo.disabled=false;mGo.textContent='▶ Restart mock'};
+function getVer(i){if(i>=MQ.length||MA[i]&&MA[i].strong)return Promise.resolve(MA[i]);if(MAP[i])return MAP[i];
+ MAP[i]=claude(ctx()+`\n\nInterview question: "${MQ[i]}"\nWrite what she should say, first person, using ONLY real facts from her CV, stories and notes (never invent events, tools or numbers). Three versions: "short" = 2 precise sentences; "strong" = open with her approach in one line, then ONE concrete real example naming the company and tools, then the result (3-4 sentences); "full" = 4-5 sentences in the same shape with one extra real detail. Return ONLY JSON: {"short":"","strong":"","full":""}`,3000,'Writing suggested answer').then(t=>{const x=pj(t);MA[i]={short:x.short||'',strong:x.strong||'',full:x.full||''};if(i===mi)showMock();return MA[i]}).catch(e=>{delete MAP[i];if(i===mi)mHint.querySelector('span').innerHTML='<i class="hint">⚠ Could not write a suggestion ('+esc(e.message)+')</i>'});
+ return MAP[i]}
+
+function speak(t,cb){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.rate=.97;u.onend=cb;u.onerror=cb;speechSynthesis.speak(u)}catch(e){cb&&cb()}}
+function ask(){mFb.style.display='none';mText='';mA.textContent='';mProg.textContent=(mIsFU[mi]?'↳ Follow-up · ':'')+'Question '+(mi+1)+' of '+MQ.length;mQ.textContent=MQ[mi];showMock();getVer(mi+1);mHint.classList.toggle('blur',mBlur.checked);mHint.onclick=()=>mHint.classList.remove('blur');
+ setStatus('🔊 Asking…');speak(MQ[mi],startMockMic)}
+let mT0=0,mTI=null,mIsFU={},mFin='',mLen=0,mBase=0;
+function ensureMockMic(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){setStatus('⚠ Use Google Chrome for the mic');return}
+ if(mSR)return;mSR=new SR();mSR.continuous=true;mSR.interimResults=true;mSR.lang='en-US';
+ mSR.onresult=e=>{mLen=e.results.length;if(!mListening)return;let im='';for(let i=Math.max(e.resultIndex,mBase);i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)mFin+=t+' ';else im+=t}mText=mFin;mA.innerHTML=esc(mFin)+'<span style="color:#bbb">'+esc(im)+'</span>'};
+ mSR.onerror=e=>{if(e.error==='no-speech'||e.error==='aborted')return;setStatus('⚠ Mic: '+e.error+(e.error==='not-allowed'?' — allow the microphone in the address bar':''))};
+ mSR.onend=()=>{mLen=0;mBase=0;if(cur==='mock')setTimeout(()=>{try{mSR.start()}catch(e){}},150)};
+ try{mSR.start()}catch(e){}}
+function startMockMic(){mT0=Date.now();clearInterval(mTI);mTI=setInterval(()=>{const s=Math.round((Date.now()-mT0)/1000);mTimer.textContent='⏱ '+s+'s';mTimer.classList.toggle('warn',s>60);if(s===61)mTimer.title='Wrap up — aim for under 60s'},500);ensureMockMic();setTimeout(()=>{mBase=mLen;mFin=mText='';mA.textContent=''},700);mFin=mText='';mA.textContent='';mListening=true;setStatus('🟢 Your turn — answer out loud',1)}
+function stopMockMic(){mListening=false;clearInterval(mTI)}
+mRepeat.onclick=()=>{stopMockMic();speak(MQ[mi],startMockMic)};
+mSkip.onclick=()=>{stopMockMic();next()};
+mDone.onclick=evalAns;
+document.addEventListener('keydown',e=>{if(cur==='mock'&&e.key==='Enter'&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)){e.preventDefault();evalAns()}});
+async function evalAns(){if(!mListening&&!mText)return;stopMockMic();const a=(mText||mA.textContent).trim();
+ if(!a){setStatus('⚠ I didn\'t hear an answer — click Repeat and try again');return}
+ mFb.style.display='block';mFb.innerHTML='<p style="color:var(--mauve)">✍️ Reviewing your answer…</p>';setStatus('Reviewing…');
+ try{const t=await claude(ctx()+`\n\nInterview question: "${MQ[mi]}"\nCandidate's spoken answer (speech-to-text, ignore transcription typos): "${a}"\n\nIdeal answer for reference: "${(MA[mi]&&MA[mi].strong)||''}"\nCoach the candidate honestly. Return ONLY JSON: {"score": 1-10, "good": "what worked, one sentence", "fix": ["up to 3 specific improvements, e.g. too long, vague, filler words, missing result, risky claim"], "better": "a stronger version she could say, first person. Answer style (\"stronger answer\"): open with your approach or principle in one line, then ONE concrete example from the CV naming the real company, tools and actions, then the result. 3-4 confident spoken sentences, no filler. Use only facts from her CV and her own answer; never invent events, tools or numbers.", \"followup\": ${mFollow.checked&&!mIsFU[mi]?`{\"q\": \"one natural follow-up question a real interviewer would ask about something specific she said (probe a vague claim, a number, or a gap)\", \"short\": \"\", \"strong\": \"\", \"full\": \"\"} with ideal answers in the same three styles using only real facts`:'null'}}`,3000,'Reviewing your answer');
+  const r=pj(t);r.q=MQ[mi];r.a=a;r.d=delivery(a,(Date.now()-mT0)/1000);mRes.push(r);
+  if(r.followup&&r.followup.q&&mFollow.checked&&!mIsFU[mi]){MQ.splice(mi+1,0,r.followup.q);MA.splice(mi+1,0,{short:r.followup.short||'',strong:r.followup.strong||'',full:r.followup.full||''});const nf={};Object.keys(mIsFU).forEach(k=>nf[k>mi?+k+1:k]=1);nf[mi+1]=1;mIsFU=nf}
+  mFb.innerHTML=`<h2>Feedback · <span style="font-size:20px;color:var(--cocoa)">${r.score}/10</span></h2>${r.d.html}<p>👍 ${esc(r.good)}</p><ul>${r.fix.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul><p style="background:var(--soft);padding:12px;border-radius:12px"><b>Stronger answer:</b> ${esc(r.better)}</p><button id="mNext">${mi+1<MQ.length?'Next question →':'See my results'}</button> <button class="ghost" id="mRetry">🔁 Try this one again</button>`;
+  $('mNext').onclick=next;$('mRetry').onclick=()=>{mRes.pop();ask()};setStatus('Feedback ready',1)}
+ catch(e){mFb.innerHTML='⚠ '+esc(e.message)}}
+async function next(){mi++;if(mi<MQ.length)return ask();
+ answerBox2.style.display='none';mFb.style.display='none';mProg.textContent='';mSum.style.display='block';
+ const avg=mRes.length?(mRes.reduce((s,r)=>s+(+r.score||0),0)/mRes.length).toFixed(1):'–';
+ const fl=mRes.reduce((s,r)=>s+(r.d?.fillers||0),0),wp=Math.round(mRes.reduce((s,r)=>s+(r.d?.wpm||0),0)/Math.max(1,mRes.length));
+ mSum.innerHTML='<h2>Your results</h2><p style="font-size:26px;color:var(--cocoa);font-weight:700">'+avg+' / 10 average</p><div class="stat3"><span>🗣 '+fl+' filler words total</span><span>⏩ ~'+wp+' words/min</span><span>❓ '+mRes.length+' answers</span></div><p style="color:var(--mauve)">✍️ Writing your top tips…</p>';
+ try{const t=await claude('Here are mock interview answers with scores:\n'+JSON.stringify(mRes.map(r=>({q:r.q,score:r.score,fix:r.fix})))+'\nGive the 3 most important things this candidate should practice before the real interview, one short line each, as plain text lines starting with "- ".',400);
+  mSum.innerHTML=mSum.innerHTML.replace(/<p style="color:var\(--mauve\)">.*?<\/p>/,'<h2>Top 3 to practice</h2><p>'+esc(t).replace(/\n/g,'<br>')+'</p>')}catch(e){}
+ mSum.innerHTML+=mRes.map(r=>`<div class="hist"><b>${r.score}/10</b> · <i>${esc(r.q)}</i><br><b>Stronger:</b> ${esc(r.better)}</div>`).join('')+'<div style="margin-top:12px"><button id="mSave">💾 Save report</button></div>';
+ $('mSave').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['MOCK INTERVIEW REPORT — average '+avg+'/10\n\n'+mRes.map((r,i)=>`Q${i+1}: ${r.q}\nYour answer: ${r.a}\nScore: ${r.score}/10\nWorked: ${r.good}\nFix: ${r.fix.join('; ')}\nStronger: ${r.better}\n`).join('\n')],{type:'text/plain'}));a.download='mock_interview_report.txt';a.click()};
+ setStatus('Mock complete',1);saveSession('Mock',$('company').value+' — mock interview · '+avg+'/10',mRes.map((r,i)=>`Q${i+1}: ${r.q}\nYour answer: ${r.a}\nScore: ${r.score}/10\nFix: ${r.fix.join('; ')}\nStronger: ${r.better}`).join('\n\n'))}
+
+// ---------- NAV / RESUME PREVIEW / HISTORY ----------
+let cur='live';const NAMES={live:'Live interview',mock:'Mock interview',resume:'Resumes',admin:'👑 Admin · sign-in users',maker:'Resume Maker',headshot:'Headshot studio',job:'Job posts',code:'Coding practice',tracker:'Application tracker',prep:'Prep pack',stories:'Story bank',history:'History',settings:'Settings',help:'How it works'};
+function go(v){if(running&&v!=='live'&&cur==='live'){}cur=v;document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('on',b.dataset.v===v));crumb.textContent=NAMES[v];
+ if(v==='mock'){mockBtn.onclick()}if(v==='history')renderHist();if(v==='stories')renderStories();if(v==='maker')rmShow();if(v==='tracker')trRender();if(v==='job')slLoad();if(v==='prep'&&PROFS[PCUR]?.research&&!coOut.innerHTML)coOut.innerHTML=mdCode(PROFS[PCUR].research);if(v==='admin')renderAU();if(v==='live'&&running)live.style.display='block';if(v==='live'&&!running){speedTest();renderMeet()}if(v==='live')readyInfo.textContent=($('company').value||'No company set')+' · '+($('role').value||'')+' · CV '+($('cv').value?'✓':'missing')+' · AI ('+P()+') '+(hasKey()?'✓':'missing')+' · Deepgram '+($('dkey').value?'✓':'not set (mic mode)')}
+document.querySelectorAll('.nb').forEach(b=>b.onclick=()=>go(b.dataset.v));
+function b64(u){let s='';for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)}
+async function renderPdf(bytes){try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';const pdf=await pdfjsLib.getDocument({data:bytes}).promise;pdfView.innerHTML='';
+ for(let i=1;i<=pdf.numPages;i++){const p=await pdf.getPage(i),vp=p.getViewport({scale:1.6}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;pdfView.appendChild(c);await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise}}catch(e){}}
+function renderContact(){const t=$('cv').value,g=r=>(t.match(r)||[''])[0];const name=(t.trim().split(/\n| — | - |\|/)[0]||'').slice(0,40);
+ const rows=[['Name',name],['Email',g(/[\w.+-]+@[\w-]+\.[\w.]+/)],['Phone',g(/\+?\d[\d\s-]{8,}\d/)],['LinkedIn',g(/linkedin\.com\/in\/[\w-]+/i)],['GitHub',g(/github\.com\/[\w-]+/i)]];
+ contact.innerHTML=rows.map(([k,v])=>`<div><span>${k}</span><span>${esc(v||'—')}</span></div>`).join('')}
+function saveSession(type,title,text){let a=[];try{a=JSON.parse(localStorage.getItem('ib_hist')||'[]')}catch(e){}a.unshift({type,title,text,at:new Date().toLocaleString()});try{localStorage.setItem('ib_hist',JSON.stringify(a.slice(0,50)))}catch(e){}}
+function renderHist(){let a=[];try{a=JSON.parse(localStorage.getItem('ib_hist')||'[]')}catch(e){}
+ hList.innerHTML=a.length?a.map((s,i)=>`<details class="hItem"><summary>${{Mock:'🎭',Prep:'📋',Debrief:'📝'}[s.type]||'🎙'} ${esc(s.title)} <span class="hint">· ${esc(s.at)}</span></summary><pre>${esc(s.text)}</pre><button class="ghost sm" onclick="delHist(${i})">Delete</button></details>`).join(''):'<p class="muted">No sessions yet. Your live interviews and mocks will show up here.</p>'}
+function delHist(i){let a=JSON.parse(localStorage.getItem('ib_hist')||'[]');a.splice(i,1);localStorage.setItem('ib_hist',JSON.stringify(a));renderHist()}
+try{const n=localStorage.getItem('ib_cvname');if(n)cvName.textContent=n;const p=localStorage.getItem('ib_pdf');if(p)renderPdf(Uint8Array.from(atob(p),c=>c.charCodeAt(0)));else if($('cv').value)pdfView.innerHTML='<pre style="color:#eee;white-space:pre-wrap;padding:18px;font:13px Inter">'+esc($('cv').value)+'</pre>'}catch(e){}
+
+function joinItems(items){let out='',lx=null,ly=null;for(const it of items){if(!it.str){if(it.hasEOL)out+='\n';continue}
+ const x=it.transform[4],y=it.transform[5],fs=Math.hypot(it.transform[2],it.transform[3])||10;
+ if(ly!==null&&Math.abs(y-ly)>fs*.5)out+='\n';else if(lx!==null&&x-lx>fs*.18&&!/\s$/.test(out))out+=' ';
+ out+=it.str;lx=x+it.width;ly=y;if(it.hasEOL){out+='\n';lx=null}}return out}
+let CVJ=null;try{CVJ=JSON.parse(localStorage.getItem('ib_cvj')||'null')}catch(e){}
+aiRead.onclick=async()=>{if(!hasKey()){setStatus('⚠ Add your AI key in Settings to read with AI');return}
+ aiRead.disabled=true;aiRead.textContent='Reading…';
+ try{const t=await claude(`Extract this resume into JSON exactly as written (fix only broken spacing; do not add or invent anything). Return ONLY JSON:
+{"name":"","headline":"","email":"","phone":"","location":"","linkedin":"","github":"","portfolio":"","summary":"","skills":[{"group":"","items":""}],"experience":[{"title":"","company":"","bullets":[""]}],"projects":[{"name":"","desc":""}],"education":""}
+RESUME:
+${$('cv').value}`,4000);
+  CVJ=pj(t);try{localStorage.setItem('ib_cvj',JSON.stringify(CVJ))}catch(e){}renderContact();setStatus('✓ Resume read',1)}
+ catch(e){setStatus('⚠ '+e.message)}aiRead.disabled=false;aiRead.textContent='✨ Read with AI'};
+const _rc=renderContact;renderContact=function(){if(!CVJ){_rc();parsed.innerHTML='<p class="hint">Click ✨ Read with AI to organize your resume into sections.</p>';return}const j=CVJ,e=s=>esc(String(s||'—'));
+ contact.innerHTML=[['Name',j.name],['Headline',j.headline],['Email',j.email],['Phone',j.phone],['Location',j.location],['LinkedIn',j.linkedin],['GitHub',j.github],['Portfolio',j.portfolio]].map(([k,v])=>`<div><span>${k}</span><span>${e(v)}</span></div>`).join('');
+ parsed.innerHTML=(j.summary?`<h4>📝 Professional summary</h4><p>${e(j.summary)}</p>`:'')+
+ (j.skills?.length?`<h4>🧰 Skills</h4><ul>${j.skills.map(s=>`<li><b>${e(s.group)}:</b> ${e(s.items)}</li>`).join('')}</ul>`:'')+
+ (j.experience?.length?`<h4>💼 Experience</h4>${j.experience.map(x=>`<div class="job"><b>${e(x.title)}</b> — ${e(x.company)}<ul>${(x.bullets||[]).map(b=>'<li>'+e(b)+'</li>').join('')}</ul></div>`).join('')}`:'')+
+ (j.projects?.length?`<h4>🚀 Apps & projects (${j.projects.length})</h4><ul>${j.projects.map(p=>`<li><b>${e(p.name)}</b> — ${e(p.desc)}</li>`).join('')}</ul>`:'')+
+ (j.education?`<h4>🎓 Education</h4><p>${e(j.education)}</p>`:'')};
+
+let VK='strong';try{VK=localStorage.getItem('ib_vk')||'strong'}catch(e){}
+function parseVer(t){const o={short:'',strong:'',full:''};const re=/###\s*(SHORT|STRONG|STRONGER|DETAILED)\s*\n/gi;let m,idx=[];while((m=re.exec(t)))idx.push([m[1].toUpperCase(),m.index,re.lastIndex]);
+ if(!idx.length){o.strong=t.trim();return o}idx.forEach((x,i)=>{const body=t.slice(x[2],i+1<idx.length?idx[i+1][1]:t.length).replace(/\n?#{1,3}[^\n]*$/,'').trim();o[x[0]==='SHORT'?'short':x[0]==='DETAILED'?'full':'strong']=body});return o}
+let LV={short:'',strong:'',full:''};
+function showLive(){const v=LV[VK]||LV.strong||LV.short||LV.full||'';answer.innerHTML=v?md(v):'<span style="color:#b98">✍️ …</span>';pipSync()}
+function showMock(){const a=MA[mi]||{};if(!a.strong&&MQ.length){mHint.querySelector('span').innerHTML='<i class="hint">✍️ Writing suggested answer…</i>';getVer(mi);return}const v=typeof a==='string'?a:(a[VK]||a.strong||'');mHint.querySelector('span').innerHTML=v?md(v):'<i class="hint">No suggestion</i>'}
+function setVK(k){VK=k;try{localStorage.setItem('ib_vk',k)}catch(e){}document.querySelectorAll('.vtabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));showLive();if(MQ.length)showMock()}
+document.querySelectorAll('.vtabs button').forEach(b=>b.onclick=()=>setVK(b.dataset.k));
+document.addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const k={'1':'short','2':'strong','3':'full'}[e.key];if(k&&(cur==='live'||cur==='mock')){e.preventDefault();setVK(k)}});
+
+// ===== STORIES =====
+function getStories(){try{return JSON.parse(localStorage.getItem('ib_stories')||'[]')}catch(e){return[]}}
+function storiesText(){const s=getStories();return s.length?s.map(x=>`- ${x.t} (${x.c}): ${x.s} | I did: ${x.a} | Result: ${x.r}`).join('\n'):'(none saved)'}
+let sEdit=-1;
+function renderStories(){const s=getStories();sList.innerHTML=s.length?s.map((x,i)=>`<div class="sItem"><b>${esc(x.t)}</b> <span class="hint">· ${esc(x.c)}</span><br><b>S/T:</b> ${esc(x.s)}<br><b>A:</b> ${esc(x.a)}<br><b>R:</b> ${esc(x.r)}<div class="btns" style="margin-top:8px"><button class="ghost sm" style="margin:0" onclick="editStory(${i})">Edit</button><button class="ghost sm" style="margin:0" onclick="delStory(${i})">Delete</button></div></div>`).join(''):'<p class="muted">No stories yet. Add 4–6 real ones: a conflict, a mistake, a big win, a tight deadline, a decision without your boss, learning a tool fast.</p>'}
+sSave.onclick=()=>{if(!sT.value.trim()){sT.focus();return}const s=getStories(),x={t:sT.value.trim(),c:sC.value.trim(),s:sS.value.trim(),a:sA.value.trim(),r:sR.value.trim()};if(sEdit>=0)s[sEdit]=x;else s.push(x);localStorage.setItem('ib_stories',JSON.stringify(s));sEdit=-1;sClear.onclick();renderStories();setStatus('✓ Story saved',1)};
+sClear.onclick=()=>{[sT,sC,sS,sA,sR].forEach(e=>e.value='');sEdit=-1;sSave.textContent='Save story'};
+function editStory(i){const x=getStories()[i];sT.value=x.t;sC.value=x.c;sS.value=x.s;sA.value=x.a;sR.value=x.r;sEdit=i;sSave.textContent='Update story';scrollTo(0,0)}
+function delStory(i){const s=getStories();s.splice(i,1);localStorage.setItem('ib_stories',JSON.stringify(s));renderStories()}
+
+// ===== MARKDOWN BLOCK =====
+function mdBlock(t){let o='',inL=false;t.split('\n').forEach(l=>{const L=l.trim();if(/^[-*•]\s/.test(L)||/^\d+[.)]\s/.test(L)){if(!inL){o+='<ul>';inL=true}o+='<li>'+md(L.replace(/^([-*•]|\d+[.)])\s/,''))+'</li>';return}if(inL){o+='</ul>';inL=false}
+ if(/^#{1,4}\s/.test(L))o+='<h4>'+md(L.replace(/^#+\s/,''))+'</h4>';else if(L)o+='<p>'+md(L)+'</p>'});if(inL)o+='</ul>';return o}
+
+// ===== PREP PACK =====
+prepGo.onclick=async()=>{if(!hasKey()){setStatus('⚠ Add your AI key in Settings');go('settings');return}prepGo.disabled=true;prepOut.innerHTML='<p class="muted">Building…</p>';
+ try{const t=await claude(ctx()+`\n\nBuild an interview prep pack for this candidate and job. Use markdown with these exact headers:
+## Likely questions & stronger answers
+(10 questions; for each: the question in bold, then a stronger answer: approach line, one real example from CV/stories, result. Never invent facts.)
+## My weak spots for this job & how to bridge them
+## 3 smart questions to ask the interviewer
+## Rate script
+(what to say if asked about pay, using the candidate notes)
+## 60-second intro`,8000,'Building prep pack');
+  prepOut.innerHTML=mdBlock(t);profSet('prep',t);saveSession('Prep',($('company').value||'Job')+' — prep pack',t);setStatus('✓ Prep pack ready',1)}
+ catch(e){prepOut.innerHTML='⚠ '+esc(e.message)}prepGo.disabled=false;prepGo.textContent='↻ Rebuild prep pack'};
+
+// ===== DELIVERY COACH =====
+function delivery(a,sec){const w=a.split(/\s+/).filter(Boolean),txt=' '+a.toLowerCase()+' ';
+ const F=['um','uh','erm','like','you know','so yeah','sorry','actually','basically','kind of','i mean','right'];let n=0;const by={};
+ F.forEach(f=>{const m=txt.match(new RegExp('\\b'+f.replace(' ','\\s+')+'\\b','g'));if(m){n+=m.length;by[f]=m.length}});
+ const wpm=sec>3?Math.round(w.length/(sec/60)):0;const top=Object.entries(by).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>`"${x[0]}" ×${x[1]}`).join(', ');
+ const html=`<div class="stat3"><span class="${sec>75?'warn':''}">⏱ ${Math.round(sec)}s${sec>75?' — too long, aim for 30–60s':''}</span><span class="${wpm>170||(wpm&&wpm<100)?'warn':''}">⏩ ${wpm||'–'} words/min${wpm>170?' — slow down':wpm&&wpm<100?' — a bit slow':''}</span><span class="${n>4?'warn':''}">🗣 ${n} filler words${top?' ('+top+')':''}</span></div>`;
+ return{fillers:n,wpm,sec:Math.round(sec),html}}
+
+// ===== FLOATING WINDOW (Document Picture-in-Picture) =====
+let pip=null;
+floatBtn.onclick=async()=>{if(!('documentPictureInPicture' in window)){setStatus('⚠ Floating window needs Chrome 116+ on desktop');return}
+ if(pip){pip.close();return}
+ pip=await documentPictureInPicture.requestWindow({width:460,height:300});
+ const st=pip.document.createElement('style');st.textContent=`body{margin:0;font-family:Inter,system-ui,sans-serif;background:#FBE3EC;color:#2f2328;padding:12px 14px}#pq{font-size:12px;color:#8A6470;font-style:italic;margin-bottom:6px}#pa{font-size:17px;line-height:1.45;white-space:pre-wrap}#pa b{color:#5B3A3A}.t{display:flex;gap:5px;margin-bottom:8px}.t button{border:1px solid #e7cdd8;background:#fff;border-radius:99px;padding:3px 10px;font-size:11.5px;font-weight:600;color:#5B3A3A;cursor:pointer}.t button.on{background:#5B3A3A;color:#fff}`;
+ pip.document.head.appendChild(st);pip.document.body.innerHTML='<div id="pq"></div><div class="t"><button data-k="short">Short</button><button data-k="strong">Stronger</button><button data-k="full">Detailed</button></div><div id="pa"></div>';
+ pip.document.querySelectorAll('.t button').forEach(b=>b.onclick=()=>setVK(b.dataset.k));
+ pip.document.addEventListener('keydown',e=>{const k={'1':'short','2':'strong','3':'full'}[e.key];if(k)setVK(k)});
+ pip.addEventListener('pagehide',()=>{pip=null;floatBtn.textContent='🪟 Float over Meet'});floatBtn.textContent='🪟 Close float';pipSync()};
+function pipSync(){if(!pip)return;const d=pip.document;d.getElementById('pq').textContent=$('q').textContent;d.getElementById('pa').innerHTML=answer.innerHTML;d.querySelectorAll('.t button').forEach(b=>b.classList.toggle('on',b.dataset.k===VK))}
+
+// ===== AUTO DEBRIEF =====
+async function runDebrief(){const T=lines.join('\n'),A=$('hist0').innerText;debrief.style.display='block';debrief.innerHTML='<h2>📋 Interview debrief</h2><p class="muted">Writing your debrief…</p>';
+ try{const t=await claude(ctx()+`\n\nThe interview just ended. INTERVIEWER TRANSCRIPT:\n${T}\n\nSUGGESTED ANSWERS SHOWN:\n${A}\n\nWrite a debrief in markdown with these headers:
+## Overall read
+(likely outcome and an honest score out of 10)
+## What went well
+## What to fix before the next round
+## Follow-ups and next steps mentioned
+## Thank-you email
+(short, warm, ready to send; mention one specific thing discussed)`,6000,'Writing your debrief');
+  debrief.innerHTML='<h2>📋 Interview debrief</h2>'+mdBlock(t)+'<div class="btns"><button class="ghost sm" id="dbCopy">📋 Copy debrief</button></div>';
+  $('dbCopy').onclick=()=>navigator.clipboard.writeText(t).then(()=>setStatus('✓ Copied',1));
+  saveSession('Debrief',($('company').value||'Interview')+' — debrief',t)}
+ catch(e){debrief.innerHTML='<h2>📋 Interview debrief</h2>⚠ '+esc(e.message)}}
+
+// ===== PROFILES =====
+const PF=['company','role','jd','extra'];
+function getProfs(){try{return JSON.parse(localStorage.getItem('ib_profs')||'null')}catch(e){return null}}
+function putProfs(p){try{localStorage.setItem('ib_profs',JSON.stringify(p))}catch(e){}}
+let PROFS=getProfs(),PCUR=null;try{PCUR=localStorage.getItem('ib_pcur')}catch(e){}
+if(!PROFS){const id='p'+Date.now();PROFS={[id]:{name:($('company').value||'My interview')+(PF&&$('role').value?' – '+$('role').value.split(' (')[0]:''),...Object.fromEntries(PF.map(k=>[k,$(k).value]))}};PCUR=id;putProfs(PROFS);localStorage.setItem('ib_pcur',id)}
+if(!PROFS[PCUR])PCUR=Object.keys(PROFS)[0];
+function profSet(k,v){PROFS[PCUR][k]=v;putProfs(PROFS)}
+PF.forEach(k=>$(k).addEventListener('input',()=>profSet(k,$(k).value)));
+function renderProfSel(){profSel.innerHTML=Object.entries(PROFS).map(([id,p])=>`<option value="${id}">${esc(p.name||'Untitled')}</option>`).join('')+'<option value="__ren">✎ Rename this profile…</option><option value="__del">🗑 Delete this profile…</option>';profSel.value=PCUR}
+function loadProf(id){PCUR=id;localStorage.setItem('ib_pcur',id);const p=PROFS[id];PF.forEach(k=>{$(k).value=p[k]||'';try{localStorage.setItem('ib_'+k,$(k).value)}catch(e){}});prepOut.innerHTML=p.prep?mdBlock(p.prep):'';if(cur==='maker')rmShow();coOut.innerHTML=p.research?mdCode(p.research):'';renderProfSel();renderMeet();slLoad();trBadge();if(cur==='live')go('live');setStatus('Profile: '+p.name,1)}
+profSel.onchange=()=>{const v=profSel.value;if(v==='__ren'){profSel.value=PCUR;inlineAsk('Profile name',PROFS[PCUR].name,n=>{PROFS[PCUR].name=n;putProfs(PROFS);renderProfSel()});return}
+ if(v==='__del'){profSel.value=PCUR;if(Object.keys(PROFS).length<2){setStatus('⚠ Keep at least one profile');return}inlineAsk('Type DELETE to remove “'+PROFS[PCUR].name+'”','',n=>{if(n==='DELETE'){delete PROFS[PCUR];putProfs(PROFS);loadProf(Object.keys(PROFS)[0])}});return}
+ loadProf(v)};
+profNew.onclick=()=>inlineAsk('New profile name (e.g. Global Finance – Lucas)','',n=>{const id='p'+Date.now();PROFS[id]={name:n,company:'',role:'',jd:'',extra:''};putProfs(PROFS);loadProf(id);go('job')});
+function inlineAsk(label,val,cb){const d=document.createElement('div');d.style.cssText='position:fixed;inset:0;background:#0004;display:grid;place-items:center;z-index:99';
+ d.innerHTML=`<div class="card" style="width:min(420px,90vw)"><label>${esc(label)}</label><input type="text" value="${esc(val)}"><div class="btns"><button class="primary">OK</button><button class="ghost">Cancel</button></div></div>`;
+ document.body.appendChild(d);const i=d.querySelector('input');i.focus();const ok=()=>{const v=i.value.trim();d.remove();if(v)cb(v)};d.querySelector('.primary').onclick=ok;d.querySelector('.ghost').onclick=()=>d.remove();i.onkeydown=e=>{if(e.key==='Enter')ok();if(e.key==='Escape')d.remove()}}
+renderProfSel(); 
+
+// ===== GOOGLE CALENDAR (read-only, Google Identity Services) =====
+const DEFAULT_GCID='761059663499-sulr913qbjto0ee4qs30aibd06k3l97f.apps.googleusercontent.com';   // owner: paste your OAuth Client ID here so users never see the field
+let GTOK=null;try{GTOK=JSON.parse(localStorage.getItem('ib_gtok')||'null')}catch(e){}
+let GEV=[];
+const gcClient=()=>($('gcid').value.trim()||DEFAULT_GCID);
+function gcValid(){return GTOK&&GTOK.exp>Date.now()+60000}
+function gcUI(){const on=!!GTOK;gcIn.textContent=on?'↻ Refresh calendar':'Sign in with Google';gcOut.style.display=on?'':'none';
+ gcStat.innerHTML=on?`<span class="ok">✓ Connected</span> · ${GEV.length} upcoming meeting${GEV.length===1?'':'s'} with a video link in the next 14 days`:(gcClient()?'':'<span class="hint">Owner setup needed: add the Google Client ID below once.</span>')}
+function gcAuth(silent){return new Promise((res,rej)=>{if(!gcClient()){rej(new Error('Add the Google Client ID in Settings first'));return}
+ if(!window.google?.accounts?.oauth2){rej(new Error('Google sign-in is still loading — try again in a second'));return}
+ const tc=google.accounts.oauth2.initTokenClient({client_id:gcClient(),scope:'https://www.googleapis.com/auth/calendar.readonly',prompt:silent?'':'consent',
+  callback:r=>{if(r.error){rej(new Error(r.error==='access_denied'?'Access not approved yet — ask the app owner to add your Gmail, then try again':(r.error_description||r.error)));return}GTOK={t:r.access_token,exp:Date.now()+(r.expires_in-30)*1000};try{localStorage.setItem('ib_gtok',JSON.stringify(GTOK))}catch(e){}res(GTOK)},
+  error_callback:e=>rej(new Error(e.type==='popup_closed'?'Sign-in window was closed':e.message||e.type))});tc.requestAccessToken()})}
+function linkOf(ev){if(ev.hangoutLink)return ev.hangoutLink;const ep=(ev.conferenceData?.entryPoints||[]).find(x=>x.entryPointType==='video');if(ep)return ep.uri;
+ const m=((ev.location||'')+' '+(ev.description||'')).match(/https?:\/\/[^\s<>"')]*(zoom\.us|teams\.microsoft\.com|teams\.live\.com|meet\.google\.com|webex\.com)[^\s<>"')]*/i);return m?m[0].replace(/[.,;]+$/,''):''}
+async function gcSync(interactive){try{if(!gcValid()){if(!interactive&&!GTOK)return;await gcAuth(!interactive)}
+ const now=new Date(Date.now()-90*60000).toISOString(),max=new Date(Date.now()+14*864e5).toISOString();
+ let r=await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${now}&timeMax=${max}&singleEvents=true&orderBy=startTime&maxResults=100`,{headers:{Authorization:'Bearer '+GTOK.t}});
+ if(r.status===401){GTOK=null;localStorage.removeItem('ib_gtok');if(interactive)return gcSync(true);return}
+ const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+ GEV=(j.items||[]).filter(e=>e.status!=='cancelled'&&e.start?.dateTime&&!(e.attendees||[]).some(a=>a.self&&a.responseStatus==='declined')).map(e=>({id:e.id,title:e.summary||'(no title)',start:e.start.dateTime,end:e.end?.dateTime,link:linkOf(e),who:e.organizer?.displayName||e.organizer?.email||''})).filter(e=>e.link);
+ try{localStorage.setItem('ib_gev',JSON.stringify(GEV))}catch(e){}gcUI();renderMeet();gcWho();if(interactive)setStatus('✓ Calendar synced',1)}
+ catch(e){gcUI();if(interactive)setStatus('⚠ '+e.message)}}
+gcIn.onclick=()=>gcSync(true);
+gcOut.onclick=()=>{try{GTOK&&google.accounts.oauth2.revoke(GTOK.t,()=>{})}catch(e){}GTOK=null;GEV=[];GME='';localStorage.removeItem('ib_gtok');localStorage.removeItem('ib_gev');localStorage.removeItem('ib_gme');gcUI();renderMeet();adminUI()};
+try{GEV=JSON.parse(localStorage.getItem('ib_gev')||'[]')}catch(e){}
+function nextCal(){const now=Date.now();return GEV.find(e=>new Date(e.end||e.start).getTime()>now)}
+setTimeout(()=>{gcUI();adminUI();if(GTOK)gcSync(false)},1500);setInterval(()=>{if(GTOK)gcSync(false)},10*60000);
+
+// ===== ADMIN (owner only) =====
+const OWNER='naekitakado@gmail.com',GPROJ='interview-buddy-514409';
+let GME='';try{GME=localStorage.getItem('ib_gme')||''}catch(e){}
+async function gcWho(){try{const r=await fetch('https://www.googleapis.com/calendar/v3/calendars/primary',{headers:{Authorization:'Bearer '+GTOK.t}});const j=await r.json();if(j.id){GME=j.id.toLowerCase();localStorage.setItem('ib_gme',GME)}}catch(e){}adminUI()}
+function getAU(){try{return JSON.parse(localStorage.getItem('ib_admin_users')||'[]')}catch(e){return[]}}
+function putAU(a){localStorage.setItem('ib_admin_users',JSON.stringify(a));renderAU()}
+function adminUI(){const on=GME===OWNER&&!!GTOK;navAdmin.style.display=on?'':'none';if(!on&&cur==='admin')go('settings');if(on)renderAU()}
+function renderAU(){const a=getAU();adList.innerHTML=a.length?a.map((u,i)=>`<div class="sItem" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span><b>${esc(u.email)}</b>${u.note?' <span class="hint">· '+esc(u.note)+'</span>':''}<br><span class="hint">${u.ok?'✅ Approved in Google':'⏳ Not approved in Google yet'} · added ${esc(u.at)}</span></span>
+ <span style="display:flex;gap:6px;flex-wrap:wrap">${u.ok?'':`<button class="primary sm" style="margin:0" onclick="adApprove(${i})">Approve in Google</button><button class="ghost sm" style="margin:0" onclick="adMark(${i})">Mark approved</button>`}<button class="ghost sm" style="margin:0" onclick="adDel(${i})">Remove</button></span></div>`).join(''):'<p class="muted">No users yet. You (owner) can always sign in.</p>'}
+adAdd.onclick=()=>{const e=adEmail.value.trim().toLowerCase();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){setStatus('⚠ Enter a valid email');return}const a=getAU();if(a.some(u=>u.email===e)){setStatus('Already on the list');return}
+ a.unshift({email:e,note:adNote.value.trim(),ok:false,at:new Date().toLocaleDateString()});adEmail.value=adNote.value='';putAU(a);setStatus('✓ Added — now click Approve in Google',1)};
+function adApprove(i){const u=getAU()[i];navigator.clipboard.writeText(u.email).catch(()=>{});window.open(`https://console.cloud.google.com/auth/audience?authuser=${encodeURIComponent(OWNER)}&project=${GPROJ}`,'_blank');setStatus('📋 '+u.email+' copied — click “Add users”, paste, Save, then “Mark approved”',1)}
+function adMark(i){const a=getAU();a[i].ok=true;putAU(a)}
+function adDel(i){const a=getAU();const u=a[i];inlineAsk('Type REMOVE to take '+u.email+' off your list (also remove them in Google Cloud → Audience to block sign-in)','',v=>{if(v==='REMOVE'){a.splice(i,1);putAU(a)}})}
+
+// ===== helpers: markdown with code blocks =====
+function mdCode(t){const parts=t.split(/```(\w*)\n?([\s\S]*?)```/g);let o='';for(let i=0;i<parts.length;i+=3){o+=mdBlock(parts[i]||'');if(parts[i+2]!==undefined)o+='<pre><code>'+esc(parts[i+2])+'</code></pre>'}return o}
+
+// ===== CODING PRACTICE =====
+let CDI=[];
+function cdRender(){cdImgs.innerHTML=CDI.map((x,i)=>`<div class="cdThumb"><img src="data:${x.mime};base64,${x.data}"><button class="ghost" onclick="CDI.splice(${i},1);cdRender()">✕</button></div>`).join('')}
+function cdAddBlob(b){const r=new FileReader();r.onload=()=>{const s=String(r.result);CDI.push({mime:b.type||'image/png',data:s.slice(s.indexOf(',')+1)});cdRender();setStatus('✓ Image added',1)};r.readAsDataURL(b)}
+cdUp.onclick=()=>cdFile.click();cdFile.onchange=()=>{[...cdFile.files].forEach(cdAddBlob);cdFile.value=''};
+document.addEventListener('paste',e=>{if(cur!=='code')return;const it=[...(e.clipboardData?.items||[])].find(x=>x.type.startsWith('image/'));if(it){e.preventDefault();cdAddBlob(it.getAsFile())}});
+cdSnap.onclick=async()=>{try{const s=await navigator.mediaDevices.getDisplayMedia({video:true,audio:false});const v=document.createElement('video');v.srcObject=s;v.muted=true;await v.play();await new Promise(z=>setTimeout(z,400));
+ const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);s.getTracks().forEach(t=>t.stop());c.toBlob(b=>cdAddBlob(b),'image/png')}catch(e){setStatus('⚠ Screen capture cancelled')}};
+const cdCtx=()=>`Language: ${cdLang.value}\nProblem (text, may be empty if only images): ${cdProb.value}`;
+const TIER={hint:'Give ONE short hint that nudges toward the key insight. Do not reveal the algorithm or code.',approach:'Explain the approach in plain words: the key idea, data structures, and why it works. No code.',pseudo:'Give clear pseudocode only, plus time and space complexity.',solution:'Give a clean, well-commented solution in the chosen language in one code block, then explain it in 3-5 bullets, the time/space complexity, and 2-3 edge cases to test.'};
+document.querySelectorAll('[data-tier]').forEach(b=>b.onclick=async()=>{if(!cdProb.value.trim()&&!CDI.length){setStatus('⚠ Add the problem first');return}if(!hasKey()&&!DEMO){go('settings');return}
+ const t=b.dataset.tier;cdOut.innerHTML='<p class="muted">Thinking…</p>';
+ try{const r=await llm('You are a patient coding interview coach helping someone PRACTICE. First, briefly restate the problem in one line (read it from the image if needed). Use markdown; code in fenced blocks.',cdCtx()+'\n\nTask: '+TIER[t],4000,'Coding coach',{imgs:CDI});cdOut.innerHTML='<h4>'+b.textContent+'</h4>'+mdCode(r)}catch(e){cdOut.innerHTML='⚠ '+esc(e.message)}});
+cdCheck.onclick=async()=>{if(!cdCode.value.trim()){cdCode.focus();return}cdRev.innerHTML='<p class="muted">Reviewing…</p>';
+ try{const r=await llm('You are a senior engineer reviewing practice code. Be specific and kind. Markdown; code in fenced blocks.',cdCtx()+'\n\nMy code:\n```\n'+cdCode.value+'\n```\n\nReview with headers: ## Does it work? (bugs, with line references) ## Edge cases it misses ## Complexity ## Cleaner version (code block) ## Score out of 10',4000,'Reviewing your code',{imgs:CDI});cdRev.innerHTML=mdCode(r)}catch(e){cdRev.innerHTML='⚠ '+esc(e.message)}};
+let cdSR=null,cdTxt='';
+cdTalk.onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){setStatus('⚠ Use Chrome for the mic');return}cdTxt='';cdSaid.textContent='';cdTalkFb.innerHTML='';
+ cdSR=new SR();cdSR.continuous=true;cdSR.interimResults=true;cdSR.lang='en-US';let fin='';cdSR.onresult=e=>{let im='';for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)fin+=t+' ';else im+=t}cdTxt=fin;cdSaid.innerHTML=esc(fin)+'<span style="color:#bbb">'+esc(im)+'</span>'};
+ cdSR.onend=()=>{if(cdSR&&cdSR._on)try{cdSR.start()}catch(e){}};cdSR._on=true;cdSR.start();cdTalk.disabled=true;cdTalkDone.disabled=false;setStatus('🟢 Explain your solution out loud',1)};
+cdTalkDone.onclick=async()=>{if(cdSR){cdSR._on=false;cdSR.stop()}cdTalk.disabled=false;cdTalkDone.disabled=true;if(!cdTxt.trim()){setStatus('⚠ I didn\'t hear anything');return}cdTalkFb.innerHTML='<p class="muted">Reviewing…</p>';
+ try{const r=await llm(null,cdCtx()+'\n\nThe candidate explained their solution out loud (speech-to-text):\n"'+cdTxt+'"\n\nAs a technical interviewer, give feedback in markdown: ## Clarity (score/10) ## Did they cover: restating the problem, approach, complexity, edge cases, testing? ## What to say better (a model 4-6 sentence explanation)',3000,'Reviewing your explanation',{imgs:CDI});cdTalkFb.innerHTML=delivery(cdTxt,cdTxt.split(/\s+/).length/2.4).html+mdCode(r)}catch(e){cdTalkFb.innerHTML='⚠ '+esc(e.message)}};
+cdDrill.onclick=async()=>{if(!hasKey()&&!DEMO){go('settings');return}CDI=[];cdRender();cdOut.innerHTML='';cdRev.innerHTML='';
+ try{const r=await llm(null,`Write ONE realistic interview coding problem about "${cdTopic.value}" for an Operations / AI Automation role, solvable in ${cdLang.value} in about 20 minutes. Include: a short title, the problem, 2 examples with input/output, and constraints. Plain text, no solution.`,1500,'Writing a practice problem');cdProb.value=r.trim();cdCode.value=''}catch(e){setStatus('⚠ '+e.message)}};
+
+// ===== COMPANY RESEARCH =====
+coGo.onclick=async()=>{if(!hasKey()&&!DEMO){go('settings');return}const co=$('company').value||'(company not set)';coOut.innerHTML='<p class="muted">Researching…</p>';
+ const q=`Research the company "${co}"${coSite.value?' (website: '+coSite.value+')':''} for a candidate interviewing for "${$('role').value}". Use markdown headers:
+## What they do
+## Recent news (last 12 months, with dates if known)
+## Culture & values signals
+## How my background fits (use the CV below)
+## 5 smart talking points
+## Red flags or things to ask about
+If you cannot verify something, say so instead of guessing.\n\nJOB POST:\n${$('jd').value}\n\nCV:\n${$('cv').value.slice(0,4000)}`;
+ let r;try{r=await llm(null,q,5000,'Researching '+co,{search:P()==='gemini'})}catch(e){try{r=await llm(null,q+'\n\n(Live web search unavailable — base this only on the job post and general knowledge, and mark uncertain items.)',5000,'Researching '+co)}catch(e2){coOut.innerHTML='⚠ '+esc(e2.message);return}}
+ coOut.innerHTML=mdCode(r);profSet('research',r);saveSession('Prep',co+' — company research',r)};
+
+// ===== SALARY HELPER =====
+const SLF=['slCur','slHrs','slLo','slHi','slTg','slFl'];
+function slLoad(){const s=(PROFS[PCUR]||{}).salary||{};SLF.forEach(k=>{if(s[k]!==undefined)$(k).value=s[k]});slCalc_()}
+SLF.forEach(k=>$(k).addEventListener('input',()=>{const s=PROFS[PCUR].salary||{};s[k]=$(k).value;profSet('salary',s);slCalc_()}));
+const num=v=>parseFloat(String(v).replace(/[^\d.]/g,''))||0;
+function slCalc_(){const c=slCur.value,hpm=num(slHrs.value)*52/12||1,f=v=>c+' '+Math.round(v).toLocaleString();const items=[];
+ if(num(slLo.value)||num(slHi.value))items.push(`Their range: ${f(num(slLo.value))}–${f(num(slHi.value))}/mo = ${f(num(slLo.value)/hpm)}–${f(num(slHi.value)/hpm)}/hr`);
+ if(num(slTg.value))items.push(`Target: ${f(num(slTg.value))}/mo = ${f(num(slTg.value)/hpm)}/hr`);
+ if(num(slFl.value))items.push(`Floor: ${f(num(slFl.value))}/mo = ${f(num(slFl.value)/hpm)}/hr`);
+ if(num(slTg.value)&&num(slHi.value))items.push(num(slTg.value)>num(slHi.value)?'⚠ Target is above their range':'✓ Target is inside their range');
+ items.push(`≈ ${Math.round(hpm)} hrs/month`);slCalc.innerHTML=items.map(x=>'<span>'+esc(x)+'</span>').join('')}
+slGo.onclick=async()=>{if(!hasKey()&&!DEMO){go('settings');return}slOut.innerHTML='<p class="muted">Writing…</p>';
+ try{const r=await llm(null,ctx()+`\n\nSalary facts: currency ${slCur.value}, ${slHrs.value} hrs/week, their range ${slLo.value}-${slHi.value}/month, my target ${slTg.value}, my floor ${slFl.value}.\nWrite a short negotiation playbook in markdown: ## If they ask my expected rate (exact words) ## If they offer the low end (exact words) ## If they go below my floor (polite walk-away words) ## Non-salary things to ask for (3 bullets). Use the real value she brings from the CV. Keep each script 2-3 spoken sentences.`,3000,'Writing your rate script');slOut.innerHTML=mdCode(r)}catch(e){slOut.innerHTML='⚠ '+esc(e.message)}};
+
+// ===== APPLICATION TRACKER =====
+const STAGES=['Applied','Recruiter screen','Client / hiring manager','Final round','Offer','Accepted','Rejected','Withdrawn'];
+function trRender(){const ids=Object.keys(PROFS),today=new Date().toISOString().slice(0,10);
+ trList.innerHTML=ids.map(id=>{const p=PROFS[id],t=p.track||{};const due=t.next&&t.next<=today&&!/Accepted|Rejected|Withdrawn/.test(t.stage||'');
+  return `<div class="trRow"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><b>${esc(p.name)}</b>${due?'<span class="due">⏰ Follow-up due</span>':''}</div>
+  <div class="row"><div><label>Stage</label><select data-id="${id}" data-k="stage">${STAGES.map(s=>`<option ${t.stage===s?'selected':''}>${s}</option>`).join('')}</select></div>
+  <div><label>Last contact</label><input type="date" data-id="${id}" data-k="last" value="${t.last||''}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:9px"></div>
+  <div><label>Follow up on</label><input type="date" data-id="${id}" data-k="next" value="${t.next||''}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:9px"></div></div>
+  <label>Contact / notes</label><input type="text" data-id="${id}" data-k="who" value="${esc(t.who||'')}" placeholder="e.g. Pearl (recruiter), Angel scheduling">
+  <div class="btns"><button class="ghost sm" style="margin:0" data-fu="${id}">✉️ Draft follow-up email</button><button class="ghost sm" style="margin:0" data-ty="${id}">🙏 Draft thank-you</button></div><div class="mdb" id="trOut_${id}"></div></div>`}).join('');
+ trList.querySelectorAll('[data-k]').forEach(el=>el.onchange=()=>{const p=PROFS[el.dataset.id];p.track=p.track||{};p.track[el.dataset.k]=el.value;
+  if(el.dataset.k==='last'&&el.value&&!p.track.next){const d=new Date(el.value);d.setDate(d.getDate()+4);p.track.next=d.toISOString().slice(0,10)}putProfs(PROFS);trRender();trBadge()});
+ const draft=async(id,kind)=>{const p=PROFS[id],t=p.track||{},o=$('trOut_'+id);if(!hasKey()&&!DEMO){go('settings');return}o.innerHTML='<p class="muted">Writing…</p>';
+  try{const r=await llm(null,`Write a short, warm, professional ${kind==='fu'?'follow-up email checking on the status after no reply':'thank-you email after an interview'} for ${$('cv').value.split('\n')[0].slice(0,60)||'the candidate'}.
+Job: ${p.role||''} at ${p.company||''}. Stage: ${t.stage||''}. Contact/notes: ${t.who||''}. Last contact: ${t.last||''}. Include a subject line. 4-6 sentences max.`,1500,'Writing email');o.innerHTML=mdCode(r)+`<button class="ghost sm" onclick="navigator.clipboard.writeText(${JSON.stringify(r).replace(/"/g,'&quot;')})">📋 Copy</button>`}catch(e){o.innerHTML='⚠ '+esc(e.message)}};
+ trList.querySelectorAll('[data-fu]').forEach(b=>b.onclick=()=>draft(b.dataset.fu,'fu'));trList.querySelectorAll('[data-ty]').forEach(b=>b.onclick=()=>draft(b.dataset.ty,'ty'))}
+function trBadge(){const today=new Date().toISOString().slice(0,10);const n=Object.values(PROFS).filter(p=>p.track?.next&&p.track.next<=today&&!/Accepted|Rejected|Withdrawn/.test(p.track.stage||'')).length;
+ const b=document.querySelector('.nb[data-v="tracker"] span');if(b)b.textContent=n?'Tracker ('+n+')':'Tracker'}
+
+// ===== RESUME MAKER =====
+function rmGet(){return (PROFS[PCUR]||{}).resume||null}
+function photo(){try{return localStorage.getItem('ib_photo')||''}catch(e){return''}}
+function rmHTML(j,tpl){const e=s=>esc(String(s||'')),c=j.contact||{},ph=photo();
+ const ct=[c.location,c.email,c.phone,c.linkedin,c.github,c.portfolio].filter(Boolean).map(e).join(' · ');
+ const sec=(t,b)=>b?`<h2>${t}</h2>${b}`:'';
+ return `<div class="rz t-${tpl}"><div class="hdr">${ph&&tpl!=='ats'?`<img src="${ph}">`:''}<div><h1>${e(j.name)}</h1><div class="hl">${e(j.headline)}</div><div class="ct">${ct}</div></div></div>`+
+ sec('Professional Summary',j.summary?`<p>${e(j.summary)}</p>`:'')+
+ sec('Core Skills',(j.skills||[]).length?`<ul>${j.skills.map(s=>`<li><b>${e(s.group)}:</b> ${e(s.items)}</li>`).join('')}</ul>`:'')+
+ sec('Professional Experience',(j.experience||[]).map(x=>`<div class="job"><div class="jt"><span>${e(x.title)} — ${e(x.company)}</span><span class="jd">${e(x.dates)}</span></div><ul>${(x.bullets||[]).map(b=>'<li>'+e(b)+'</li>').join('')}</ul></div>`).join(''))+
+ sec('Projects & Apps',(j.projects||[]).length?`<ul>${j.projects.map(p=>`<li><b>${e(p.name)}</b> — ${e(p.desc)}${p.link?' · '+e(p.link):''}</li>`).join('')}</ul>`:'')+
+ sec('Education',j.education?`<p>${e(j.education)}</p>`:'')+
+ sec('Certifications',(j.certifications||[]).length?`<ul>${j.certifications.map(x=>'<li>'+e(x)+'</li>').join('')}</ul>`:'')+'</div>'}
+function rmShow(){const r=rmGet();if(!r){rmPaper.innerHTML='<p class="muted" style="padding:40px;text-align:center">Click <b>✨ Tailor my resume</b> to build it from your CV, stories and this job post.</p>';rmAts.innerHTML='';return}
+ rmTpl.value=r.tpl||'modern';rmPaper.innerHTML=r.html;rmPaper.querySelectorAll('.rz,.rz *').forEach(()=>{});rmPaper.firstElementChild&&rmPaper.firstElementChild.setAttribute('contenteditable','true');atsScore()}
+rmPaper.addEventListener('input',()=>{const r=rmGet();if(!r)return;r.html=rmPaper.innerHTML;profSet('resume',r);clearTimeout(rmPaper._t);rmPaper._t=setTimeout(atsScore,800)});
+async function rmBuild(tailor){if(!hasKey()){go('settings');return}if(!$('cv').value.trim()){setStatus('⚠ Upload your resume in Resumes first');go('resume');return}
+ rmPaper.innerHTML='<p class="muted" style="padding:40px;text-align:center">✍️ Building your resume…</p>';
+ const q=`${tailor?`Rewrite this candidate's resume tailored to the job post below. Reorder and reword to match the job's keywords and priorities, lead bullets with strong verbs and real results, and keep it to ${rmLen.value} page${rmLen.value==='1'?'':'s'}.`:'Convert this resume into structured JSON exactly as written (fix only spacing).'}
+STRICT: use ONLY facts in the CV, stories and notes. Never invent employers, dates, numbers, tools, degrees or certifications. Keep real links.
+Return ONLY JSON: {"name":"","headline":"","contact":{"location":"","email":"","phone":"","linkedin":"","github":"","portfolio":""},"summary":"","skills":[{"group":"","items":""}],"experience":[{"title":"","company":"","dates":"","bullets":[""]}],"projects":[{"name":"","desc":"","link":""}],"education":"","certifications":[]}
+CV:\n${$('cv').value}\n\nREAL STORIES:\n${storiesText()}\n\nJOB: ${$('role').value} at ${$('company').value}\nJOB POST:\n${$('jd').value}\nNOTES:\n${$('extra').value}`;
+ try{const j=pj(await llm(null,q,8000,tailor?'Tailoring your resume':'Formatting your resume'));const r={json:j,tpl:rmTpl.value,html:rmHTML(j,rmTpl.value)};profSet('resume',r);rmShow();setStatus('✓ Resume ready — click any text to edit',1)}
+ catch(e){rmPaper.innerHTML='<p style="padding:30px">⚠ '+esc(e.message)+'</p>'}}
+rmTailor.onclick=()=>rmBuild(true);rmAsIs.onclick=()=>rmBuild(false);
+rmTpl.onchange=()=>{const r=rmGet();if(!r?.json)return;r.tpl=rmTpl.value;r.html=rmHTML(r.json,r.tpl);profSet('resume',r);rmShow()};
+rmPdf.onclick=()=>{if(!rmGet()&&!rmPaper.querySelector('.rz,.cl')){setStatus('⚠ Build your resume first');return}const t=document.title;document.title=(($('cv').value.split('\n')[0]||'Resume').split(/[—|-]/)[0].trim()+' – '+($('company').value||'Resume')).replace(/[\\/:*?"<>|]/g,'');window.print();setTimeout(()=>document.title=t,1000)};
+rmCL.onclick=async()=>{if(!hasKey()){go('settings');return}rmPaper.innerHTML='<p class="muted" style="padding:40px;text-align:center">✍️ Writing your cover letter…</p>';
+ try{const t=await llm(null,ctx()+`\n\nWrite a one-page cover letter for this job. Warm, confident, specific: open with why this role, 3 short paragraphs or bullets mapping her REAL experience to the job's top needs, close with availability and a call to action. Never invent facts. Plain text with paragraphs; start with the greeting.`,3000,'Writing cover letter');
+  const j=(rmGet()||{}).json||{};const c=j.contact||{};rmPaper.innerHTML=`<div class="rz t-${rmTpl.value} cl" contenteditable="true"><div class="hdr">${photo()&&rmTpl.value!=='ats'?`<img src="${photo()}">`:''}<div><h1>${esc(j.name||($('cv').value.split('\n')[0]||'').split(/[—|]/)[0])}</h1><div class="hl">${esc(j.headline||'')}</div><div class="ct">${esc([c.email,c.phone,c.linkedin].filter(Boolean).join(' · '))}</div></div></div><p style="margin-top:22px">${esc(new Date().toLocaleDateString([],{month:'long',day:'numeric',year:'numeric'}))}</p>${t.split(/\n\s*\n/).map(p=>'<p>'+md(p.trim()).replace(/\n/g,'<br>')+'</p>').join('')}</div>`;rmAts.innerHTML='<span>✉️ Cover letter — edit, then Download PDF. Click Tailor or Use as is to go back to the resume.</span>'}
+ catch(e){rmPaper.innerHTML='<p style="padding:30px">⚠ '+esc(e.message)+'</p>'}};
+const STOP=new Set('the and for with you your our are will this that from have has into able work team role job about using use any all can who what how per etc also must plus their they them more than such other within across while make made over strong experience years year'.split(' '));
+function atsScore(){const jd=($('jd').value||'').toLowerCase(),rs=(rmPaper.innerText||rmPaper.textContent||'').toLowerCase();if(!jd.trim()||!rs.trim()){rmAts.innerHTML='';return}
+ const words=[...new Set((jd.match(/[a-z][a-z+#.\-]{2,}/g)||[]).filter(w=>!STOP.has(w)))];const freq=w=>(jd.match(new RegExp('\\b'+w.replace(/[.+#]/g,'\\$&')+'\\b','g'))||[]).length;
+ const key=words.sort((a,b)=>freq(b)-freq(a)).slice(0,30);const hit=key.filter(w=>rs.includes(w)),miss=key.filter(w=>!rs.includes(w));const sc=Math.round(hit.length/Math.max(1,key.length)*100);
+ rmAts.innerHTML=`<span class="${sc<60?'warn':''}">🎯 ATS keyword match: <b>${sc}%</b></span>${miss.length?`<span>Missing: ${esc(miss.slice(0,10).join(', '))}</span><span class="hint">Only add a missing word if it's true for you.</span>`:'<span>✓ Covers the job’s top keywords</span>'}`}
+
+// ===== HEADSHOT STUDIO =====
+let HSI=null,HSM=null,HSBG='#eef0f3',segmenter=null;
+const BGS=[['#ffffff','White'],['#eef0f3','Soft grey'],['#FBE3EC','Blush'],['#dfe8f2','Light blue'],['#1f2a44','Navy'],['blur','Blur original']];
+hsBgs.innerHTML=BGS.map(([c,n])=>`<button class="ghost sm" style="margin:0" data-bg="${c}"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;background:${c==='blur'?'linear-gradient(90deg,#999,#ddd)':c};border:1px solid #ccc"></span> ${n}</button>`).join('');
+hsBgs.querySelectorAll('[data-bg]').forEach(b=>b.onclick=()=>{HSBG=b.dataset.bg;if(HSBG!=='blur'&&!hsCut.checked){hsCut.checked=true;hsCut.onchange()}else hsDraw()});
+function hsLoad(src){const im=new Image();im.onload=()=>{HSI=im;HSM=null;hsMsg.textContent='Adjust with the sliders. Tick “Replace background” for a clean studio look.';if(hsCut.checked)hsSeg();else hsDraw()};im.src=src}
+hsUp.onclick=()=>hsFile.click();hsFile.onchange=()=>{const f=hsFile.files[0];if(!f)return;const r=new FileReader();r.onload=()=>hsLoad(r.result);r.readAsDataURL(f);hsFile.value=''};
+let hsStream=null;hsCam.onclick=async()=>{try{hsStream=await navigator.mediaDevices.getUserMedia({video:{width:1280,height:1280,facingMode:'user'}});hsVid.srcObject=hsStream;hsVid.style.display='block';hsShot.style.display='inline-block'}catch(e){hsMsg.textContent='⚠ Camera blocked — allow it in the address bar, or upload a photo'}};
+hsShot.onclick=()=>{const c=document.createElement('canvas');c.width=hsVid.videoWidth;c.height=hsVid.videoHeight;const x=c.getContext('2d');x.translate(c.width,0);x.scale(-1,1);x.drawImage(hsVid,0,0);hsStream&&hsStream.getTracks().forEach(t=>t.stop());hsVid.style.display='none';hsShot.style.display='none';hsLoad(c.toDataURL('image/png'))};
+[hsB,hsC,hsW,hsZ,hsX,hsY,hsShape].forEach(el=>el.addEventListener('input',hsDraw));
+hsCut.onchange=()=>{if(hsCut.checked&&HSI&&!HSM)hsSeg();else hsDraw()};
+async function hsSeg(){if(!HSI)return;hsMsg.textContent='✂️ Removing background on your computer… (first time loads a small AI model)';
+ try{if(!segmenter){const v=await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs');const fs=await v.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm');
+   segmenter=await v.ImageSegmenter.createFromOptions(fs,{baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite'},runningMode:'IMAGE',outputConfidenceMasks:true})}
+  const res=segmenter.segment(HSI);const m=res.confidenceMasks[0];const w=m.width,hh=m.height,a=m.getAsFloat32Array();const mc=document.createElement('canvas');mc.width=w;mc.height=hh;const mx=mc.getContext('2d'),id=mx.createImageData(w,hh);
+  for(let i=0;i<a.length;i++){const v=Math.max(0,Math.min(1,(a[i]-.25)/.5));id.data[i*4]=id.data[i*4+1]=id.data[i*4+2]=255;id.data[i*4+3]=v*255}mx.putImageData(id,0,0);HSM=mc;hsMsg.textContent='✓ Background replaced. Pick a color.';hsDraw()}
+ catch(e){hsCut.checked=false;HSM=null;hsMsg.textContent='⚠ Background removal could not load here ('+e.message+'). The rest still works.';hsDraw()}}
+function hsDraw(){const c=hsOut,x=c.getContext('2d'),S=c.width;x.save();x.clearRect(0,0,S,S);
+ const sh=hsShape.value;x.beginPath();if(sh==='circle')x.arc(S/2,S/2,S/2,0,Math.PI*2);else if(sh==='rounded'){const r=90;x.roundRect?x.roundRect(0,0,S,S,r):x.rect(0,0,S,S)}else x.rect(0,0,S,S);x.clip();
+ if(!HSI){x.fillStyle='#f4eef1';x.fillRect(0,0,S,S);x.restore();return}
+ const z=hsZ.value/100,ar=HSI.width/HSI.height;let dw,dh;if(ar>1){dh=S*z;dw=dh*ar}else{dw=S*z;dh=dw/ar}const dx=(S-dw)/2+hsX.value/100*S,dy=(S-dh)/2+hsY.value/100*S;
+ const filt=`brightness(${hsB.value}%) contrast(${hsC.value}%) sepia(${Math.max(0,hsW.value)/100}) hue-rotate(${Math.min(0,hsW.value)}deg) saturate(${100+Math.abs(hsW.value)}%)`;
+ if(hsCut.checked&&HSM){if(HSBG==='blur'){x.filter='blur(18px) '+filt;x.drawImage(HSI,dx,dy,dw,dh)}else{x.fillStyle=HSBG;x.fillRect(0,0,S,S)}
+  const pc=document.createElement('canvas');pc.width=S;pc.height=S;const p=pc.getContext('2d');p.filter=filt;p.drawImage(HSI,dx,dy,dw,dh);p.filter='none';p.globalCompositeOperation='destination-in';p.drawImage(HSM,dx,dy,dw,dh);x.filter='none';x.drawImage(pc,0,0)}
+ else{x.filter=filt;x.drawImage(HSI,dx,dy,dw,dh)}x.restore()}
+hsDl.onclick=()=>{if(!HSI){hsMsg.textContent='Add a photo first';return}const a=document.createElement('a');a.href=hsOut.toDataURL('image/png');a.download='headshot.png';a.click()};
+hsUse.onclick=()=>{if(!HSI){hsMsg.textContent='Add a photo first';return}const t=document.createElement('canvas');t.width=t.height=400;t.getContext('2d').drawImage(hsOut,0,0,400,400);try{localStorage.setItem('ib_photo',t.toDataURL('image/jpeg',.88))}catch(e){hsMsg.textContent='⚠ Photo too large to save';return}
+ const r=rmGet();if(r?.json){r.html=rmHTML(r.json,r.tpl);profSet('resume',r)}setStatus('✓ Headshot added to your resume',1);go('maker')};
+hsAI.onclick=async()=>{if(!HSI){hsMsg.textContent='Add a photo first';return}if(P()!=='gemini'||!$('gkey').value.trim()){hsAIOut.innerHTML='<p class="hint">AI headshots need a Gemini key (Settings → AI engine: Gemini).</p>';return}
+ hsAIOut.innerHTML='<p class="muted">✨ Generating… (10–40s)</p>';busyOn('Generating AI headshot');
+ try{const src=document.createElement('canvas');src.width=src.height=768;const sx=src.getContext('2d');const z=Math.min(HSI.width,HSI.height);sx.drawImage(HSI,(HSI.width-z)/2,(HSI.height-z)/2,z,z,0,0,768,768);const data=src.toDataURL('image/jpeg',.9).split(',')[1];
+  const lr=await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key='+encodeURIComponent($('gkey').value.trim()));const lj=await lr.json();
+  const NOQ=JSON.parse(localStorage.getItem('ib_noimgq')||'{}');const ims=(lj.models||[]).filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent')).map(m=>m.name.replace('models/','')).filter(n=>/image/i.test(n)&&/gemini/i.test(n)&&!(NOQ[n]>Date.now())).sort((a,b)=>((/pro/.test(a)?2:0)+(/preview|exp/.test(a)?1:0))-((/pro/.test(b)?2:0)+(/preview|exp/.test(b)?1:0))||b.localeCompare(a,undefined,{numeric:true}));
+  if(!ims.length)throw Object.assign(new Error('noquota'),{noq:true});
+  let out=null,last='',zero=0;for(const m of ims){hsAIOut.innerHTML='<p class="muted">✨ Trying '+esc(m)+'…</p>';const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent($('gkey').value.trim())}`,{method:'POST',headers:{'content-type':'application/json'},
+    body:JSON.stringify({contents:[{role:'user',parts:[{inlineData:{mimeType:'image/jpeg',data}},{text:'Edit this photo into a professional headshot of the SAME person. Keep their face, features, skin tone, hair and identity exactly the same. Style: '+hsStyle.value+'. Head and shoulders, centered, looking at camera, natural retouching only, photorealistic, square.'}]}],generationConfig:{responseModalities:['IMAGE','TEXT']}})});
+   const j=await r.json().catch(()=>({}));if(!r.ok){last=j.error?.message||String(r.status);if(/limit: ?0\b/.test(last)||r.status===404){zero++;NOQ[m]=Date.now()+864e5;localStorage.setItem('ib_noimgq',JSON.stringify(NOQ))}else if(r.status===429||r.status===503){await new Promise(z=>setTimeout(z,1500))}continue}const p=(j.candidates?.[0]?.content?.parts||[]).find(x=>x.inlineData);if(p){out=p.inlineData;break}last='no image returned'}
+  if(!out)throw Object.assign(new Error(String(last)),{noq:zero===ims.length});const url=`data:${out.mimeType};base64,${out.data}`;
+  hsAIOut.innerHTML=`<div style="text-align:center"><img src="${url}" style="width:220px;border-radius:14px;border:1px solid var(--line)"><div class="btns" style="justify-content:center"><button class="ghost sm" style="margin:0" id="hsAIUse">Edit & use this</button><a class="ghost sm" download="ai-headshot.png" href="${url}" style="text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:6px 12px;color:var(--cocoa);font-weight:600;font-size:13px">⬇ Download</a></div></div>`;
+  $('hsAIUse').onclick=()=>{hsCut.checked=false;hsZ.value=100;hsX.value=0;hsY.value=0;hsLoad(url)}}
+ catch(e){hsAIOut.innerHTML=e.noq?'<p class="warn sm">⚠ Google gives free Gemini keys no image-generation quota right now (limit 0), so AI headshots aren\'t available on the free plan.</p><p class="hint">✅ Free alternative: tick <b>Replace background</b> above, pick <b>Soft grey</b> or <b>White</b>, and adjust light — that gives a clean studio look at no cost. To unlock AI headshots, turn on billing for your Gemini key in Google AI Studio (pay per image). The app will retry automatically tomorrow.</p>':'<p class="warn sm">⚠ AI headshot is busy right now — try again in a minute.</p><p class="hint">'+esc(e.message.slice(0,160))+'</p>'}finally{busyOff()}};
+hsDraw();
+// ===== MEETING (per profile) ===== 
+function meet(){const p=PROFS[PCUR]||{};const own=p.meetLink&&(!p.meetTime||new Date(p.meetTime)>Date.now()-90*60000);if(own)return{link:p.meetLink,time:p.meetTime||'',title:''};const c=nextCal();return c?{link:c.link,time:c.start,title:c.title}:{link:'',time:'',title:''}} 
+function meetLabel(){const m=meet();if(!m.link)return'📅 Add meeting';if(!m.time)return'📅 Join meeting';const d=new Date(m.time)-new Date(),min=Math.round(d/60000); 
+ if(min<-90)return'📅 Add next meeting';if(min<=0)return'🟢 Join now';if(min<60)return'📅 Starts in '+min+' min';if(min<1440)return'📅 Today '+new Date(m.time).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});return'📅 '+new Date(m.time).toLocaleDateString([],{month:'short',day:'numeric'})+' '+new Date(m.time).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})} 
+function renderMeet(){meetChip.textContent=meetLabel();const m=meet(),soon=m.time&&(new Date(m.time)-new Date())<15*60000&&(new Date(m.time)-new Date())>-90*60000;meetChip.classList.toggle('primary',!!soon); 
+ if(typeof meetCard!=='undefined')meetCard.innerHTML=m.link?`<div class="btns" style="justify-content:center"><button class="primary" onclick="joinMeet()">🎥 Join meeting</button></div><p class="hint">${m.title?'<b>'+esc(m.title)+'</b> · ':''}${esc(m.link)}${m.time?' · '+esc(new Date(m.time).toLocaleString()):''}</p>`:''} 
+function joinMeet(){const m=meet();if(!m.link){meetChip.onclick();return}window.open(m.link,'_blank');go('live');setStatus('Meeting opened — when you’re in, click ▶ Start interview and pick that tab',1)} 
+meetChip.onclick=()=>{const m=meet();const d=document.createElement('div');d.style.cssText='position:fixed;inset:0;background:#0004;display:grid;place-items:center;z-index:99'; 
+ const loc=m.time?new Date(new Date(m.time)-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16):''; 
+ d.innerHTML=`<div class="card" style="width:min(520px,92vw)"><h2>📅 Interview meeting · ${esc(PROFS[PCUR].name)}</h2> 
+  ${GEV.length?`<label>From your Google Calendar</label><div style="max-height:180px;overflow:auto">${GEV.slice(0,8).map((e,i)=>`<div class="sItem" style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px"><span><b>${esc(e.title)}</b><br><span class="hint">${esc(new Date(e.start).toLocaleString([],{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}))}${e.who?' · '+esc(e.who):''}</span></span><span style="display:flex;gap:6px"><button class="ghost sm" style="margin:0" data-use="${i}">Use</button><button class="primary sm" style="margin:0" data-join="${i}">Join</button></span></div>`).join('')}</div>`:(GTOK?'':'<p class="hint">Tip: connect Google Calendar in Settings and your meetings show up here automatically.</p>')}
+  <label>Or paste the calendar invite or email (I'll find the link)</label><textarea id="mvPaste" rows="3" placeholder="Paste the Google Calendar / Zoom / Teams invite text here"></textarea> 
+  <label>Meeting link</label><input type="text" id="mvLink" value="${esc(m.link)}" placeholder="https://meet.google.com/… or zoom.us/j/… or teams.microsoft.com/…"> 
+  <label>Date & time</label><input type="datetime-local" id="mvTime" value="${loc}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit"> 
+  <div class="btns">${m.link?'<button class="primary" id="mvJoin">🎥 Join now</button>':''}<button class="primary" id="mvSave">Save</button><button class="ghost" id="mvClose">Close</button></div></div>`; 
+ document.body.appendChild(d);const q=s=>d.querySelector(s); 
+ q('#mvPaste').oninput=()=>{const t=q('#mvPaste').value;const u=t.match(/https?:\/\/[^\s<>"')]*(meet\.google\.com|zoom\.us|teams\.microsoft\.com|teams\.live\.com|webex\.com)[^\s<>"')]*/i);if(u)q('#mvLink').value=u[0].replace(/[.,;]+$/,''); 
+  const dm=t.match(/(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s+([A-Z][a-z]{2,8})\s+(\d{1,2}),?\s+(\d{4})\D{0,12}?(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i); 
+  if(dm){const dt=new Date(`${dm[1]} ${dm[2]}, ${dm[3]} ${dm[4]}:${dm[5]||'00'} ${dm[6]}`);if(!isNaN(dt))q('#mvTime').value=new Date(dt-dt.getTimezoneOffset()*60000).toISOString().slice(0,16)}}; 
+ q('#mvSave').onclick=()=>{profSet('meetLink',q('#mvLink').value.trim());profSet('meetTime',q('#mvTime').value?new Date(q('#mvTime').value).toISOString():'');d.remove();renderMeet();setStatus('✓ Meeting saved',1)}; 
+ q('#mvClose').onclick=()=>d.remove();d.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>{const e=GEV[+b.dataset.use];q('#mvLink').value=e.link;const dt=new Date(e.start);q('#mvTime').value=new Date(dt-dt.getTimezoneOffset()*60000).toISOString().slice(0,16)});d.querySelectorAll('[data-join]').forEach(b=>b.onclick=()=>{const e=GEV[+b.dataset.join];d.remove();window.open(e.link,'_blank');go('live');setStatus('Meeting opened — when you’re in, click ▶ Start interview and pick that tab',1)});if(q('#mvJoin'))q('#mvJoin').onclick=()=>{d.remove();joinMeet()}}; 
+setInterval(renderMeet,30000);setTimeout(trBadge,500); 
+
+if(PROFS[PCUR].prep)prepOut.innerHTML=mdBlock(PROFS[PCUR].prep);
+
+// ===== BACKUP / RESTORE =====
+bkDown.onclick=()=>{const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('ib_'))o[k]=localStorage.getItem(k)}
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'interview-buddy',v:1,at:new Date().toISOString(),data:o})],{type:'application/json'}));a.download='interview-buddy-backup.json';a.click();setStatus('✓ Backup downloaded — keep it private',1)};
+bkUp.onclick=()=>bkFile.click();
+bkFile.onchange=async()=>{try{const j=JSON.parse(await bkFile.files[0].text());if(j.app!=='interview-buddy')throw new Error('Not an Interview Buddy backup');Object.entries(j.data).forEach(([k,v])=>localStorage.setItem(k,v));setStatus('✓ Restored — reloading',1);setTimeout(()=>location.reload(),600)}catch(e){setStatus('⚠ '+e.message)}};
+if(DEMO){demoBar.style.display='block';if(!$('cv').value)$('cv').value=localStorage.getItem('ib_cv')||''}demoLine.innerHTML=DEMO?'':'New here? <a href="#demo" onclick="setTimeout(()=>location.reload(),50)">Try the demo</a> with sample data.';provUI();renderContact();go('live');setVK(VK);
+</script></body></html>

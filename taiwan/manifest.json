@@ -1,0 +1,42 @@
+{
+ "name": "Akari Atlas",
+ "short_name": "Akari Atlas",
+ "start_url": "/akari-atlas/",
+ "scope": "/",
+ "display": "standalone",
+ "background_color": "#F7F2E8",
+ "theme_color": "#28546B",
+ "icons": [
+  {
+   "src": "/akari-atlas/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/akari-atlas/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/akari-atlas/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  },
+  {
+   "src": "/akari-atlas/icon.svg",
+   "sizes": "any",
+   "type": "image/svg+xml"
+  }
+ ],
+ "id": "/taiwan/",
+ "description": "Akari Atlas · Your world, one journey at a time. Live weather, nearby places, walking navigation, budgets, documents and trip memories.",
+ "categories": [
+  "travel",
+  "navigation"
+ ],
+ "orientation": "portrait",
+ "lang": "en-US"
+}
