@@ -140,7 +140,7 @@ html[data-theme=dark] .pkg .terms{color:var(--blush)}
 .pkg .btn{margin-top:auto}
 .pkg.feat{border:1.5px solid var(--navy);position:relative}
 html[data-theme=dark] .pkg.feat{border-color:var(--blush)}
-.pkg.feat::before{content:"Most requested";position:absolute;top:-12px;left:24px;background:var(--navy);color:var(--ivory);font:600 .68rem/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:var(--r-pill)}
+.pkg.feat::before{content:"Ongoing support";position:absolute;top:-12px;left:24px;background:var(--navy);color:var(--ivory);font:600 .68rem/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:var(--r-pill)}
 
 /* Status badges */
 .badge{display:inline-flex;align-items:center;gap:6px;font:600 .68rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:6px;margin:0 6px 6px 0}
@@ -329,3 +329,4 @@ html[data-theme=dark] .wtabs button[aria-selected=true]{background:#EACBC8;color
 .src{font-size:.8rem;color:var(--muted);margin:12px 0 0;line-height:1.6}
 .src a{color:inherit}
 @media (max-width:640px){.rt{font-size:.82rem}.rt th,.rt td{padding:8px 6px}}
+.fees{margin:var(--s4,18px) 0 0;padding:12px 14px;border-left:3px solid var(--gold,#C5A875);background:rgba(197,168,117,.1);border-radius:0 10px 10px 0;font-size:.88rem;color:var(--ink)}
