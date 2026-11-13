@@ -136,7 +136,7 @@ if(matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion: r
   const mk=(geo,col,met,rough,x,y,z,sc)=>{const m=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:col,metalness:met,roughness:rough}));m.position.set(x,y,z);m.scale.setScalar(sc);G.add(m);return m};
   const a=mk(new THREE.TorusKnotGeometry(1,.32,180,24),0xEACBC8,.35,.25,2.05,2.05,-.5,.5);
   const b=mk(new THREE.IcosahedronGeometry(1,1),0x172B49,.6,.3,-2.05,-1.75,-1,.5);
-  const c=mk(new THREE.TorusGeometry(1,.06,24,120),0xC5A875,.9,.2,1.9,-2.2,-1,.65);
+  const c=mk(new THREE.TorusGeometry(1,.06,24,120),0xD9BC86,.55,.28,1.9,-2.2,-1,.65);c.material.emissive=new THREE.Color(0x5a4520);c.material.emissiveIntensity=.5;
   const w=new THREE.Mesh(new THREE.IcosahedronGeometry(.85,1),new THREE.MeshBasicMaterial({color:0xAEB8C5,wireframe:true,transparent:true,opacity:.4}));w.position.copy(b.position);G.add(w);
   let mx=0,my=0;addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5},{passive:true});
   const size=()=>{const r=cv.getBoundingClientRect();R.setSize(r.width,r.height,false);C.aspect=r.width/r.height;C.updateProjectionMatrix()};size();addEventListener('resize',size);
@@ -144,5 +144,5 @@ if(matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion: r
   const t0=performance.now();(function f(){requestAnimationFrame(f);if(!vis||document.hidden)return;const t=(performance.now()-t0)/1000;
    a.rotation.set(t*.25,t*.35,0);b.rotation.set(t*.2,-t*.3,0);w.rotation.set(-t*.12,t*.18,0);c.rotation.set(1.1+Math.sin(t*.5)*.2,t*.4,0);
    G.position.y=Math.sin(t*.6)*.12;G.rotation.y+=((mx*.25)-G.rotation.y)*.04;G.rotation.x+=((my*.15)-G.rotation.x)*.04;R.render(S,C)})();
-  cv.classList.add('on')}
+  cv.classList.add('on');document.querySelector('.hero-static')?.classList.add('off')}
 })();
