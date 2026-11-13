@@ -372,7 +372,7 @@ html[data-theme=dark] .wtabs button[aria-selected=true]{background:#EACBC8;color
 .ha-fan .hf1{left:-4%;top:17%;transform:rotate(-14deg)}
 .ha-fan .hf2{right:-5%;top:14%;transform:rotate(12deg)}
 .ha-fan .hf3{left:25%;top:6%;transform:rotate(-3deg);width:50%}
-.ha-cut{position:absolute;left:14%;width:72%;height:auto;bottom:0;z-index:2;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 7%);mask-image:linear-gradient(to bottom,transparent 0,#000 7%);filter:drop-shadow(0 10px 22px rgba(23,43,73,.28))}
+.ha-cut{position:absolute;left:14%;width:72%;height:auto;bottom:0;z-index:2;filter:drop-shadow(0 10px 22px rgba(23,43,73,.28))}
 .ha-sig{position:absolute;left:0;right:0;text-align:center;bottom:4%;z-index:3;font:400 clamp(2.2rem,3.8vw,3.1rem)/1 Allura,"Segoe Script","Brush Script MT",cursive;color:#fff;text-shadow:0 2px 12px rgba(23,43,73,.55);transform:rotate(-6deg);pointer-events:none;white-space:nowrap}
 .hero-art .d3{z-index:4}
 .ha-knot{width:25%;left:-13%;bottom:4%}
