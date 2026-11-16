@@ -253,6 +253,7 @@ a{color:var(--cocoa)}
 
 <section class="view" id="v-settings"><div class="card">
  <h2>Connections · saved in this browser only</h2>
+ <label style="display:flex;gap:8px;align-items:center;font-weight:500;margin-top:0"><input type="checkbox" id="ofb" checked> If Gemini is busy, answer with Ollama on my Mac automatically</label>
  <label>AI engine</label><select id="prov"><option value="gemini">Google Gemini — free tier (recommended free option)</option><option value="ollama">Ollama on my computer — 100% free, offline</option><option value="claude">Claude — paid API credits</option></select>
  <div class="row" id="gemBox"><div><label>Gemini API key</label><input type="password" id="gkey" placeholder="AIza…"><div class="hint">aistudio.google.com → Get API key (free)</div></div>
   <div><label>Gemini model <button class="ghost sm" id="gLoad" style="margin:0 0 0 6px;padding:3px 10px">🔄 Load my models</button></label><select id="gmodel"><option value="auto">⚡ Auto — fastest available</option></select><div class="hint" id="gHint">If a model is busy, the app tries the next one automatically.</div></div></div>
@@ -361,9 +362,13 @@ const hasKey=()=>DEMO||P()==='ollama'||(P()==='gemini'?$('gkey').value.trim():$(
 let busyN=0,busyT0=0,busyIv=null;function busyOn(label){busyN++;busyT0=busyT0||Date.now();pbar.style.display='block';busy.style.display='flex';$('busyT').dataset.l=label||'Thinking';clearInterval(busyIv);const up=()=>$('busyT').textContent=$('busyT').dataset.l+'… '+Math.round((Date.now()-busyT0)/1000)+'s';up();busyIv=setInterval(up,500)}
 function busyOff(){busyN=Math.max(0,busyN-1);if(!busyN){clearInterval(busyIv);busyT0=0;pbar.style.display='none';busy.style.display='none'}}
 async function llm(system,user,max,label,opt){busyOn(label);try{if(DEMO&&!hasRealKey())return await demoLLM(user);return await llm_(system,user,max,opt||{})}finally{busyOff()}}
+async function ollamaCall(system,user,opt){opt=opt||{};let r;try{r=await fetch(($('ourl').value.trim()||'http://localhost:11434').replace(/\/$/,'')+'/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({model:$('omodel').value.trim()||'llama3.2',stream:false,messages:[...(system?[{role:'system',content:system}]:[]),{role:'user',content:user}]})})}catch(e){throw new Error('Cannot reach Ollama — is it open, with OLLAMA_ORIGINS set?')}
+  const j=await r.json();if(!r.ok)throw new Error('Ollama: '+(j.error||r.status));return j.message?.content||''}
 async function llm_(system,user,max,opt){opt=opt||{};const p=P();
- if(p==='gemini')return geminiRace(system,user,opt);
- if(p==='ollama'){let r;try{r=await fetch($('ourl').value.trim().replace(/\/$/,'')+'/api/chat',{method:'POST',headers:{'content-type':'application/json'},
+ if(p==='gemini'){try{return await geminiRace(system,user,opt)}catch(e){if(!$('ofb').checked||opt.imgs?.length||opt.search)throw e;setStatus('↻ Gemini busy — answering with Ollama on your Mac',1);try{return await ollamaCall(system,user)}catch(e2){throw new Error(e.message+' · Ollama backup: '+e2.message)}}}
+ if(p==='ollama')return ollamaCall(system,user,opt);
+ if(false){let r;try{r=await fetch($('ourl').value.trim().replace(/\/$/,'')+'/api/chat',{method:'POST',headers:{'content-type':'application/json'},
    body:JSON.stringify({model:$('omodel').value.trim(),stream:false,messages:[...(system?[{role:'system',content:system}]:[]),{role:'user',content:user,...(opt.imgs?.length?{images:opt.imgs.map(x=>x.data)}:{})}]})})}catch(e){throw new Error('Cannot reach Ollama — is it running with OLLAMA_ORIGINS=* ?')}
   const j=await r.json();if(!r.ok)throw new Error('Ollama: '+(j.error||r.status));return j.message?.content||''}
  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':$('ckey').value.trim(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true',...($('wsid').value.trim()?{'anthropic-workspace-id':$('wsid').value.trim()}:{})},
@@ -379,7 +384,7 @@ async function loadGM(quiet){const k=$('gkey').value.trim();if(!k){if(!quiet)gHi
   $('gmodel').value=GM.includes(keep)?keep:'auto';
   gHint.textContent='✓ '+GM.length+' models available. Flash = fastest. If one is busy, the app tries the next.'}
  catch(e){if(!quiet)gHint.textContent='⚠ '+e.message}}
-function provUI(){gemBox.style.display=P()==='gemini'?'':'none';olBox.style.display=P()==='ollama'?'':'none';[...document.querySelectorAll('#ckey,#wsid,#model')].forEach(e=>e.closest('div').style.display=P()==='claude'?'':'none')}
+function provUI(){gemBox.style.display=P()==='gemini'?'':'none';olBox.style.display=(P()==='ollama'||(P()==='gemini'&&ofb.checked))?'':'none';[...document.querySelectorAll('#ckey,#wsid,#model')].forEach(e=>e.closest('div').style.display=P()==='claude'?'':'none')}
 $('prov').addEventListener('change',provUI);gLoad.onclick=e=>{e.preventDefault();loadGM()};$('gkey').addEventListener('change',()=>loadGM(true));$('gmodel').addEventListener('change',()=>setGM($('gmodel').value));
 try{const sm=localStorage.getItem('ib_gmodel');if(sm&&sm!=='auto'&&!/gemini-2\./.test(sm)&&localStorage.getItem('ib_gm_v2'))setGM(sm);else{localStorage.setItem('ib_gmodel','auto');localStorage.setItem('ib_gm_v2','1')}}catch(e){}if($('gkey').value.trim())loadGM(true);
 
@@ -884,5 +889,5 @@ bkDown.onclick=()=>{const o={};for(let i=0;i<localStorage.length;i++){const k=lo
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'interview-buddy',v:1,at:new Date().toISOString(),data:o})],{type:'application/json'}));a.download='interview-buddy-backup.json';a.click();setStatus('✓ Backup downloaded — keep it private',1)};
 bkUp.onclick=()=>bkFile.click();
 bkFile.onchange=async()=>{try{const j=JSON.parse(await bkFile.files[0].text());if(j.app!=='interview-buddy')throw new Error('Not an Interview Buddy backup');Object.entries(j.data).forEach(([k,v])=>localStorage.setItem(k,v));setStatus('✓ Restored — reloading',1);setTimeout(()=>location.reload(),600)}catch(e){setStatus('⚠ '+e.message)}};
-if(DEMO){demoBar.style.display='block';if(!$('cv').value)$('cv').value=localStorage.getItem('ib_cv')||''}demoLine.innerHTML=DEMO?'':'New here? <a href="#demo" onclick="setTimeout(()=>location.reload(),50)">Try the demo</a> with sample data.';provUI();renderContact();go('live');setVK(VK);
+if(DEMO){demoBar.style.display='block';if(!$('cv').value)$('cv').value=localStorage.getItem('ib_cv')||''}demoLine.innerHTML=DEMO?'':'New here? <a href="#demo" onclick="setTimeout(()=>location.reload(),50)">Try the demo</a> with sample data.';try{const v=localStorage.getItem('ib_ofb');if(v!==null)ofb.checked=v==='1'}catch(e){}ofb.onchange=()=>{try{localStorage.setItem('ib_ofb',ofb.checked?'1':'0')}catch(e){}provUI()};provUI();renderContact();go('live');setVK(VK);
 </script></body></html>
