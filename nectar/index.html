@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#6f9a5b">
+<meta name="theme-color" content="#1a130e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon.svg">
 <link rel="icon" href="icon.svg">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Nectar Family Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&family=Instrument+Serif&family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* VOICE: warm, playful, organised — a family fridge done by a great studio
    IDEA: the family fridge door — line-art doodles, magnets, sticky lists
@@ -95,6 +95,23 @@ textarea{width:100%;min-height:120px;border:1.5px solid var(--line);border-radiu
  .hero{grid-template-columns:minmax(0,1fr)}
  .hero svg{max-height:170px}
 }
+
+/* Skins: bento (default, night plaid), storybook (cozy cream), clay (soft tactile) */
+:root,:root[data-skin=bento]{color-scheme:dark;--bg:#1a130e;--panel:#2a201a;--ink:#f1e6d6;--mute:#b8a58c;--line:#3a2e25;--g:#7d8c5a;--c:#c25a35;--y:#e8b77a;--s:#8fa3a8;--p:#a7798f;--hf:"Instrument Serif",Georgia,serif;--hw:400;--bf:Inter,system-ui,sans-serif;--shadow:none}
+:root[data-skin=storybook]{color-scheme:light;--bg:#f7efe2;--panel:#fffaf1;--ink:#3b2a1e;--mute:#6e5a46;--line:#e2cfae;--g:#6b7f4e;--c:#b5562b;--y:#d49a3a;--s:#6d8c99;--p:#8a5a6b;--hf:Fraunces,Georgia,serif;--hw:700;--bf:Nunito,system-ui,sans-serif;--shadow:0 6px 0 #e9dcc2}
+:root[data-skin=clay]{color-scheme:light;--bg:#efe6d8;--panel:#f6efe4;--ink:#2f2a22;--mute:#6f6656;--line:#ddd2c0;--g:#5f6f45;--c:#c2703f;--y:#c9963f;--s:#6f8f96;--p:#8c6a7c;--hf:Outfit,system-ui,sans-serif;--hw:800;--bf:Outfit,system-ui,sans-serif;--shadow:10px 10px 22px #d3c8b6,-8px -8px 18px #fffaf2}
+body{font-family:var(--bf)!important;background-image:none!important}
+h1,h2,.card h3,.rc h3{font-family:var(--hf);font-weight:var(--hw)}
+.hero h1{font-weight:var(--hw)!important;font-size:clamp(34px,5vw,54px)}
+.card,.hero,.day{box-shadow:var(--shadow)}
+:root[data-skin=clay] .card,:root[data-skin=clay] .day{border-color:transparent}
+:root:not([data-skin=storybook]):not([data-skin=clay]) .hero{background-color:#6e2f1c;background-image:linear-gradient(90deg,rgba(26,19,14,.94) 0 55%,rgba(26,19,14,.55)),repeating-linear-gradient(0deg,rgba(20,10,6,.45) 0 8px,transparent 8px 22px),repeating-linear-gradient(90deg,rgba(20,10,6,.45) 0 8px,transparent 8px 22px),repeating-linear-gradient(0deg,rgba(232,183,122,.3) 0 1px,transparent 1px 11px);border-color:#3a2e25}
+:root[data-skin=storybook] .rc h3+.tags{margin-top:-4px}
+.btn.g{color:#fff}:root:not([data-skin]) .btn.g,:root[data-skin=bento] .btn.g{background:var(--y);color:#1a130e}
+nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
+.skins{position:absolute;top:16px;right:16px;display:flex;gap:6px;z-index:2}
+.skins button{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--panel);cursor:pointer;box-shadow:0 0 0 1.5px var(--line);padding:0}
+.skins button[aria-pressed=true]{box-shadow:0 0 0 3px var(--y)}
 </style>
 </head>
 <body>
@@ -112,6 +129,7 @@ textarea{width:100%;min-height:120px;border:1.5px solid var(--line);border-radiu
 <main>
 <div class="hosted" id="hostNote" hidden>You’re using the installable version. It saves on this device only, and the AI isn’t available here. For family sync and AI Magic Add, <a id="fullLink" href="https://claude.ai/artifact/LHQBvz5z2JUPiYui3tUGVe">open the synced version</a>.</div>
 <header class="hero">
+ <div class="skins" role="group" aria-label="Theme"><button data-skin-b="bento" aria-label="Plaid Bento theme" style="background:linear-gradient(135deg,#1a130e 50%,#e8b77a 50%)"></button><button data-skin-b="storybook" aria-label="Cozy Storybook theme" style="background:linear-gradient(135deg,#f7efe2 50%,#b5562b 50%)"></button><button data-skin-b="clay" aria-label="Soft Clay theme" style="background:linear-gradient(135deg,#efe6d8 50%,#5f6f45 50%)"></button></div>
  <div>
   <div class="note" id="greet">Good morning!</div>
   <h1 id="htitle">Your family, beautifully in sync</h1>
@@ -385,6 +403,17 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-r-plan],[d
  const h=`${pad(Math.floor(b.st/60))}:${pad(b.st%60)}`;(S.meals[b.d]??={}).Dinner=r.title;S.events.push({t:'Cook: '+r.title,d:b.d,h,w:'Everyone'});
  const dl=new Date(b.d+'T00:00').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});r.plan=`${dl}, ${fmtH(h)}`;all();toast(`Planned for ${dl} at ${fmtH(h)} — your lightest evening`)});
 if(!window.claude||!window.claude.use){$('#hostNote').hidden=false;try{if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js')}catch(e){}}
+
+// Theme skins
+const setSkin=k=>{document.documentElement.dataset.skin=k;$$('[data-skin-b]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.skinB===k));const m=document.querySelector('meta[name=theme-color]');if(m)m.content={bento:'#1a130e',storybook:'#f7efe2',clay:'#efe6d8'}[k];try{localStorage.setItem('nectar-skin',k)}catch(e){}};
+let sk='bento';try{sk=localStorage.getItem('nectar-skin')||'bento'}catch(e){}setSkin(sk);
+$$('[data-skin-b]').forEach(b=>b.onclick=()=>{setSkin(b.dataset.skinB);toast('Theme changed')});
+// Share to Nectar (Android share target / iPhone Shortcut)
+{const q=new URLSearchParams(location.search);const st=[q.get('title'),q.get('text'),q.get('url')].filter(Boolean);
+ if(st.length){const link=(st.join(' ').match(/https?:\/\/\S+/)||[''])[0];$('#rUrl').value=link;$('#rTxt').value=st.filter(x=>x!==link).join('\n').replace(link,'').trim();
+  $$('nav button').find(b=>b.dataset.v==='recipes')?.click();
+  try{history.replaceState(null,'',location.pathname)}catch(e){}
+  if($('#rTxt').value)setTimeout(()=>$('#rForm').requestSubmit(),300);else toast('Link saved here — paste the caption to read the recipe')}}
 
 all(false);
 }
