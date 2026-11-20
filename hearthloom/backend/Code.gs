@@ -1,15 +1,15 @@
 /**
- * Nectar Family Hub — Google Apps Script backend
+ * Hearthloom — Google Apps Script backend
  * Gives the installed app: family sync, AI (recipes / Magic Add), Google Calendar sync.
  *
  * Setup:
  * 1. script.google.com → New project → paste this file.
  * 2. Project Settings → Script properties:
- *      FAMILY_KEY        = any secret phrase your family will type into Nectar
+ *      FAMILY_KEY        = any secret phrase your family will type into Hearthloom
  *      ANTHROPIC_API_KEY = your Claude API key (console.anthropic.com)
  *      CALENDAR_IDS      = (optional) comma-separated calendar IDs; blank = all your calendars
  * 3. Deploy → New deployment → Web app → Execute as: Me, Who has access: Anyone → copy the /exec URL.
- * 4. In Nectar: Settings → paste the URL and the family key.
+ * 4. In Hearthloom: Settings → paste the URL and the family key.
  */
 const P = PropertiesService.getScriptProperties();
 const MODEL = 'claude-sonnet-5-5';
@@ -96,7 +96,7 @@ function calAdd_(ev) {
   const c = CalendarApp.getDefaultCalendar();
   if (ev.h) {
     const s = new Date(ev.d + 'T' + ev.h + ':00');
-    c.createEvent(ev.t, s, new Date(s.getTime() + 60 * 60000), { description: 'Added from Nectar' + (ev.w ? ' · ' + ev.w : '') });
+    c.createEvent(ev.t, s, new Date(s.getTime() + 60 * 60000), { description: 'Added from Hearthloom' + (ev.w ? ' · ' + ev.w : '') });
   } else {
     c.createAllDayEvent(ev.t, new Date(ev.d + 'T00:00:00'));
   }
