@@ -112,6 +112,28 @@ nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
 .skins{position:absolute;top:16px;right:16px;display:flex;gap:6px;z-index:2}
 .skins button{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--panel);cursor:pointer;box-shadow:0 0 0 1.5px var(--line);padding:0}
 .skins button[aria-pressed=true]{box-shadow:0 0 0 3px var(--y)}
+
+.bento{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-auto-rows:minmax(130px,auto);gap:12px}
+@media(min-width:900px){.bento{grid-template-columns:repeat(4,minmax(0,1fr))}.b-wide{grid-column:span 2!important}}
+.bento>div{border-radius:26px;padding:16px;background:var(--panel);box-shadow:var(--shadow)}
+.b-din{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:270px}
+.tartan{background-color:#6e2f1c!important;background-image:repeating-linear-gradient(0deg,rgba(20,10,6,.45) 0 8px,transparent 8px 22px),repeating-linear-gradient(90deg,rgba(20,10,6,.45) 0 8px,transparent 8px 22px),repeating-linear-gradient(0deg,rgba(232,183,122,.35) 0 1px,transparent 1px 11px)}
+:root[data-skin=storybook] .tartan{background-color:#8a5a3b!important}:root[data-skin=clay] .tartan{background-color:#c2703f!important}
+.b-glass{background:rgba(26,18,13,.8);border-radius:18px;padding:12px;color:#f1e6d6}
+.b-glass .b-k{color:#e8b77a}.b-glass .b-s{color:#cdbba3}
+.b-gro{background:#2b3a26!important;color:#e7eed8}.b-gro .b-k,.b-gro .b-s,.b-gro a{color:#b9c7a2}
+:root[data-skin=storybook] .b-gro,:root[data-skin=clay] .b-gro{background:#dfe3cf!important;color:#2f3a22}:root[data-skin=storybook] .b-gro .b-k,:root[data-skin=storybook] .b-gro a,:root[data-skin=clay] .b-gro .b-k,:root[data-skin=clay] .b-gro a{color:#4d5938}
+.b-cho{background:var(--y)!important;color:#2a1a10}
+.b-wide{grid-column:span 2}
+.b-k{font-size:13px;font-weight:700;color:var(--mute)}.b-cho .b-k{color:#2a1a10}
+.b-num{font-family:var(--hf);font-size:52px;line-height:1;margin:4px 0}
+.b-big{font-family:var(--hf);font-size:30px;line-height:1.05}
+.b-s{font-size:13px}
+.b-bar{height:7px;border-radius:7px;background:rgba(42,26,16,.2);margin-top:8px;overflow:hidden}.b-bar i{display:block;height:100%;background:#2a1a10;border-radius:7px;transition:width .4s}
+.b-load{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:96px;margin-top:8px}
+.b-load div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%;font-size:11px;color:var(--mute)}
+.b-load i{display:block;width:100%;border-radius:9px;min-height:8px}
+.bento .ev{grid-template-columns:58px minmax(0,1fr) auto}.bento .ev time{color:var(--y)}
 </style>
 </head>
 <body>
@@ -151,13 +173,17 @@ nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
 </header>
 
 <section class="view on" id="v-today">
- <div class="grid">
-  <div class="card"><h3><span class="dot" style="background:var(--s)"></span>Today's schedule</h3><div id="todayEv"></div>
-   <form class="row" id="quickEv" style="margin-top:12px"><input id="qeT" placeholder="Add an event…" aria-label="Event title" required><input id="qeH" type="time" value="17:00" aria-label="Time" style="flex:0 1 120px"><button class="btn g">Add</button></form></div>
-  <div class="card"><h3><span class="dot" style="background:var(--g)"></span>Chores & to-dos</h3><div id="todayTodo"></div></div>
-  <div class="card"><h3><span class="dot" style="background:var(--p)"></span>Family</h3><div id="famList" class="row" style="margin-bottom:12px"></div>
-   <form class="row" id="famForm"><input id="fN" placeholder="Add a family member" required aria-label="Name" maxlength="20"><input id="fC" type="color" value="#2fbf71" aria-label="Colour" style="flex:0 0 56px;padding:4px"><button class="btn g">Add</button></form></div>
-  <div class="card"><h3><span class="dot" style="background:var(--c)"></span>Tonight's dinner</h3><div id="todayMeal"></div><h3 style="margin-top:18px"><span class="dot" style="background:var(--y)"></span>Groceries left</h3><div id="todayGro"></div></div>
+ <div class="bento">
+  <div class="b-din tartan" id="bDin"><div class="b-glass"><div class="b-k" id="bDinT">Tonight</div><div class="b-big" id="todayMeal">Not planned yet</div><div class="b-s" id="bDinS">Pick a recipe to fill tonight</div></div></div>
+  <div class="b-gro"><div class="b-k">Groceries</div><div class="b-num" id="bGroN">0</div><div class="b-s"><a id="bGroL" href="https://www.google.com/maps/search/grocery+store+near+me" target="_blank" rel="noopener">Stores nearby</a></div></div>
+  <div class="b-cho"><div class="b-k">Chores</div><div class="b-num" id="bChoN">0/0</div><div class="b-bar"><i id="bChoB"></i></div></div>
+  <div class="b-wide"><div class="b-k" style="margin-bottom:6px">Today</div><div id="todayEv"></div>
+   <form class="row" id="quickEv" style="margin-top:10px"><input id="qeT" placeholder="Add an event…" aria-label="Event title" required><input id="qeH" type="time" value="17:00" aria-label="Time" style="flex:0 1 120px"><button class="btn g">Add</button></form></div>
+  <div class="b-wide"><div class="b-k">This week’s load</div><div class="b-load" id="bLoad"></div></div>
+  <div class="b-wide"><div class="b-k" style="margin-bottom:4px">Chores & to-dos</div><div id="todayTodo"></div></div>
+  <div class="b-wide"><div class="b-k" style="margin-bottom:6px">Groceries left</div><div id="todayGro"></div></div>
+  <div class="b-wide"><h3 style="margin:0 0 10px;font-size:20px">Family</h3><div id="famList" class="row" style="margin-bottom:12px"></div>
+   <form class="row" id="famForm"><input id="fN" placeholder="Add a family member" required aria-label="Name" maxlength="20"><input id="fC" type="color" value="#7d8c5a" aria-label="Colour" style="flex:0 0 56px;padding:4px"><button class="btn g">Add</button></form></div>
  </div>
 </section>
 
@@ -252,9 +278,14 @@ function renderToday(){
  $('#todayEv').innerHTML=ev.length?ev.map(([e,i])=>evRow(e,i)).join(''):'<div class="empty">Nothing scheduled — enjoy the calm.</div>';
  const todo=[...S.lists.Chores.map((x,i)=>['Chores',x,i]),...S.lists['To-do'].map((x,i)=>['To-do',x,i])];
  $('#todayTodo').innerHTML=todo.map(([l,x,i])=>item(l,x,i)).join('')||'<div class="empty">All clear!</div>';
- const m=S.meals[T]||{};$('#todayMeal').innerHTML=`<div style="font-size:22px;font-weight:700">${esc(m.Dinner||'Not planned yet')}</div>`;
+ const m=S.meals[T]||{};$('#todayMeal').textContent=m.Dinner||'Not planned yet';
  const g=S.lists.Groceries.filter(x=>!x.x);$('#todayGro').innerHTML=g.length?g.map(x=>`<span class="chip" style="display:inline-block;margin:0 6px 6px 0;cursor:default">${esc(x.t)}</span>`).join(''):'<div class="empty">Pantry is stocked.</div>';
  const done=todo.filter(t=>t[1].x).length;$('#prog').style.width=(todo.length?done/todo.length*100:100)+'%';
+ $('#bGroN').textContent=g.length;$('#bChoN').textContent=`${done}/${todo.length}`;$('#bChoB').style.width=(todo.length?done/todo.length*100:0)+'%';
+ const rec=(S.recipes||[]).find(r=>r.title===m.Dinner);const ce=S.events.find(e=>e.d===T&&/^Cook:/.test(e.t));
+ $('#bDinT').textContent='Tonight'+(ce?' · '+fmtH(ce.h):'');$('#bDinS').textContent=m.Dinner?(rec?`From a reel · ${mins((rec.prep||0)+(rec.cook||0))}`:'On the meal plan'):'Pick a recipe to fill tonight';
+ const st=addD(today,-((today.getDay()+6)%7));$('#bLoad').innerHTML=[...Array(7)].map((_,k)=>{const d=addD(st,k),n=S.events.filter(e=>e.d===iso(d)).length;return`<div><i style="height:${Math.max(8,Math.min(100,n*24))}%;background:${n>3?'var(--c)':n>1?'var(--y)':'var(--g)'}${iso(d)===T?';outline:2px solid var(--ink);outline-offset:2px':''}"></i>${'MTWTFSS'[k]}</div>`}).join('');
+ {const nf=fam.filter(f=>f.n!=='Everyone').length,W=['','One','Two','Three','Four','Five','Six','Seven','Eight'];$('#htitle').innerHTML=`${W[nf]||nf} of you,<br>${ev.length<3?'one easy':ev.length<5?'a full':'a busy'} ${new Date().getHours()<12?'day':'evening'}`}
  $('#hsub').textContent=`${ev.length} event${ev.length===1?'':'s'} today · ${done} of ${todo.length} tasks done · ${g.length} groceries to grab`;
 }
 function item(l,x,i){return`<label class="item ${x.x?'done':''}"><input type="checkbox" data-l="${esc(l)}" data-i="${i}" ${x.x?'checked':''}><span>${esc(x.t)}</span><span class="av" style="background:${col(x.w)};width:26px;height:26px;font-size:11px;flex:none">${esc(x.w[0])}</span></label>`}
