@@ -134,6 +134,26 @@ nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
 .b-load div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%;font-size:11px;color:var(--mute)}
 .b-load i{display:block;width:100%;border-radius:9px;min-height:8px}
 .bento .ev{grid-template-columns:58px minmax(0,1fr) auto}.bento .ev time{color:var(--y)}
+
+.hbtn{background:var(--panel)!important;color:var(--ink);font-size:16px;display:grid;place-items:center}
+.wx{font-weight:700;color:var(--y)!important;margin:0 0 4px!important}
+.tagr{font-size:12px;font-weight:700;color:var(--s);margin-left:6px;white-space:nowrap}
+.dlg{border:1.5px solid var(--line);border-radius:28px;background:var(--panel);color:var(--ink);padding:22px;width:min(560px,92vw);max-height:88vh}
+.dlg::backdrop{background:rgba(10,6,4,.55)}
+.dlg h2{font-family:var(--hf)}
+.dlg fieldset{border:1.5px solid var(--line);border-radius:18px;margin:0 0 12px;padding:12px;display:grid;gap:10px}
+.dlg legend{font-weight:800;padding:0 6px}
+.dlg label{display:grid;gap:4px;font-weight:600;font-size:14px}
+.dlg .tg{display:flex;align-items:center;gap:10px}.dlg .tg input{flex:none;width:22px;height:22px;min-height:0;accent-color:var(--y)}
+.aisle{font-size:13px;font-weight:800;color:var(--y);margin:14px 0 0;text-transform:none}
+.kid{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:24px max(4vw,16px) 40px}
+.kidStars{font-family:var(--hf);font-size:42px;margin:6px 0 16px;color:var(--y)}
+.kidGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));gap:14px}
+.kidCard{border:0;border-radius:28px;background:var(--panel);color:var(--ink);padding:20px;min-height:150px;font:800 20px var(--bf);display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;cursor:pointer;text-align:left;box-shadow:var(--shadow)}
+.kidCard.done{background:var(--g);color:#fff}
+.kidCard svg{width:44px;height:44px}
+.store{display:block;font-size:12px;line-height:1.35;margin-top:3px}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
 </style>
 </head>
 <body>
@@ -149,13 +169,13 @@ nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
  <div class="fam" id="fam"></div>
 </nav>
 <main>
-<div class="hosted" id="hostNote" hidden>You’re using the installable version. It saves on this device only, and the AI isn’t available here. For family sync and AI Magic Add, <a id="fullLink" href="https://claude.ai/artifact/LHQBvz5z2JUPiYui3tUGVe">open the synced version</a>.</div>
+<div class="hosted" id="hostNote" hidden>You’re using the installable version. Connect your family backend in Settings (⚙) to turn on sync, AI and Google Calendar. Until then, everything saves on this device.</div>
 <header class="hero">
- <div class="skins" role="group" aria-label="Theme"><button data-skin-b="bento" aria-label="Plaid Bento theme" style="background:linear-gradient(135deg,#1a130e 50%,#e8b77a 50%)"></button><button data-skin-b="storybook" aria-label="Cozy Storybook theme" style="background:linear-gradient(135deg,#f7efe2 50%,#b5562b 50%)"></button><button data-skin-b="clay" aria-label="Soft Clay theme" style="background:linear-gradient(135deg,#efe6d8 50%,#5f6f45 50%)"></button></div>
+ <div class="skins" role="group" aria-label="Theme"><button id="kidBtn" class="hbtn" aria-label="Kid mode">★</button><button id="setBtn" class="hbtn" aria-label="Settings">⚙</button><button data-skin-b="bento" aria-label="Plaid Bento theme" style="background:linear-gradient(135deg,#1a130e 50%,#e8b77a 50%)"></button><button data-skin-b="storybook" aria-label="Cozy Storybook theme" style="background:linear-gradient(135deg,#f7efe2 50%,#b5562b 50%)"></button><button data-skin-b="clay" aria-label="Soft Clay theme" style="background:linear-gradient(135deg,#efe6d8 50%,#5f6f45 50%)"></button></div>
  <div>
   <div class="note" id="greet">Good morning!</div>
   <h1 id="htitle">Your family, beautifully in sync</h1>
-  <p id="hsub"></p>
+  <p id="wx" class="wx"></p><p id="hsub"></p>
   <div class="bar" aria-label="Today's progress"><i id="prog" style="width:0"></i></div>
   <div class="sync" id="sync"><i></i><span>Connecting…</span></div>
  </div>
@@ -175,11 +195,11 @@ nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
 <section class="view on" id="v-today">
  <div class="bento">
   <div class="b-din tartan" id="bDin"><div class="b-glass"><div class="b-k" id="bDinT">Tonight</div><div class="b-big" id="todayMeal">Not planned yet</div><div class="b-s" id="bDinS">Pick a recipe to fill tonight</div></div></div>
-  <div class="b-gro"><div class="b-k">Groceries</div><div class="b-num" id="bGroN">0</div><div class="b-s"><a id="bGroL" href="https://www.google.com/maps/search/grocery+store+near+me" target="_blank" rel="noopener">Stores nearby</a></div></div>
+  <div class="b-gro"><div class="b-k">Groceries</div><div class="b-num" id="bGroN">0</div><div class="b-s" id="bStores"><a id="bGroL" href="https://www.google.com/maps/search/grocery+store+near+me" target="_blank" rel="noopener">Stores nearby</a></div></div>
   <div class="b-cho"><div class="b-k">Chores</div><div class="b-num" id="bChoN">0/0</div><div class="b-bar"><i id="bChoB"></i></div></div>
   <div class="b-wide"><div class="b-k" style="margin-bottom:6px">Today</div><div id="todayEv"></div>
    <form class="row" id="quickEv" style="margin-top:10px"><input id="qeT" placeholder="Add an event…" aria-label="Event title" required><input id="qeH" type="time" value="17:00" aria-label="Time" style="flex:0 1 120px"><button class="btn g">Add</button></form></div>
-  <div class="b-wide"><div class="b-k">This week’s load</div><div class="b-load" id="bLoad"></div></div>
+  <div class="b-wide"><div class="row" style="justify-content:space-between"><div class="b-k">This week’s load</div><button class="btn ghost" id="recapBtn" style="min-height:36px;padding:6px 12px;font-size:13px">Weekly recap</button></div><div class="b-load" id="bLoad"></div><div class="b-s" id="wxWeek" style="margin-top:8px;color:var(--mute)"></div></div>
   <div class="b-wide"><div class="b-k" style="margin-bottom:4px">Chores & to-dos</div><div id="todayTodo"></div></div>
   <div class="b-wide"><div class="b-k" style="margin-bottom:6px">Groceries left</div><div id="todayGro"></div></div>
   <div class="b-wide"><h3 style="margin:0 0 10px;font-size:20px">Family</h3><div id="famList" class="row" style="margin-bottom:12px"></div>
@@ -199,7 +219,7 @@ nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
  <div class="chips" id="listTabs"></div>
  <div class="card" style="max-width:720px">
   <form class="row" id="itemForm"><input id="iT" placeholder="Add item…" required aria-label="New item"><select id="iW" aria-label="Assign to" style="flex:0 1 150px"></select><button class="btn g">Add</button></form>
-  <div id="items" style="margin-top:10px"></div>
+  <div id="groHead"></div><div id="items" style="margin-top:10px"></div>
   <div class="row" style="margin-top:12px"><button class="btn ghost" id="clearDone">Clear checked</button><button class="btn ghost" id="copyList">Copy list</button><button class="btn ghost" id="undo" hidden>Undo</button></div>
  </div>
 </section>
@@ -227,12 +247,36 @@ nav button.on{background:color-mix(in srgb,var(--y) 18%,transparent)}
   <p style="margin:0 0 12px;color:var(--mute)">Paste a school email, group chat or invite — or drop a screenshot or a photo of a flyer. Nectar finds the events, to-dos and groceries.</p>
   <textarea id="mTxt">Hi parents! Reminder: Field trip to the science museum on Friday at 8:30am. Please bring a packed lunch and sign the permission slip. Piano recital is next Tuesday 4pm at the town hall.</textarea>
   <label class="drop" id="drop" hidden><input type="file" id="mImg" accept="image/*" multiple>📷 Add screenshots or photos</label><div class="thumbs" id="thumbs"></div>
-  <div class="row" style="margin-top:12px"><select id="mW" aria-label="Who" style="flex:0 1 180px"></select><button class="btn" id="mGo">Find events</button></div>
+  <div class="row" style="margin-top:12px"><button class="btn ghost" id="micBtn" type="button" hidden>🎙 Speak</button><select id="mW" aria-label="Who" style="flex:0 1 180px"></select><button class="btn" id="mGo">Find events</button></div>
   <div class="found" id="mOut"></div>
  </div>
 </section>
 <p class="sample">Everything you change syncs to everyone you share this page with. Starter family and events are samples — edit or delete them.</p>
 </main>
+</div>
+
+<dialog id="setDlg" class="dlg"><form method="dialog" id="setForm">
+ <h2>Settings</h2>
+ <fieldset><legend>Family sync &amp; AI (Apps Script backend)</legend>
+  <label>Web app URL<input id="beUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec"></label>
+  <label>Family key<input id="beKey" type="password" autocomplete="off"></label>
+  <label class="tg"><input type="checkbox" id="calPull"> Show my Google Calendar events</label>
+  <label class="tg"><input type="checkbox" id="calPush"> Also add new Nectar events to Google Calendar</label>
+  <div class="b-s" id="beStat"></div>
+ </fieldset>
+ <fieldset><legend>Location, weather &amp; reminders</legend>
+  <div class="row"><button class="btn ghost" type="button" id="locBtn">Use my location</button><button class="btn ghost" type="button" id="mnlBtn">Use Manila</button></div>
+  <div class="row" style="margin-top:8px"><button class="btn ghost" type="button" id="notiBtn">Turn on reminders</button></div>
+  <div class="b-s" id="envStat"></div>
+ </fieldset>
+ <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn ghost" value="cancel">Close</button><button class="btn g" id="saveSet" value="default">Save</button></div>
+</form></dialog>
+<dialog id="recapDlg" class="dlg"><h2>Your week ahead</h2><div id="recapBody"></div><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn ghost" id="recapCopy">Copy</button><button class="btn g" onclick="this.closest('dialog').close()">Done</button></div></dialog>
+<div id="kid" class="kid" hidden>
+ <div class="row" style="justify-content:space-between"><h2 style="margin:0;font-size:34px">Kid mode</h2><button class="btn ghost" id="kidExit">Exit</button></div>
+ <div class="chips" id="kidWho" style="margin-top:12px"></div>
+ <div class="kidStars" id="kidStars"></div>
+ <div class="kidGrid" id="kidGrid"></div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -260,7 +304,7 @@ async function push(){if(!ref||!canWrite)return;if(writing){again=true;return}wr
  try{await ref.set(JSON.parse(JSON.stringify({fam:S.fam,events:S.events,lists:S.lists,meals:S.meals,recipes:S.recipes||[],at:Date.now()})));setSync('Synced with your family',true)}
  catch(e){if(e&&e.code==='invalid_argument'){canWrite=false;setSync('View only — ask the owner for edit access')}else if(e&&e.code==='quota_exceeded')setSync('Storage full — clear old items');else setSync('Saved here, will retry')}
  writing=false;if(again){again=false;push()}}
-const save=()=>{try{localStorage.setItem('nectar',JSON.stringify(S))}catch(e){}if(ref){clearTimeout(pushT);pushT=setTimeout(push,600)}};
+const save=()=>{try{localStorage.setItem('nectar',JSON.stringify(S))}catch(e){}if(ref){clearTimeout(pushT);pushT=setTimeout(push,600)}else if(BE.url){clearTimeout(pushT);pushT=setTimeout(bePush,800)}};
 function syncFam(){if(!Array.isArray(S.fam)||!S.fam.length)S.fam=DF.slice();if(!S.fam.some(f=>f.n==='Everyone'))S.fam.push({n:'Everyone',c:'#6f9a5b'});fam=S.fam;
  $('#fam').innerHTML=fam.filter(f=>f.n!=='Everyone').map(f=>`<span class="av" style="background:${esc(f.c)}" title="${esc(f.n)}">${esc(f.n[0]||'?')}</span>`).join('');
  const o=fam.map(f=>`<option>${esc(f.n)}</option>`).join('');['#eW','#iW','#mW'].forEach(q=>{const el=$(q),v=el.value;el.innerHTML=o;el.value=fam.some(f=>f.n===v)?v:'Everyone'});
@@ -272,9 +316,9 @@ let curList='Groceries',wkOff=0,whoF='All',lastDel=null;
 syncFam();
 const hr=new Date().getHours();$('#greet').textContent=hr<12?'Good morning!':hr<18?'Good afternoon!':'Good evening!';
 
-function evRow(e,i){return`<div class="ev"><time>${fmtH(e.h)}</time><div><b>${esc(e.t)}</b><small><span class="dot" style="display:inline-block;background:${col(e.w)};margin-right:6px"></span>${esc(e.w)}</small></div><button class="x" data-del-ev="${i}" aria-label="Delete">×</button></div>`}
+function evRow(e,i){return`<div class="ev"><time>${fmtH(e.h)}</time><div><b>${esc(e.t)}</b>${rainTag(e)}<small><span class="dot" style="display:inline-block;background:${e.cal?'var(--s)':col(e.w)};margin-right:6px"></span>${esc(e.cal?'Google · '+e.cal:e.w)}</small></div>${i<0?'<span></span>':`<button class="x" data-del-ev="${i}" aria-label="Delete">×</button>`}</div>`}
 function renderToday(){
- const ev=S.events.map((e,i)=>[e,i]).filter(([e])=>e.d===T).sort((a,b)=>a[0].h.localeCompare(b[0].h));
+ const ev=allEv().filter(([e])=>e.d===T).sort((a,b)=>a[0].h.localeCompare(b[0].h));
  $('#todayEv').innerHTML=ev.length?ev.map(([e,i])=>evRow(e,i)).join(''):'<div class="empty">Nothing scheduled — enjoy the calm.</div>';
  const todo=[...S.lists.Chores.map((x,i)=>['Chores',x,i]),...S.lists['To-do'].map((x,i)=>['To-do',x,i])];
  $('#todayTodo').innerHTML=todo.map(([l,x,i])=>item(l,x,i)).join('')||'<div class="empty">All clear!</div>';
@@ -284,7 +328,7 @@ function renderToday(){
  $('#bGroN').textContent=g.length;$('#bChoN').textContent=`${done}/${todo.length}`;$('#bChoB').style.width=(todo.length?done/todo.length*100:0)+'%';
  const rec=(S.recipes||[]).find(r=>r.title===m.Dinner);const ce=S.events.find(e=>e.d===T&&/^Cook:/.test(e.t));
  $('#bDinT').textContent='Tonight'+(ce?' · '+fmtH(ce.h):'');$('#bDinS').textContent=m.Dinner?(rec?`From a reel · ${mins((rec.prep||0)+(rec.cook||0))}`:'On the meal plan'):'Pick a recipe to fill tonight';
- const st=addD(today,-((today.getDay()+6)%7));$('#bLoad').innerHTML=[...Array(7)].map((_,k)=>{const d=addD(st,k),n=S.events.filter(e=>e.d===iso(d)).length;return`<div><i style="height:${Math.max(8,Math.min(100,n*24))}%;background:${n>3?'var(--c)':n>1?'var(--y)':'var(--g)'}${iso(d)===T?';outline:2px solid var(--ink);outline-offset:2px':''}"></i>${'MTWTFSS'[k]}</div>`}).join('');
+ const st=addD(today,-((today.getDay()+6)%7));$('#bLoad').innerHTML=[...Array(7)].map((_,k)=>{const d=addD(st,k),n=allEv().filter(([e])=>e.d===iso(d)).length;return`<div><i style="height:${Math.max(8,Math.min(100,n*24))}%;background:${n>3?'var(--c)':n>1?'var(--y)':'var(--g)'}${iso(d)===T?';outline:2px solid var(--ink);outline-offset:2px':''}"></i>${'MTWTFSS'[k]}</div>`}).join('');
  {const nf=fam.filter(f=>f.n!=='Everyone').length,W=['','One','Two','Three','Four','Five','Six','Seven','Eight'];$('#htitle').innerHTML=`${W[nf]||nf} of you,<br>${ev.length<3?'one easy':ev.length<5?'a full':'a busy'} ${new Date().getHours()<12?'day':'evening'}`}
  $('#hsub').textContent=`${ev.length} event${ev.length===1?'':'s'} today · ${done} of ${todo.length} tasks done · ${g.length} groceries to grab`;
 }
@@ -294,14 +338,14 @@ function renderWeek(){
  $('#wkTitle').textContent=start.toLocaleDateString(undefined,{month:'long',day:'numeric'})+' – '+addD(start,6).toLocaleDateString(undefined,{month:'short',day:'numeric'});
  $('#whoFilter').innerHTML=['All',...fam.map(f=>f.n)].map(n=>`<button class="chip ${n===whoF?'on':''}" data-who="${esc(n)}">${esc(n)}</button>`).join('');
  $('#weekGrid').innerHTML=[...Array(7)].map((_,k)=>{const d=addD(start,k),di=iso(d);
-  const ev=S.events.map((e,i)=>[e,i]).filter(([e])=>e.d===di&&(whoF==='All'||e.w===whoF||e.w==='Everyone')).sort((a,b)=>a[0].h.localeCompare(b[0].h));
-  return`<div class="day ${di===T?'today':''}"><h4>${DAYS[d.getDay()]}<b>${d.getDate()}</b></h4><div class="load" title="How busy this day is"><i style="width:${Math.min(100,ev.length*22)}%;background:${ev.length>3?'var(--c)':ev.length>1?'var(--y)':'var(--g)'}"></i></div>${ev.map(([e,i])=>`<div class="pill" style="border-color:${col(e.w)}"><b>${fmtH(e.h)}</b> ${esc(e.t)} <button class="x" style="width:24px;height:24px;font-size:14px;float:right" data-del-ev="${i}" aria-label="Delete">×</button></div>`).join('')}</div>`}).join('');
+  const ev=allEv().filter(([e])=>e.d===di&&(whoF==='All'||e.w===whoF||e.w==='Everyone')).sort((a,b)=>a[0].h.localeCompare(b[0].h));
+  return`<div class="day ${di===T?'today':''}"><h4>${DAYS[d.getDay()]}<b>${d.getDate()}</b></h4><div class="load" title="How busy this day is"><i style="width:${Math.min(100,ev.length*22)}%;background:${ev.length>3?'var(--c)':ev.length>1?'var(--y)':'var(--g)'}"></i></div>${ev.map(([e,i])=>`<div class="pill" style="border-color:${e.cal?'var(--s)':col(e.w)}"><b>${fmtH(e.h)}</b> ${esc(e.t)}${rainTag(e)} ${i<0?'':`<button class="x" style="width:24px;height:24px;font-size:14px;float:right" data-del-ev="${i}" aria-label="Delete">×</button>`}</div>`).join('')}</div>`}).join('');
 }
 function renderLists(){
  $('#listTabs').innerHTML=Object.keys(S.lists).map(n=>`<button class="chip ${n===curList?'on':''}" data-list="${esc(n)}">${esc(n)} · ${S.lists[n].filter(x=>!x.x).length}</button>`).join('')+`<button class="chip" id="newList">+ New list</button>`;
  const L=S.lists[curList];
  $('#items').innerHTML=L.length?L.map((x,i)=>`<div class="row">${item(curList,x,i).replace('</label>','')}<button class="x" data-del-it="${i}" aria-label="Delete">×</button></label></div>`).join(''):'<div class="empty">This list is empty. Add your first item above.</div>';
- $('#undo').hidden=!lastDel;
+ $('#undo').hidden=!lastDel;if(curList==='Groceries')groRender();else $('#groHead').innerHTML='';
 }
 const SLOTS=['Breakfast','Lunch','Dinner'];
 function renderMeals(){
@@ -310,7 +354,7 @@ function renderMeals(){
 }
 const all=(p=true)=>{syncFam();renderRecipes();renderToday();renderWeek();renderLists();if($('#v-meals').classList.contains('on')&&!document.activeElement?.dataset?.md)renderMeals();if(p)save()};
 
-$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.classList.toggle('on',x===b));$$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));if(b.dataset.v==='meals')renderMeals();window.scrollTo({top:0})});
+$$('nav button').forEach(b=>b.onclick=()=>{const go=()=>{$$('nav button').forEach(x=>x.classList.toggle('on',x===b));$$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));if(b.dataset.v==='meals')renderMeals();window.scrollTo({top:0})};document.startViewTransition&&!matchMedia('(prefers-reduced-motion: reduce)').matches?document.startViewTransition(go):go()});
 document.addEventListener('change',e=>{const c=e.target;
  if(c.dataset.l!==undefined&&c.type==='checkbox'){S.lists[c.dataset.l][c.dataset.i].x=c.checked;all();if(c.checked)toast('Nice work! ✓')}
  if(c.dataset.md){(S.meals[c.dataset.md]??={})[c.dataset.ms]=c.value.trim();save();renderToday()}
@@ -326,10 +370,10 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-del-ev],[d
 $('#undo').onclick=()=>{if(lastDel){S.lists[lastDel.l].splice(lastDel.i,0,lastDel.x);lastDel=null;all()}};
 $('#clearDone').onclick=()=>{S.lists[curList]=S.lists[curList].filter(x=>!x.x);all()};
 $('#copyList').onclick=async()=>{const txt=curList+':\n'+S.lists[curList].filter(x=>!x.x).map(x=>'• '+x.t).join('\n');try{await navigator.clipboard.writeText(txt);toast('List copied')}catch(e){toast('Copy not allowed here')}};
-$('#itemForm').onsubmit=e=>{e.preventDefault();S.lists[curList].push({t:$('#iT').value.trim(),w:$('#iW').value});$('#iT').value='';all()};
-$('#quickEv').onsubmit=e=>{e.preventDefault();S.events.push({t:$('#qeT').value.trim(),d:T,h:$('#qeH').value,w:'Everyone'});$('#qeT').value='';all();toast('Added to today')};
+$('#itemForm').onsubmit=e=>{e.preventDefault();addItem(curList,$('#iT').value.trim(),$('#iW').value);$('#iT').value='';all()};
+$('#quickEv').onsubmit=e=>{e.preventDefault();calPushEv(S.events[S.events.push({t:$('#qeT').value.trim(),d:T,h:$('#qeH').value,w:'Everyone'})-1]);$('#qeT').value='';all();toast('Added to today')};
 $('#eD').value=T;
-$('#evForm').onsubmit=e=>{e.preventDefault();S.events.push({t:$('#eT').value.trim(),d:$('#eD').value,h:$('#eH').value,w:$('#eW').value});$('#eT').value='';all();toast('Event saved')};
+$('#evForm').onsubmit=e=>{e.preventDefault();calPushEv(S.events[S.events.push({t:$('#eT').value.trim(),d:$('#eD').value,h:$('#eH').value,w:$('#eW').value})-1]);$('#eT').value='';all();toast('Event saved')};
 $('#prevW').onclick=()=>{wkOff--;renderWeek()};$('#nextW').onclick=()=>{wkOff++;renderWeek()};$('#nowW').onclick=()=>{wkOff=0;renderWeek()};
 $('#toGro').onclick=()=>{let n=0;for(let k=0;k<7;k++){const m=S.meals[iso(addD(today,k))];if(!m)continue;SLOTS.forEach(s=>{if(m[s]&&!S.lists.Groceries.some(x=>x.t==='For '+m[s])){S.lists.Groceries.push({t:'For '+m[s],w:'Everyone'});n++}})}all();toast(n?`${n} meal${n>1?'s':''} added to groceries`:'Nothing new to add')};
 
@@ -350,7 +394,7 @@ function parse(txt){
  });return out}
 let found=[];
 $('#mGo').onclick=async()=>{const txt=$('#mTxt').value.trim(),btn=$('#mGo');
- if(sample){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Reading…';
+ if(aiOn()){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Reading…';
   try{found=await aiParse(txt)}catch(e){found=parse(txt);toast(e&&e.code==='rate_limited'?'AI is busy — used quick parser':'Used quick parser')}
   btn.disabled=false;btn.textContent='Find events'}
  else found=parse(txt);
@@ -390,7 +434,7 @@ Return ONLY JSON: {"items":[{"kind":"event"|"todo"|"grocery","title":"short titl
 Resolve relative dates ("Friday", "next Tuesday", "tomorrow") against today. Events need a date. Things to bring, sign, pay or do are todos. Food or items to buy are groceries. No duplicates.
 Message:
 """${txt||'(no text, see images)'}"""`;
- const v=await sample.json(prompt,{images:imgs.length&&imgOK?imgs:undefined,modelTier:'default'});
+ const v=await askJSON(prompt,imgs.length&&aiImgs()?imgs:undefined);
  const arr=(v&&v.items)||[];
  return arr.filter(x=>x&&x.title).map(x=>({k:['event','todo','grocery'].includes(x.kind)?x.kind:'todo',t:String(x.title).slice(0,60),d:/^\d{4}-\d{2}-\d{2}$/.test(x.date||'')?x.date:'',h:/^\d{2}:\d{2}$/.test(x.time||'')?x.time:'',w:fam.some(f=>f.n===x.who)?x.who:''})).map(x=>x.k==='event'&&!x.d?{...x,k:'todo'}:x)}
 
@@ -410,18 +454,18 @@ function quickRecipe(t){const L=t.split(/[\n,;]|\.\s/).map(x=>x.trim()).filter(B
  const sv=(t.match(/serves?\s*(\d+)/i)||[])[1]||'4';
  const title=(t.split(/[.!\n🍗]/)[0]||'Saved recipe').replace(/[^\w\s'&-]/g,'').trim().slice(0,50)||'Saved recipe';
  return{title,serves:sv,prep:tm[0]||15,cook:tm.slice(1).reduce((a,b)=>a+b,0)||30,ing,steps:L.filter(x=>/^(marinate|brown|add|simmer|cook|bake|mix|stir|serve|boil|fry)/i.test(x)),special:''}}
-async function aiRecipe(t,images){const v=await sample.json(`Turn this social-media recipe into structured data. If amounts are missing, estimate sensible ones. Estimate realistic prep and cook minutes.
+async function aiRecipe(t,images){const v=await askJSON(`Turn this social-media recipe into structured data. If amounts are missing, estimate sensible ones. Estimate realistic prep and cook minutes.
 Return ONLY JSON: {"title":"","serves":"","prep":minutes,"cook":minutes,"ing":["qty + ingredient"],"steps":["short step"],"special":"one hard-to-find ingredient that needs a specialty store, or empty"}
-Recipe text:\n${t||'(see images)'}`,{images,modelTier:'default'});
+Recipe text:\n${t||'(see images)'}`,images);
  return{title:String(v.title||'Saved recipe').slice(0,60),serves:String(v.serves||''),prep:+v.prep||0,cook:+v.cook||0,ing:(v.ing||[]).map(String).slice(0,40),steps:(v.steps||[]).map(String).slice(0,20),special:String(v.special||'').slice(0,40)}}
 let rImgs=[];
 $('#rImg').onchange=e=>{rImgs=[...e.target.files].slice(0,4);$('#rThumbs').innerHTML=rImgs.map(f=>`<img alt="" src="${URL.createObjectURL(f)}">`).join('')};
 $('#rForm').onsubmit=async e=>{e.preventDefault();const t=$('#rTxt').value.trim(),btn=$('#rGo');if(!t&&!rImgs.length)return toast('Paste the caption or add a screenshot');
  let r;btn.disabled=true;btn.innerHTML='<span class="spin"></span> Reading recipe…';
- try{r=sample?await aiRecipe(t,rImgs.length&&imgOK?rImgs:undefined):quickRecipe(t)}catch(err){r=quickRecipe(t);toast('Used quick reader')}
+ try{r=aiOn()?await aiRecipe(t,rImgs.length&&aiImgs()?rImgs:undefined):quickRecipe(t)}catch(err){r=quickRecipe(t);toast('Used quick reader')}
  btn.disabled=false;btn.textContent='Save recipe';r.url=$('#rUrl').value.trim();S.recipes.unshift(r);rImgs=[];$('#rImg').value='';$('#rThumbs').innerHTML='';$('#rUrl').value='';all();toast('Recipe saved 🌿')};
 function planRecipe(r){const need=(r.prep||0)+(r.cook||0)||45;let best=null;
- for(let k=0;k<7;k++){const d=iso(addD(today,k)),ev=S.events.filter(e=>e.d===d),m=S.meals[d]||{};if(m.Dinner)continue;
+ for(let k=0;k<7;k++){const d=iso(addD(today,k)),ev=allEv().map(x=>x[0]).filter(e=>e.d===d),m=S.meals[d]||{};if(m.Dinner)continue;
   const busy=ev.map(e=>{const[h,mm]=(e.h||'00:00').split(':').map(Number);return h*60+mm});
   for(let st=16*60;st<=19*60;st+=30){if(k===0){const n=new Date();if(st<n.getHours()*60+n.getMinutes()+15)continue}
    if(busy.every(b=>b<st-60||b>=st+need)){const score=ev.length*10+k+(st<17*60?2:0);if(!best||score<best.score)best={d,st,score,load:ev.length};break}}}
@@ -429,7 +473,7 @@ function planRecipe(r){const need=(r.prep||0)+(r.cook||0)||45;let best=null;
 document.addEventListener('click',e=>{const t=e.target.closest('[data-r-plan],[data-r-gro],[data-r-del]');if(!t)return;
  if(t.dataset.rDel!==undefined){S.recipes.splice(+t.dataset.rDel,1);all();return}
  const r=S.recipes[+(t.dataset.rPlan??t.dataset.rGro)];
- if(t.dataset.rGro!==undefined){let n=0;(r.ing||[]).forEach(x=>{if(!S.lists.Groceries.some(g=>g.t===x)){S.lists.Groceries.push({t:x,w:'Everyone'});n++}});all();toast(`${n} ingredient${n===1?'':'s'} added to groceries`);return}
+ if(t.dataset.rGro!==undefined){let n=0;(r.ing||[]).forEach(x=>{if(addItem('Groceries',x,'Everyone'))n++});all();toast(`${n} ingredient${n===1?'':'s'} added to groceries`);return}
  const b=planRecipe(r);if(!b)return toast('No free evening this week — try clearing a dinner');
  const h=`${pad(Math.floor(b.st/60))}:${pad(b.st%60)}`;(S.meals[b.d]??={}).Dinner=r.title;S.events.push({t:'Cook: '+r.title,d:b.d,h,w:'Everyone'});
  const dl=new Date(b.d+'T00:00').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});r.plan=`${dl}, ${fmtH(h)}`;all();toast(`Planned for ${dl} at ${fmtH(h)} — your lightest evening`)});
@@ -445,6 +489,106 @@ $$('[data-skin-b]').forEach(b=>b.onclick=()=>{setSkin(b.dataset.skinB);toast('Th
   $$('nav button').find(b=>b.dataset.v==='recipes')?.click();
   try{history.replaceState(null,'',location.pathname)}catch(e){}
   if($('#rTxt').value)setTimeout(()=>$('#rForm').requestSubmit(),300);else toast('Link saved here — paste the caption to read the recipe')}}
+
+// ===== Config & backend =====
+let CFG={};try{CFG=JSON.parse(localStorage.getItem('nectar-cfg'))||{}}catch(e){}
+const saveCfg=()=>{try{localStorage.setItem('nectar-cfg',JSON.stringify(CFG))}catch(e){}};
+const BE={get url(){return CFG.url||''},get key(){return CFG.key||''}};
+async function be(action,extra={}){const r=await fetch(BE.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({key:BE.key,action,...extra})});const j=await r.json();if(j.error)throw new Error(j.error);return j}
+const aiOn=()=>!!(sample||BE.url),aiImgs=()=>imgOK||!!BE.url;
+async function toB64(f){const bm=await createImageBitmap(f);const sc=Math.min(1,1280/Math.max(bm.width,bm.height));const c=document.createElement('canvas');c.width=bm.width*sc;c.height=bm.height*sc;c.getContext('2d').drawImage(bm,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.82).split(',')[1]}
+async function askJSON(prompt,images){
+ if(sample)return sample.json(prompt,{images,modelTier:'default'});
+ const b64=images?await Promise.all(images.map(toB64)):[];
+ const {text}=await be('ai',{prompt:prompt+'\nRespond with JSON only.',images:b64});
+ const m=text.match(/\{[\s\S]*\}/);return JSON.parse(m?m[0]:text)}
+let beAt=0,bePushing=false;
+async function bePush(){if(!BE.url||bePushing)return;bePushing=true;try{const j=await be('set',{state:{fam:S.fam,events:S.events,lists:S.lists,meals:S.meals,recipes:S.recipes||[],stars:S.stars||{}}});beAt=j.at;setSync('Synced with your family',true)}catch(e){setSync('Saved here — sync will retry')}bePushing=false}
+async function bePull(){if(!BE.url||ref)return;try{const j=await be('get');if(j.state&&j.at>beAt){beAt=j.at;S={...S,...j.state};all(false);try{localStorage.setItem('nectar',JSON.stringify(S))}catch(e){}}else if(!j.state)bePush();setSync('Synced with your family',true)}catch(e){setSync('Can’t reach family sync — saved here')}}
+let GC=[];const allEv=()=>[...S.events.map((e,i)=>[e,i]),...GC.map(e=>[e,-1])];
+async function calPull(){if(!BE.url||!CFG.calPull)return;try{GC=(await be('cal')).events.map(e=>({...e,w:'Everyone'}));all(false)}catch(e){}}
+function calPushEv(ev){if(BE.url&&CFG.calPush&&ev)be('calAdd',{event:ev}).then(()=>toast('Also added to Google Calendar')).catch(()=>{})}
+if(BE.url&&!window.claude){bePull();calPull();setInterval(bePull,20000);setInterval(calPull,10*60000);if(aiOn()){$('#drop').hidden=false;$('#rDrop').hidden=false;$('#aiBadge').textContent='✦ AI powered'}}
+
+// ===== Weather (Open-Meteo, free) =====
+let WX=null;const WC=c=>c<=1?'clear':c<=3?'partly cloudy':c<=48?'foggy':c<=57?'drizzle':c<=67?'rain':c<=77?'snow':c<=82?'showers':'thunderstorms';
+async function loadWx(){if(!CFG.lat)return;try{const u=`https://api.open-meteo.com/v1/forecast?latitude=${CFG.lat}&longitude=${CFG.lon}&current=temperature_2m,weather_code&hourly=precipitation_probability&daily=weather_code,temperature_2m_max,precipitation_probability_max&timezone=auto&forecast_days=7`;WX=await (await fetch(u)).json();try{localStorage.setItem('nectar-wx',JSON.stringify(WX))}catch(e){}}catch(e){try{WX=JSON.parse(localStorage.getItem('nectar-wx'))}catch(_){}}renderWx();renderToday();renderWeek()}
+function rainP(d,h){if(!WX||!WX.hourly)return 0;const i=WX.hourly.time.indexOf(`${d}T${(h||'12:00').slice(0,2)}:00`);return i<0?0:WX.hourly.precipitation_probability[i]||0}
+function rainTag(e){const p=rainP(e.d,e.h);return p>=50?`<span class="tagr">Rain ${p}% · bring umbrella</span>`:''}
+function renderWx(){if(!WX||!WX.current){$('#wx').textContent='';return}
+ $('#wx').textContent=`${DAYS[new Date().getDay()]} · ${Math.round(WX.current.temperature_2m)}°, ${WC(WX.current.weather_code)}`;
+ const dd=WX.daily;if(dd){const wet=dd.time.map((t,i)=>[t,dd.precipitation_probability_max[i]]).filter(x=>x[1]>=60).map(x=>DAYS[new Date(x[0]+'T00:00').getDay()]);$('#wxWeek').textContent=wet.length?`Rain likely on ${wet.join(', ')} — plan indoor activities and pack umbrellas.`:'Dry week ahead — good for outdoor plans.'}}
+
+// ===== Nearby stores (OpenStreetMap) =====
+let STORES=[];const km=(a,b,c,d)=>{const r=Math.PI/180,x=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2;return 12742*Math.asin(Math.sqrt(x))};
+async function loadStores(){if(!CFG.lat)return;try{const q=`[out:json][timeout:15];(nwr["shop"~"supermarket|grocery|greengrocer|convenience"](around:3000,${CFG.lat},${CFG.lon}););out center 40;`;const j=await (await fetch('https://overpass-api.de/api/interpreter?data='+encodeURIComponent(q))).json();
+ STORES=j.elements.map(e=>{const la=e.lat??e.center?.lat,lo=e.lon??e.center?.lon;return{n:e.tags.name||'Grocery store',t:e.tags.shop,h:e.tags.opening_hours||'',d:km(+CFG.lat,+CFG.lon,la,lo),u:`https://www.google.com/maps/search/?api=1&query=${la},${lo}`}}).filter(x=>x.n).sort((a,b)=>(a.t==='convenience')-(b.t==='convenience')||a.d-b.d).slice(0,3);renderStores()}catch(e){}}
+function renderStores(){if(!STORES.length)return;$('#bStores').innerHTML=STORES.map(x=>`<a class="store" href="${x.u}" target="_blank" rel="noopener"><b>${esc(x.n)}</b> · ${x.d.toFixed(1)} km${x.h?'<br>'+esc(x.h.slice(0,40)):''}</a>`).join('')}
+
+// ===== Smart groceries =====
+const AISLE=[['Produce',/banana|apple|onion|garlic|tomato|potato|carrot|lettuce|cabbage|ginger|lemon|calamansi|chili|pepper(?!corn)|herb|basil|cilantro|kangkong|eggplant|fruit|veg|mango|spinach/],['Meat & fish',/chicken|pork|beef|fish|shrimp|tuna|bangus|meat|bacon|sausage|ham|thigh/],['Dairy & eggs',/milk|egg|cheese|butter|yogurt|cream/],['Bakery',/bread|pandesal|bun|tortilla|wrap/],['Pantry',/rice|soy|vinegar|sugar|salt|oil|flour|pasta|noodle|sauce|bay|peppercorn|spice|coffee|tea|can|bean|oat/],['Household',/soap|detergent|tissue|towel|shampoo|trash|bag|battery/]];
+const PRICE=[[/chicken/,220],[/pork/,280],[/beef/,400],[/fish|bangus|tuna/,200],[/shrimp/,350],[/egg/,110],[/milk/,95],[/cheese/,150],[/butter/,120],[/rice/,60],[/bread|pandesal/,70],[/banana/,70],[/garlic|onion|ginger/,25],[/soy|vinegar/,35],[/oil/,90],[/sugar/,60],[/coffee/,180],[/detergent|soap/,120]];
+const norm=t=>t.toLowerCase().replace(/^for\s+/,'').replace(/[\d½¼¾\/.,()-]+/g,' ').replace(/\b(cups?|tbsp|tsp|kg|g|grams?|lbs?|oz|ml|l|cloves?|heads?|pcs?|pieces?|pinch|large|small|medium|crushed|chopped|minced|sliced|of|a|an)\b/g,' ').replace(/\s+/g,' ').trim();
+const aisleOf=t=>{const n=t.toLowerCase();return(AISLE.find(a=>a[1].test(n))||['Other'])[0]};
+const priceOf=t=>{const n=t.toLowerCase();return(PRICE.find(p=>p[0].test(n))||[0,50])[1]};
+function addItem(list,t,w){if(!t)return false;S.lists[list]??=[];const L=S.lists[list];if(list==='Groceries'){const k=norm(t),ex=k&&L.find(x=>!x.x&&norm(x.t)===k);if(ex){ex.n=(ex.n||1)+1;return false}}L.push({t,w});return true}
+function groRender(){const L=S.lists.Groceries,open=L.map((x,i)=>[x,i]).filter(([x])=>!x.x);const total=open.reduce((a,[x])=>a+priceOf(x.t),0);
+ const groups={};open.forEach(([x,i])=>(groups[aisleOf(x.t)]??=[]).push([x,i]));const order=['Produce','Meat & fish','Dairy & eggs','Bakery','Pantry','Household','Other'];
+ $('#groHead').innerHTML=open.length?`<div class="b-s" style="margin-top:10px;font-weight:700">About ₱${total.toLocaleString()} for ${open.length} items <span style="color:var(--mute);font-weight:500">· rough estimate</span></div>`:'';
+ $('#items').innerHTML=order.filter(a=>groups[a]).map(a=>`<div class="aisle">${a}</div>`+groups[a].map(([x,i])=>`<div class="row">${item('Groceries',x,i).replace('<span>'+esc(x.t)+'</span>','<span>'+esc(x.t)+(x.n>1?` <b style="color:var(--y)">×${x.n}</b>`:'')+'</span>').replace('</label>','')}<button class="x" data-del-it="${i}" aria-label="Delete">×</button></label></div>`).join('')).join('')+(L.some(x=>x.x)?`<div class="aisle">In the cart</div>`+L.map((x,i)=>[x,i]).filter(([x])=>x.x).map(([x,i])=>item('Groceries',x,i)).join(''):'')||'<div class="empty">List is empty.</div>'}
+
+// ===== Reminders =====
+let sent={};try{sent=JSON.parse(sessionStorage.getItem('nectar-sent'))||{}}catch(e){}
+async function notify(title,body){try{const r=await navigator.serviceWorker?.getRegistration();if(r)r.showNotification(title,{body,icon:'icon.svg',badge:'icon.svg'});else new Notification(title,{body})}catch(e){}}
+function tick(){if(!('Notification'in window)||Notification.permission!=='granted')return;const now=new Date(),nm=now.getHours()*60+now.getMinutes();
+ allEv().forEach(([e])=>{if(e.d!==T||!e.h)return;const[h,m]=e.h.split(':').map(Number),st=h*60+m,id=e.d+e.h+e.t;
+  if(st-nm<=15&&st-nm>=0&&!sent[id]){sent[id]=1;const p=rainP(e.d,e.h);notify(/^Cook:/.test(e.t)?'Time to start cooking':'Coming up in '+(st-nm)+' min',`${e.t} at ${fmtH(e.h)}${p>=50?' · rain likely, bring an umbrella':''}`)}});
+ try{sessionStorage.setItem('nectar-sent',JSON.stringify(sent))}catch(e){}}
+setInterval(tick,60000);
+
+// ===== Settings dialog =====
+const dlg=$('#setDlg');
+$('#setBtn').onclick=()=>{$('#beUrl').value=CFG.url||'';$('#beKey').value=CFG.key||'';$('#calPull').checked=!!CFG.calPull;$('#calPush').checked=!!CFG.calPush;
+ $('#envStat').textContent=(CFG.lat?'Location set. ':'No location yet. ')+('Notification'in window?(Notification.permission==='granted'?'Reminders on.':'Reminders off.'):'Reminders not supported here.');
+ $('#beStat').textContent=window.claude?'This synced version already has family sync and AI — the backend is for the installed app.':'';dlg.showModal?dlg.showModal():dlg.setAttribute('open','')};
+$('#saveSet').onclick=async e=>{e.preventDefault();CFG.url=$('#beUrl').value.trim();CFG.key=$('#beKey').value;CFG.calPull=$('#calPull').checked;CFG.calPush=$('#calPush').checked;saveCfg();
+ if(CFG.url){$('#beStat').textContent='Checking…';try{await be('ping');$('#beStat').textContent='Connected ✓';bePull();calPull();if(!ref){$('#drop').hidden=false;$('#rDrop').hidden=false}}catch(err){$('#beStat').textContent='Could not connect: '+err.message;return}}
+ dlg.close();toast('Settings saved')};
+const setLoc=(la,lo)=>{CFG.lat=+la.toFixed(4);CFG.lon=+lo.toFixed(4);saveCfg();loadWx();loadStores();$('#envStat').textContent='Location set ✓';toast('Weather and stores updated')};
+$('#locBtn').onclick=()=>{if(!navigator.geolocation)return toast('Location not available here');navigator.geolocation.getCurrentPosition(p=>setLoc(p.coords.latitude,p.coords.longitude),()=>{$('#envStat').textContent='Location was blocked — try “Use Manila” or allow it in settings.'},{timeout:10000})};
+$('#mnlBtn').onclick=()=>setLoc(14.5995,120.9842);
+$('#notiBtn').onclick=async()=>{if(!('Notification'in window))return toast('Reminders not supported on this device');const r=await Notification.requestPermission();$('#envStat').textContent=r==='granted'?'Reminders on ✓ — you’ll get a nudge 15 min before each event.':'Reminders were blocked.';if(r==='granted')notify('Nectar reminders are on','We’ll nudge you before events and cooking time.')};
+
+// ===== Kid mode =====
+const KIDICON='<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z"/></svg>';
+let kidName='';
+function renderKid(){S.stars??={};const kids=fam.filter(f=>f.n!=='Everyone');if(!kidName)kidName=(kids.find(k=>/mia|leo/i.test(k.n))||kids[0]||{n:'Everyone'}).n;
+ $('#kidWho').innerHTML=kids.map(k=>`<button class="chip ${k.n===kidName?'on':''}" data-kid="${esc(k.n)}">${esc(k.n)}</button>`).join('');
+ $('#kidStars').textContent=`★ ${S.stars[kidName]||0} stars`;
+ const L=['Chores','To-do'].flatMap(l=>(S.lists[l]||[]).map((x,i)=>[l,x,i])).filter(([,x])=>x.w===kidName||x.w==='Everyone');
+ $('#kidGrid').innerHTML=L.length?L.map(([l,x,i])=>`<button class="kidCard ${x.x?'done':''}" data-kl="${esc(l)}" data-ki="${i}">${KIDICON}<span>${esc(x.t)}</span></button>`).join(''):'<div class="card empty">No chores for you right now — nice!</div>'}
+$('#kidBtn').onclick=()=>{$('#kid').hidden=false;renderKid()};$('#kidExit').onclick=()=>{$('#kid').hidden=true};
+$('#kid').addEventListener('click',e=>{const k=e.target.closest('[data-kid]');if(k){kidName=k.dataset.kid;renderKid();return}
+ const c=e.target.closest('[data-kl]');if(!c)return;const x=S.lists[c.dataset.kl][+c.dataset.ki];x.x=!x.x;S.stars??={};S.stars[kidName]=Math.max(0,(S.stars[kidName]||0)+(x.x?1:-1));all();renderKid();if(x.x)toast('Great job! +1 star ★')});
+
+// ===== Voice add =====
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SR){$('#micBtn').hidden=false;$('#micBtn').onclick=()=>{try{const r=new SR();r.lang=navigator.language||'en-US';r.interimResults=false;$('#micBtn').textContent='Listening…';r.onresult=e=>{$('#mTxt').value=e.results[0][0].transcript;$('#mGo').click()};r.onend=()=>{$('#micBtn').textContent='🎙 Speak'};r.onerror=()=>toast('Couldn’t hear that — try again');r.start()}catch(e){toast('Voice not available here')}}}
+
+// ===== Weekly recap =====
+function recapText(){const st=addD(today,0),days=[...Array(7)].map((_,k)=>addD(st,k));
+ const rows=days.map(d=>{const di=iso(d),ev=allEv().filter(([e])=>e.d===di).map(x=>x[0]).sort((a,b)=>(a.h||'').localeCompare(b.h||''));return{d,di,ev,m:(S.meals[di]||{}).Dinner}});
+ const busiest=rows.slice().sort((a,b)=>b.ev.length-a.ev.length)[0],noDin=rows.filter(r=>!r.m).map(r=>DAYS[r.d.getDay()]);
+ const gro=S.lists.Groceries.filter(x=>!x.x),cost=gro.reduce((a,x)=>a+priceOf(x.t),0);
+ return{rows,busiest,noDin,gro,cost}}
+$('#recapBtn').onclick=()=>{const r=recapText();
+ $('#recapBody').innerHTML=`<p><b>Busiest day:</b> ${DAYS[r.busiest.d.getDay()]} (${r.busiest.ev.length} events)</p><p><b>Dinners still to plan:</b> ${r.noDin.join(', ')||'none — all set!'}</p><p><b>Groceries:</b> ${r.gro.length} items, about ₱${r.cost.toLocaleString()}</p>${$('#wxWeek').textContent?`<p><b>Weather:</b> ${esc($('#wxWeek').textContent)}</p>`:''}<ul style="padding-left:18px">${r.rows.map(x=>`<li><b>${DAYS[x.d.getDay()]}</b>: ${x.ev.map(e=>esc(e.t)).join(', ')||'free'}${x.m?' · dinner: '+esc(x.m):''}</li>`).join('')}</ul>`;
+ $('#recapDlg').showModal?$('#recapDlg').showModal():$('#recapDlg').setAttribute('open','')};
+$('#recapCopy').onclick=async()=>{try{await navigator.clipboard.writeText($('#recapBody').innerText);toast('Recap copied')}catch(e){toast('Copy not allowed here')}};
+if(today.getDay()===0)setTimeout(()=>toast('It’s Sunday — tap “Weekly recap” to plan the week'),1500);
+
+try{WX=JSON.parse(localStorage.getItem('nectar-wx'))}catch(e){}renderWx();
+if(!window.claude){loadWx();loadStores()}
 
 all(false);
 }
