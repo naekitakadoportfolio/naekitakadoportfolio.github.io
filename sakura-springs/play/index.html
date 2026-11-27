@@ -1133,5 +1133,123 @@ document.getElementById('svGo').onclick=function(){var d={region:sel.region,age:
 function maybe(){var s=st();if(s.done||(s.skips||0)>=3)return;if(s.later&&Date.now()-s.later<3*864e5)return;box.style.display='flex'}
 var n=0;try{n=+(localStorage.getItem('ssSurveyN')||0)+1;localStorage.setItem('ssSurveyN',n)}catch(e){}
 setTimeout(maybe,n>=2?60000:240000);})();</script>
+<style>
+#gearB{position:absolute;right:3cqw;bottom:calc(3cqw + env(safe-area-inset-bottom));z-index:600;width:11cqw;height:11cqw;border-radius:50%;border:3px solid #8a5a3c;background:#fff6e8;font-size:6cqw;line-height:1;display:grid;place-items:center;box-shadow:0 1cqw 0 #0003;padding:0;cursor:pointer}
+.sx{position:absolute;inset:0;z-index:700;background:#3a2e28b8;display:none;place-items:center;padding:4cqw}
+.sx.on{display:grid}
+.sx .sc{background:#fff6e8;border:3px solid #8a5a3c;border-radius:5cqw;width:92%;max-height:92%;overflow:auto;padding:5cqw;text-align:center;box-shadow:0 2cqw 0 #0003;font-family:inherit;color:#4a3b32}
+.sx h2{margin:0 0 2cqw;font-size:6cqw}
+.sx p{font-size:3.9cqw;margin:1.5cqw 0;line-height:1.35}
+.sx small{font-size:3.2cqw;color:#7a6456}
+.sx .big{font-size:20cqw;line-height:1.1;margin:2cqw 0}
+.sx .dots{display:flex;gap:1.6cqw;justify-content:center;margin:3cqw 0}
+.sx .dots i{width:2.2cqw;height:2.2cqw;border-radius:50%;background:#e3cdb4}
+.sx .dots i.on{background:#f0905a;width:6cqw;border-radius:2cqw}
+.sx .row{display:flex;gap:2cqw;justify-content:center;flex-wrap:wrap;margin-top:2cqw}
+.sx button{font-family:inherit;border:0;border-radius:4cqw;padding:2.6cqw 5cqw;font-size:4.2cqw;font-weight:700;cursor:pointer}
+.sx .pri{background:#f0905a;color:#fff;border-bottom:1.2cqw solid #c0603a}
+.sx .sec{background:#efe1cf;color:#6a4b38;border-bottom:1.2cqw solid #d6bea2}
+.sx .lnk{background:none;color:#a0603a;text-decoration:underline;font-size:3.6cqw;padding:1.5cqw}
+.sx input{font-family:inherit;width:100%;box-sizing:border-box;font-size:4.6cqw;padding:2.6cqw;border:2px solid #d6bea2;border-radius:3cqw;margin:1.2cqw 0;background:#fff;text-align:center;color:#4a3b32}
+.sx .menu{display:grid;gap:2.4cqw;margin-top:3cqw}
+.sx .menu button{text-align:left;display:flex;gap:3cqw;align-items:center}
+.sx .code{font-size:8cqw;letter-spacing:1.5cqw;font-weight:800;background:#fff;border:2px dashed #f0905a;border-radius:3cqw;padding:2cqw;margin:2cqw 0}
+.sx .fl{display:grid;gap:2cqw;text-align:left;margin:2cqw 0}
+.sx .fl div{background:#fff;border:2px solid #ead8c2;border-radius:3cqw;padding:2.4cqw 3cqw;display:flex;justify-content:space-between;align-items:center;font-size:3.8cqw}
+.sx .err{color:#c0453a;font-size:3.6cqw;min-height:4cqw}
+</style>
+<button id="gearB" aria-label="Settings">⚙️</button>
+<div class="sx" id="sxTut"><div class="sc"><div class="big" id="tIco"></div><h2 id="tT"></h2><p id="tP"></p><div class="dots" id="tDots"></div><div class="row"><button class="sec" id="tBack">Back</button><button class="pri" id="tNext">Next</button></div><button class="lnk" id="tSkip">Skip tutorial</button></div></div>
+<div class="sx" id="sxSet"><div class="sc"><h2>⚙️ Settings</h2><div class="menu">
+<button class="sec" id="sHow">📖 How to play</button>
+<button class="sec" id="sFr">👫 Friends &amp; account</button>
+<button class="sec" id="sMore">🗺️ Map, music &amp; decorations</button>
+</div><div class="row"><button class="pri" data-x>Close</button></div></div></div>
+<div class="sx" id="sxAcc"><div class="sc" id="accBody"></div></div>
+<script>
+(function(){
+var URL="https://script.google.com/macros/s/AKfycbyd_wkqo8NzKEYISNkMp9EAtuhjdt2t-GgQO4rQk-dbCPN74KNxsDlbxPeEK-pYfYQ3oQ/exec";
+var g=function(i){return document.getElementById(i)},game=g('game')||document.body;
+['gearB','sxTut','sxSet','sxAcc'].forEach(function(i){game.appendChild(g(i))});
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){}}
+function tr(e){try{window.track&&track(e)}catch(x){}}
+function show(id){['sxTut','sxSet','sxAcc'].forEach(function(i){g(i).classList.toggle('on',i===id)})}
+function hide(){show('')}
+document.querySelectorAll('.sx [data-x]').forEach(function(b){b.onclick=hide});
+/* ---------- Tutorial ---------- */
+var T=[
+['🌸','Welcome to Sakura Springs','You run a tiny sushi stall and hot spring for woodland friends. Let’s learn the basics in one minute!'],
+['🦊','Guests arrive','Animal guests walk in wanting sushi 🍣 or a warm soak ♨️. Tap a guest to choose them, then tap a glowing spot to send them there. Don’t keep them waiting too long!'],
+['🍣','Cook & serve sushi','Seat hungry guests at a table. Tap the dishes at the sushi cart to prepare their order, then serve it to the guest who asked for it.'],
+['♨️','The onsen','Send guests who want a soak to the hot spring. Grab a towel 🧺 from the basket when they need one. Happy soakers pay extra!'],
+['🌰','Earn acorns','Every happy guest pays you in acorns. Finish a day to level up and unlock new dishes, guests and upgrades.'],
+['🎀','Decorate','Spend acorns in the Decor Shop on lanterns, plants and more. Open ⚙️ → Map, music & decorations to place them anywhere you like.'],
+['📖','Collect guests','Rare spirits visit sometimes. Every new guest you meet is saved in your Album — can you meet them all?'],
+['👫','Play with friends','Make a free account to save your garden to the cloud and add friends with a friend code. You can reopen this guide any time from the ⚙️ button.']
+],ti=0,tAfter=null;
+function tDraw(){var s=T[ti];g('tIco').textContent=s[0];g('tT').textContent=s[1];g('tP').textContent=s[2];
+g('tDots').innerHTML=T.map(function(_,i){return '<i class="'+(i===ti?'on':'')+'"></i>'}).join('');
+g('tBack').style.visibility=ti?'visible':'hidden';g('tNext').textContent=ti===T.length-1?'Got it! 🌸':'Next'}
+function tOpen(after){ti=0;tAfter=after||null;tDraw();show('sxTut');tr('tutorial_open')}
+function tDone(skip){ls('ssTut','1');tr(skip?'tutorial_skip':'tutorial_done');hide();var a=tAfter;tAfter=null;if(a)a()}
+g('tNext').onclick=function(){if(ti<T.length-1){ti++;tDraw()}else tDone(false)};
+g('tBack').onclick=function(){if(ti>0){ti--;tDraw()}};
+g('tSkip').onclick=function(){tDone(true)};
+/* ---------- Account ---------- */
+function acc(){try{return JSON.parse(ls('ssAcc')||'null')}catch(e){return null}}
+function stats(){var sv={};try{sv=JSON.parse(ls('ssSave')||'{}')}catch(e){}var al=sv.album?Object.keys(sv.album).length:0;var st={};try{st=JSON.parse(ls('ssStats')||'{}')}catch(e){}
+return{level:sv.lvl||1,album:al,happy:st.guest_happy||st.happy||0}}
+function bundle(){var o={};try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^ss(Save|Lay_|Own|Inv|Deco)/.test(k))o[k]=localStorage.getItem(k)}}catch(e){}var s=JSON.stringify(o);return s.length<45000?s:''}
+function api(d){return fetch(URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({t:'acct'},d))}).then(function(r){return r.json()})}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var B=function(){return g('accBody')};
+function viewSign(msg){var inv=(location.search.match(/[?&]friend=([A-Z0-9]{6})/i)||[])[1];
+B().innerHTML='<h2>👫 Join Sakura Springs</h2><p>Make a free account to <b>save your garden</b> across devices and <b>connect with friends</b>.</p>'+(inv?'<p>🎉 A friend invited you! You’ll be connected after you sign up.</p>':'')+
+'<input id="aName" maxlength="18" placeholder="Your garden name" autocomplete="nickname"><input id="aPin" inputmode="numeric" maxlength="8" placeholder="Choose a 4-digit PIN" type="password" autocomplete="new-password"><small>No email needed. Only friends with your code can see your name and level.</small><div class="err" id="aErr">'+(msg||'')+'</div>'+
+'<div class="row"><button class="pri" id="aGo">Sign up 🌸</button></div><button class="lnk" id="aHave">I already have an account</button><br><button class="lnk" id="aGuest">Play as guest</button>';
+g('aGuest').onclick=function(){ls('ssAccAsk','1');hide();tr('signup_guest')};
+g('aHave').onclick=viewLogin;
+g('aGo').onclick=function(){var n=g('aName').value.trim(),p=g('aPin').value.trim();if(!n)return g('aErr').textContent='Please pick a name';if(!/^\d{4,8}$/.test(p))return g('aErr').textContent='PIN must be 4–8 numbers';
+this.disabled=true;g('aErr').textContent='Creating your account…';
+api({a:'su',name:n,pin:p}).then(function(r){if(!r.ok)throw r.err;ls('ssAcc',JSON.stringify({code:r.code,pin:p,name:r.name}));ls('ssAccAsk','1');tr('signup_done');
+return inv?api({a:'add',code:r.code,pin:p,friend:inv.toUpperCase()}):null}).then(function(){sync(true);viewFriends('Welcome, '+esc(n)+'! 🌸')}).catch(function(e){g('aGo').disabled=false;g('aErr').textContent=typeof e==='string'?e:'Could not connect. Check your internet and try again.'})}}
+function viewLogin(){B().innerHTML='<h2>🔑 Sign in</h2><p>Enter your friend code and PIN to bring your garden to this device.</p><input id="lCode" maxlength="6" placeholder="Friend code" style="text-transform:uppercase"><input id="lPin" inputmode="numeric" maxlength="8" type="password" placeholder="PIN"><div class="err" id="lErr"></div><div class="row"><button class="sec" id="lBack">Back</button><button class="pri" id="lGo">Sign in</button></div>';
+g('lBack').onclick=function(){viewSign()};
+g('lGo').onclick=function(){var c=g('lCode').value.trim().toUpperCase(),p=g('lPin').value.trim();g('lErr').textContent='Signing in…';
+api({a:'in',code:c,pin:p}).then(function(r){if(!r.ok)throw r.err;ls('ssAcc',JSON.stringify({code:c,pin:p,name:r.me.name}));ls('ssAccAsk','1');tr('signin_done');
+var o={};try{o=JSON.parse(r.save||'{}')}catch(e){}var ks=Object.keys(o);
+if(ks.length){ks.forEach(function(k){if(/^ss/.test(k))ls(k,o[k])});location.reload();return}
+viewFriends('Signed in as '+esc(r.me.name))}).catch(function(e){g('lErr').textContent=typeof e==='string'?e:'Could not connect. Try again.'})}}
+function viewFriends(msg){var a=acc();if(!a)return viewSign();
+var link=location.origin+location.pathname+'?friend='+a.code;
+B().innerHTML='<h2>👫 Friends</h2>'+(msg?'<p><b>'+msg+'</b></p>':'')+'<p>Your friend code</p><div class="code">'+a.code+'</div><div class="row"><button class="sec" id="fShare">📤 Invite a friend</button></div>'+
+'<input id="fAdd" maxlength="6" placeholder="Enter a friend’s code" style="text-transform:uppercase"><div class="row"><button class="pri" id="fGo">Add friend</button></div><div class="err" id="fErr"></div><div class="fl" id="fList"><small>Loading friends…</small></div>'+
+'<div class="row"><button class="sec" data-x2>Close</button></div><button class="lnk" id="fOut">Sign out on this device</button>';
+B().querySelector('[data-x2]').onclick=hide;
+g('fShare').onclick=function(){var t='Come play Sakura Springs with me! 🌸 My friend code is '+a.code;tr('friend_invite');
+if(navigator.share)navigator.share({title:'Sakura Springs',text:t,url:link}).catch(function(){});else{try{navigator.clipboard.writeText(t+' '+link);g('fErr').textContent='Invite link copied!'}catch(e){g('fErr').textContent=link}}};
+g('fGo').onclick=function(){var c=g('fAdd').value.trim().toUpperCase();if(!/^[A-Z0-9]{6}$/.test(c))return g('fErr').textContent='Friend codes have 6 letters/numbers';g('fErr').textContent='Adding…';
+api({a:'add',code:a.code,pin:a.pin,friend:c}).then(function(r){if(!r.ok)throw r.err;g('fErr').textContent='Friend added! 🎉';g('fAdd').value='';tr('friend_added');list(r)}).catch(function(e){g('fErr').textContent=typeof e==='string'?e:'Could not connect.'})};
+g('fOut').onclick=function(){sync(true);ls('ssAcc',null);viewSign('Signed out. Your garden stays on this device.')};
+api({a:'up',code:a.code,pin:a.pin,save:bundle(),level:stats().level,happy:stats().happy,album:stats().album}).then(function(r){if(r.ok)list(r);else g('fList').innerHTML='<small>'+esc(r.err)+'</small>'}).catch(function(){g('fList').innerHTML='<small>Offline — friends will load when you’re connected.</small>'})}
+function ago(t){if(!t)return'';var m=(Date.now()-t)/6e4;return m<60?'active now':m<1440?Math.round(m/60)+'h ago':Math.round(m/1440)+'d ago'}
+function list(r){var el=g('fList');if(!el)return;el.innerHTML=r.friends.length?r.friends.map(function(f){return '<div><span><b>'+esc(f.name)+'</b><br><small>Level '+f.level+' · '+f.album+' guests met · '+ago(f.seen)+'</small></span><span>🌸</span></div>'}).join(''):'<small>No friends yet — share your code to invite someone!</small>'}
+var lastSync=0;function sync(force){var a=acc();if(!a)return;if(!force&&Date.now()-lastSync<120000)return;lastSync=Date.now();var s=stats();
+try{fetch(URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},keepalive:true,body:JSON.stringify({t:'acct',a:'up',code:a.code,pin:a.pin,save:bundle(),level:s.level,happy:s.happy,album:s.album})}).catch(function(){})}catch(e){}}
+setInterval(sync,120000);document.addEventListener('visibilitychange',function(){if(document.hidden)sync(true)});
+function openAcc(){show('sxAcc');acc()?viewFriends():viewSign()}
+/* ---------- Gear / settings ---------- */
+g('gearB').onclick=function(){show('sxSet');tr('gear_open')};
+g('sHow').onclick=function(){tOpen()};
+g('sFr').onclick=openAcc;
+g('sMore').onclick=function(){hide();var b=g('setB');if(b)b.click()};
+window.ssTutorial=tOpen;window.ssFriends=openAcc;
+/* ---------- First load: tutorial, then sign-up ---------- */
+function first(){var inv=/[?&]friend=/i.test(location.search);
+if(!ls('ssTut'))tOpen(function(){if(!acc()&&(!ls('ssAccAsk')||inv))openAcc()});
+else if(!acc()&&(!ls('ssAccAsk')||inv))openAcc()}
+if(document.readyState==='complete')setTimeout(first,400);else addEventListener('load',function(){setTimeout(first,400)});
+})();
+</script>
 <script>if("serviceWorker" in navigator&&!/itch\.(io|zone)/.test(location.host))addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))</script>
 </body></html>
