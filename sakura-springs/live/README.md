@@ -2,7 +2,12 @@
 
 Every copy of the game (itch.io and the full-screen app) checks `art.json` when it opens and about once a minute while it's open.
 
-## Replace art for everyone
+## Easiest: publish straight from the game (admin)
+1. Open https://naekitakadoportfolio.github.io/sakura-springs/play/?admin=hikari
+2. Settings (⚙) → **Publish to all players**: paste a fine-grained GitHub key (repository: naekitakadoportfolio.github.io, permission Contents: Read and write) and tick **Auto-publish**.
+3. Upload/Replace any scene art, or rearrange in Decorate Mode and tap Save. Each change is committed here automatically and every player's game updates within about 2 minutes.
+
+## Replace art for everyone by hand
 1. Upload your image (PNG/WebP/JPG with transparency where needed) into this `live/` folder on GitHub: **Add file → Upload files**.
 2. Edit `art.json` and point a scene part or a decoration at the file name, then change `version` to anything new (e.g. today's date + a number).
 
