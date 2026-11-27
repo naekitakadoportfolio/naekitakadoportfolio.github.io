@@ -15,7 +15,7 @@
 :root{color-scheme:light;--cream:#FAF3E0;--ink:#5A463C;--wood:#c99566;--woodD:#8a6242;--pink:#f3b9c4;--sage:#a9b98a}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;background:#e9dcc6;font-family:Fredoka,system-ui,sans-serif;color:var(--ink);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation}
-#game{position:relative;margin:0 auto;height:100vh;height:100dvh;aspect-ratio:9/16;max-width:100vw;max-height:calc(100vw*16/9);overflow:hidden;background:var(--cream);container-type:inline-size;top:50%;transform:translateY(-50%)}
+#game{position:fixed;left:50%;top:50%;margin:0;width:var(--gw,min(100vw,calc(100vh*9/16)));height:var(--gh,min(100vh,calc(100vw*16/9)));overflow:hidden;background:var(--cream);container-type:inline-size;transform:translate(-50%,-50%)}
 #scene{position:absolute;inset:0;width:100%;height:100%}
 #scene :is(rect,circle,ellipse,path,use){stroke:var(--ink);stroke-width:1.3;stroke-opacity:.7;stroke-linejoin:round;stroke-linecap:round}
 .nl,.nl *{stroke:none!important}
@@ -308,7 +308,7 @@ input[type=range]::-moz-range-thumb{width:8cqw;height:8cqw;border:0;border-radiu
 .etray.inv .tr{width:auto;position:relative}.tr .tia{height:12cqw;display:grid;place-items:center}.tr .tia .dsv{max-height:12cqw;width:auto;max-width:100%}
 .tr .tst{font-size:2.6cqw;font-weight:800;border-radius:99px;padding:.4cqw 1.4cqw;background:#e3efd2;color:#4d6b33}.tr.lock .tia{filter:grayscale(.55) brightness(1.05)}.tr.lock .tst{background:#f3e6d2;color:#6b5448}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
-</style></head><body>
+</style><script>(function(){function fit(){var vw=window.innerWidth,vh=window.innerHeight;if(window.visualViewport&&visualViewport.scale===1){vw=visualViewport.width;vh=visualViewport.height}var w=vw,hh=w*16/9;if(hh>vh){hh=vh;w=hh*9/16}var r=document.documentElement.style;r.setProperty('--gw',Math.floor(w)+'px');r.setProperty('--gh',Math.floor(hh)+'px');window.scrollTo(0,0)}fit();['resize','orientationchange','pageshow','focus'].forEach(function(e){window.addEventListener(e,function(){fit();setTimeout(fit,250);setTimeout(fit,800)})});document.addEventListener('visibilitychange',function(){if(!document.hidden){fit();setTimeout(fit,300)}});window.visualViewport&&visualViewport.addEventListener('resize',fit);window.addEventListener('scroll',function(){if(window.scrollY||window.scrollX)window.scrollTo(0,0)});document.addEventListener('scroll',function(){var s=document.scrollingElement;if(s&&(s.scrollTop||s.scrollLeft)){s.scrollTop=0;s.scrollLeft=0}},true)})();</script></head><body>
 <div id="game">
 <svg id="scene" viewBox="0 0 360 640" preserveAspectRatio="none">
 <defs>
@@ -1056,7 +1056,7 @@ setInterval(aFlush,15000);addEventListener('pagehide',()=>aFlush(true));document
 {const _ga=grantAssets;grantAssets=function(ids){const n=_ga(ids);if(n)track('code_redeemed');return n}}
 
 (()=>{try{const q=new URLSearchParams(location.search);if(q.get('admin')==='hikari')localStorage.setItem('ssAdmin','1');if(q.get('admin')==='off')localStorage.removeItem('ssAdmin');if(localStorage.getItem('ssAdmin')==='1')document.documentElement.classList.add('admin')}catch(e){}})();
-$('decoShopB').onclick=()=>{$('mSet').style.display='none';$('shop2').click();setTimeout(()=>{const t=document.querySelector('#mShop [id^=pk-]');t&&t.scrollIntoView({block:'start'})},250)};
+$('decoShopB').onclick=()=>{$('mSet').style.display='none';$('shop2').click();setTimeout(()=>{const t=document.querySelector('#mShop [id^=pk-]'),fb=document.querySelector('#mShop .fbody');if(t&&fb)fb.scrollTop=t.offsetTop-fb.offsetTop-8},250)};
 $('footShopB').onclick=$('decoShopB').onclick;
 $('premB').onclick=()=>{track('external_click_premium_sets');window.open('https://hikari-grove-studio.itch.io/sakura-springs-onsen-sushi/purchase','_blank','noopener')};
 // ---- Live art: art changes published on the website reach every player ----
